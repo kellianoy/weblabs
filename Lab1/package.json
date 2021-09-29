@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "develop": "./node_modules/.bin/nodemon index.js"
   },
   "keywords": [],
   "author": "COTTART Kellian, MESSALATI Yann",
