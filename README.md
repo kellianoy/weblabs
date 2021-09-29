@@ -1,4 +1,11 @@
-Hello. This is the repository for the advanced web class.
+# Advanced Web Repository
+
+Hello. This is the repository for the advanced web class given by two Adaltas members :
+
+KUDINOV Sergei
+
+WORMS David
+
 
 ## Authors
 
@@ -10,7 +17,7 @@ COTTART Kellian
 
 ## How to use
 
-# Lab 1
+### Lab 1
 
 * Clone this project locally.
 
@@ -22,7 +29,7 @@ COTTART Kellian
 
 * Open http://localhost:8080 on your browser.
 
-# Lab 2
+### Lab 2
 
 //// TBD ////
 
