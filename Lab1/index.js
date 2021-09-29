@@ -18,13 +18,10 @@ const content = '<!DOCTYPE html>' +
 '    </body>' +
 '</html>'
 
-
 const serverHandle = function (req, res) {
   const route = url.parse(req.url)
   const path = route.pathname 
   const params = qs.parse(route.query)
-  const queryParams = qs.parse(url.parse(req.url).query);
-
   
   res.writeHead(200, {'Content-Type': 'text/plain'});
   if (path === '/hello' && 'name' in params) {
@@ -34,8 +31,7 @@ const serverHandle = function (req, res) {
   }
   
   res.writeHead(200, {'Content-Type': 'text/html'});
-  res.write(content);
-  
+  res.write(content);  
   res.end();
 }
 
