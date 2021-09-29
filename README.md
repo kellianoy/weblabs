@@ -10,6 +10,8 @@ COTTART Kellian
 
 ## How to use
 
+# Lab 1
+
 * Clone this project locally.
 
 * Go to lab1. 
@@ -19,6 +21,10 @@ COTTART Kellian
 * Use the command _npm start_.
 
 * Open http://localhost:8080 on your browser.
+
+# Lab 2
+
+//// TBD ////
 
 ## About 
 
