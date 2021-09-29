@@ -8,6 +8,18 @@ MESSALATI Yann
 
 COTTART Kellian
 
+## How to use
+
+* Clone this project locally.
+
+* Go to lab1. 
+
+* Open a terminal.
+
+* Use the command ###### 'npm start'.
+
+Open http://localhost:8080 on your browser.
+
 ## About 
 
 Here will be linked every lab and the project for the semester.
