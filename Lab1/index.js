@@ -1,5 +1,9 @@
-// Import a module
+// Import Node html module
 const http = require('http')
+// Import Node url module
+const url = require('url')
+//Import Node querystring module
+const qs = require('querystring')
 
 // Define a string constant concatenating strings
 const content = '<!DOCTYPE html>' +
@@ -16,8 +20,22 @@ const content = '<!DOCTYPE html>' +
 
 
 const serverHandle = function (req, res) {
+  const route = url.parse(req.url)
+  const path = route.pathname 
+  const params = qs.parse(route.query)
+  const queryParams = qs.parse(url.parse(req.url).query);
+
+  
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  if (path === '/hello' && 'name' in params) {
+    res.write('Hello ' + params['name'])
+  } else {
+    res.write('Hello anonymous')
+  }
+  
   res.writeHead(200, {'Content-Type': 'text/html'});
   res.write(content);
+  
   res.end();
 }
 
