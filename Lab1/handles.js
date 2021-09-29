@@ -16,7 +16,7 @@ const content = '<!DOCTYPE html>' +
 "       <p>Now you're going to ask, what's so interesting about this website ?</p>" +
 "       <h2>/hello</h2> " +
 "       <p>Simply put, when you access the website using /hello, you are welcomed by our top-notch program.</p> " +
-"       <p>By using /hell?name=[yourname], you are welcomed with the name you chose.</p> " +
+"       <p>By using /hello?name=[yourname], you are welcomed with the name you chose.</p> " +
 "       <a href='http://localhost:8080/hello?name=curious viewer'><p>Try it out !</p></a> " +
 '    </body>' +
 '</html>'
