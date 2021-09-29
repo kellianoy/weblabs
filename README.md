@@ -16,9 +16,9 @@ COTTART Kellian
 
 * Open a terminal.
 
-* Use the command ###### 'npm start'.
+* Use the command ######'npm start'.
 
-Open http://localhost:8080 on your browser.
+* Open http://localhost:8080 on your browser.
 
 ## About 
 
