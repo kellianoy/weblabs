@@ -16,6 +16,11 @@ const data = {
   }]
 }
 
+const http = require('http')
+//Import handles module
+const handles = require('./handles')
+
+const server = http.createServer(handles.serverHandle);
 
 
 app.get('/', (req, res) => {
