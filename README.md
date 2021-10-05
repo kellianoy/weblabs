@@ -6,14 +6,37 @@ KUDINOV Sergei
 
 WORMS David
 
+## Project
 
-## Authors
+### Authors
 
 We're two members of ING 4 SI Inter at ECE Paris : 
 
 MESSALATI Yann
 
 COTTART Kellian
+
+### About the project
+
+We're planning on creating a chat application during the semester as a school project. 
+This application will ressemble basic chatting applications such as discord, messenger.
+
+#### Technologies
+
+ We will be using :
+ 
+##### Back End
+
+ * NodeJs 
+ * ExpressJs
+ * Docker
+ 
+##### Front End
+
+ * React
+ * Js
+ * Css
+ * HTML
 
 ## How to use
 
