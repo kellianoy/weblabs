@@ -1,0 +1,12 @@
+{
+  "name": "webtech-back-end",
+  "version": "0.0.0",
+  "description": "Start of chat application",
+  "main": "lib/index.js",
+  "scripts": {
+    "start": "node ./lib/index.js"
+  },
+  "keywords": [],
+  "author": "COTTART Kellian, MESSALATI Yann",
+  "license": "MIT"
+}
