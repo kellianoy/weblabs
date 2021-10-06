@@ -23,6 +23,7 @@ const data = {
     name: 'Channel 3',
   }]
 }
+
 const header = '<!DOCTYPE html>' +
 '<html>' +
 '    <head>' +
@@ -66,7 +67,7 @@ app.get('/channels', (req, res) => {
 app.get('/channel/:id', (req, res) => {
   chanContent = header +
   "<h2>Welcome, newcomer, to Channel " + req.params.id +" !</h2>" +
-  "<p> Here, you can find all available informations about channel one in the simplest manner.</p>";
+  "<p> Here, you can find all available informations about channel one in the simplest manner.</p>"+footer;
   res.send(chanContent);
 })
 
