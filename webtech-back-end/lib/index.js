@@ -1,27 +1,11 @@
 const express = require('express')
 const app = express()
-const http = require('http')
-const url = require('url')
-const qs = require('querystring')
+const db = require('./db')
+
 
 const config = {
   port: 3000,
   ip: "http://localhost" 
-}
-
-
-
-const data = {
-  channels: [{
-    id: '1',
-    name: 'Channel 1',
-  },{
-    id: '2',
-    name: 'Channel 2',
-  },{
-    id: '3',
-    name: 'Channel 3',
-  }]
 }
 
 const header = '<!DOCTYPE html>' +
@@ -45,9 +29,6 @@ const content = header +
 "       <a href='"+config.ip+ ":"+config.port+"/channels'><p>Access channels</p></a> " +
 footer
 
-
-
-
 app.get('/', (req, res) => {
   res.send(content);
 })
@@ -55,7 +36,7 @@ app.get('/', (req, res) => {
 app.get('/channels', (req, res) => {
   chanContent = header +
   "<h2>List of channels</h2><ul>";
-  data.channels.forEach(element => {
+  db.list().forEach(element => {
       chanContent+= "<div style='width:10%; height:10%; padding:1%; box-shadow:0 5px 10px rgba(0,0,0,.15);'><li><a href="
       +config.ip + ":" + config.port+"/channel/" 
       + element.id + ">" + element.name + "</a></li></div>";
@@ -66,7 +47,7 @@ app.get('/channels', (req, res) => {
 
 app.get('/channel/:id', (req, res) => {
   chanContent = header +
-  "<h2>Welcome, newcomer, to Channel " + req.params.id +" !</h2>" +
+  "<h2>Welcome, newcomer, to " + db.get(req.params.id).name +" !</h2>" +
   "<p> Here, you can find all available informations about channel one in the simplest manner.</p>"+footer;
   res.send(chanContent);
 })
