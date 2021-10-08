@@ -18,7 +18,7 @@ module.exports = {
 
     get: function (id) {
         for( var i = 0; i < data.channels.length; i++ ) {
-            if(data.channels[0].id== '1' ) {
+            if(data.channels[0].id== id ) {
                 return data.channels[i];
 	            break;
 			}
