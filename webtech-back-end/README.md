@@ -36,8 +36,3 @@ We have :
 
 * Open http://localhost:3000 on your browser.
 
-## About 
-
-Here will be linked every lab and the project for the semester.
-
-A changelog will be (or already is) uploaded to link the new versions.
