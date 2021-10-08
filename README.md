@@ -44,17 +44,30 @@ This application will ressemble basic chatting applications such as discord, mes
 
 * Clone this project locally.
 
-* Go to lab1. 
+* Go to the ```lab1``` folder.  
 
 * Open a terminal.
 
-* Use the command _npm start_.
+* Use the command ```npm install```.
+
+* Use the command ```npm start```.
 
 * Open http://localhost:8080 on your browser.
 
 ### Lab 2
 
-//// TBD ////
+
+* Clone this project locally.
+
+* Go to the ```webtech-back-end``` folder. 
+
+* Open a terminal.
+
+* Use the command ```npm install```.
+
+* Use the command ```npm start```.
+
+* Open http://localhost:3000 on your browser.
 
 ## About 
 
