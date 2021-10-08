@@ -19,7 +19,7 @@ We have :
 
 1. The main ```/``` route that leads to the presentation of the website.
 2. The channels branch ```/channels``` that leads to the list of all channels.
-3. The id branch ```/channels/id``` that leads to a specific channel information.
+3. The id branch ```/channel/id``` that leads to a specific channel information.
 
 ### Lab 2
 
