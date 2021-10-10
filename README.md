@@ -16,6 +16,13 @@ MESSALATI Yann
 
 COTTART Kellian
 
+### Module 3
+
+1. Open your terminal where you want to download the project
+2. Clone the repository using `git clone https://github.com/kellianoy/weblabs`
+3. Install the dependencies using `npm install`
+4. Run the tests using `npm test`
+
 ### About the project
 
 We're planning on creating a chat application during the semester as a school project. 
@@ -38,39 +45,10 @@ This application will ressemble basic chatting applications such as discord, mes
  * Css
  * HTML
 
-## How to use
+## About the repo
 
-### Lab 1
+Here will be linked every lab for the semester.
 
-* Clone this project locally.
-
-* Go to the ```lab1``` folder.  
-
-* Open a terminal.
-
-* Use the command ```npm install```.
-
-* Use the command ```npm start```.
-
-* Open http://localhost:8080 on your browser.
-
-### Lab 2
-
-
-* Clone this project locally.
-
-* Go to the ```webtech-back-end``` folder. 
-
-* Open a terminal.
-
-* Use the command ```npm install```.
-
-* Use the command ```npm start```.
-
-* Open http://localhost:3000 on your browser.
-
-## About 
-
-Here will be linked every lab and the project for the semester.
+Every week, previous lab will be deleted and the new one will replace it.
 
 A changelog will be (or already is) uploaded to link the new versions.
