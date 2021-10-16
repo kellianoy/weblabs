@@ -1,7 +1,9 @@
 import {useState} from 'react';
 import './App.css';
+
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx } from '@emotion/core'
+import { jsx, css } from "@emotion/react";
 
 const styles = {
   root: {
