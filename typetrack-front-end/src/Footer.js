@@ -4,7 +4,7 @@ import { jsx, css } from "@emotion/react";
 
 const styles = {
     footer: {
-        backgroundColor: 'rgba(255,255,255,.3)',
+        backgroundColor: '#192E46',
         flexShrink: 0,
         padding: "10px",
         textAlign: "center",

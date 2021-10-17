@@ -4,12 +4,14 @@ import { jsx, css } from "@emotion/react";
 
 const styles = {
     header: {
-      backgroundColor: 'rgba(255,255,255,.3)',
+      backgroundColor: '#14202F',
       flexShrink: 0,
     },
     typetrack: {
-      textAlign: "center",
+      textAlign: "left",
+      fontSize: "28px",
       fontFamily: "Montserrat, sans-serif",
+      marginLeft: "26px",
     }
 }
 

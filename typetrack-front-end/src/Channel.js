@@ -12,8 +12,10 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
+        backgroundColor: '#212529',
     }
 }
+
 
 const channel = {
     name: 'CHANNEL ONE'
@@ -23,7 +25,7 @@ function Channel() {
     return (
         <div css={styles.channel}>
             {Messages(channel)}
-            <MessageForm addMessage={addMessage} />
+            <MessageForm addMessage={addMessage}/>
         </div>
     );
 }

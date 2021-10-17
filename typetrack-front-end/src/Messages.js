@@ -20,9 +20,10 @@ const styles = {
     message: {
       margin: '.2rem',
       padding: '.2rem',
+      boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
       // backgroundColor: '#66728E',
       ':hover': {
-        backgroundColor: 'rgba(255,255,255,.2)',
+        backgroundColor: 'rgba(96,96,96,0.4)',
       },
     },
     channel: {
@@ -30,6 +31,9 @@ const styles = {
       position: "-webkit-sticky",
       position: "sticky",
       alignSelf: "flex-start",
+      fontFamily: "Montserrat, sans-serif",
+      padding: "10px",
+      boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
     }
 }
 
@@ -116,30 +120,31 @@ export default (channel) => {
       message
     ])
   }
-    return (
-        <div css={styles.messages}>
-            <div css={styles.channel}>
-              <h1>Messages for {channel.name}</h1>
-            </div>
-            <ul>
-            { messages.map( (message, i) => (
-                <li key={i} css={styles.message}>
-                <p>
-                    <span>{message.author}</span>
-                    {' '}
-                    <span>{(new Date(message.creation)).toString()}</span>
-                </p>
-                <div>
-                    {
-                    message.content
-                    .split(/(\n +\n)/)
-                    .filter( el => el.trim() )
-                    .map( el => <p>{el}</p>)
-                    }
-                </div>
-                </li>
-            ))}
-            </ul>
+  return (
+    <div css={styles.messages}>
+      <div css={styles.channel}>
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:100" rel="stylesheet"></link>
+        <h1>Channel discussion #{channel.name}</h1>
+      </div>
+      <ul>
+        { messages.map( (message, i) => (
+        <li key={i} css={styles.message}>
+        <p>
+          <span>{message.author}</span>
+            {' '}
+          <span>{(new Date(message.creation)).toString()}</span>
+        </p>
+        <div>
+        {
+          message.content
+          .split(/(\n +\n)/)
+          .filter( el => el.trim() )
+          .map( el => <p>{el}</p>)
+        }
         </div>
-    )
+        </li>
+        ))}
+      </ul>
+      </div>
+  );
 }

@@ -14,22 +14,11 @@ const styles = {
     }  
 }
 
-const channels= {
-  channel1: {
-      name: 'CHANNEL ONE'
-  },
-  channel2: {
-      name: 'CHANNEL TWO'
-  },
-  channel3: {
-      name: 'CHANNEL THREE'
-  } 
-}
 
 function Main() {
     return (
         <main className="App-main" css={styles.main}>
-        {Channels(channels)}
+        {Channels()}
         {Channel()}
       </main>
     );

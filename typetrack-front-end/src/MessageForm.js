@@ -24,6 +24,7 @@ const styles = {
     }
 }
 
+
 const MessageForm = ({
     addMessage
   }) => {
@@ -45,5 +46,4 @@ const MessageForm = ({
     )
   }
 
-
-export default MessageForm
+  export default MessageForm;
