@@ -4,6 +4,7 @@ import './App.css';
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
+var moment = require('moment'); // require
 
 const styles = {
     messages: {
@@ -132,7 +133,7 @@ export default (channel) => {
         <p>
           <span>{message.author}</span>
             {' '}
-          <span>{(new Date(message.creation)).toString()}</span>
+          <span>{(new moment(message.creation).format('MMMM Do YYYY, h:mm:ss a')).toString()}</span>
         </p>
         <div>
         {
