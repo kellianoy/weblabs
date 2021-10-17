@@ -47,14 +47,21 @@ const channels = [
 ];
 
 function Channel() {
-   
+    const channelChange= ({
+      }) => {
+        const onSubmit = (e) => {
+          e.preventDefault()
+        }    
+    } 
     return (
         <div css={styles.channels}>
          <ul css={styles.ul}>
             { channels.map((channel, i) => (
                 <li key={i} css={styles.channeldiv}>
                 <div>
-                    <span css={styles.channel}>{channel.name}</span>
+                    <form onSubmit={channelChange}>
+                        <span css={styles.channel}>{channel.name}</span>
+                    </form>
                 </div>
              </li>
             ))}

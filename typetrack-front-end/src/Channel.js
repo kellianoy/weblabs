@@ -18,7 +18,7 @@ const styles = {
 
 
 const channel = {
-    name: 'CHANNEL ONE'
+    name: 'channel 1'
 }
 
 function Channel() {
