@@ -1,53 +1,55 @@
 
-import {useState} from 'react';
+import { useState } from 'react';
 import './App.css';
+import ReactMarkdown from "react-markdown";
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
+import remarkGfm from 'remark-gfm'
 var moment = require('moment'); // require
 
 const styles = {
-    messages: {
-        flex: '1 1 auto',
-        height: '100%',
-        overflow: 'auto',
-        '& ul': {
-          'margin': 0,
-          'padding': 0,
-          'textIndent': 0,
-          'listStyleType': 0,
-        },
+  messages: {
+    flex: '1 1 auto',
+    height: '100%',
+    overflow: 'auto',
+    '& ul': {
+      'margin': 0,
+      'padding': 0,
+      'textIndent': 0,
+      'listStyleType': 0,
     },
-    message: {
-      margin: '.2rem',
-      padding: '.2rem',
-      boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
-      // backgroundColor: '#66728E',
-      ':hover': {
-        backgroundColor: 'rgba(96,96,96,0.4)',
-      },
+  },
+  message: {
+    margin: '.2rem',
+    padding: '.2rem',
+    boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+    // backgroundColor: '#66728E',
+    ':hover': {
+      backgroundColor: 'rgba(96,96,96,0.4)',
     },
-    channel: {
-      textAlign: "center",
-      position: "-webkit-sticky",
-      position: "sticky",
-      alignSelf: "flex-start",
-      fontFamily: "Montserrat, sans-serif",
-      padding: "10px",
-      boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+  },
+  channel: {
+    textAlign: "center",
+    position: "-webkit-sticky",
+    position: "sticky",
+    alignSelf: "flex-start",
+    fontFamily: "Montserrat, sans-serif",
+    padding: "10px",
+    boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+  },
+  small: {
+    margin: '.2rem',
+    padding: '.2rem',
+    boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+    // backgroundColor: '#66728E',
+    ':hover': {
+      backgroundColor: 'rgba(96,96,96,0.4)',
     },
-    small:{
-      margin: '.2rem',
-      padding: '.2rem',
-      boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
-      // backgroundColor: '#66728E',
-      ':hover': {
-        backgroundColor: 'rgba(96,96,96,0.4)',
-      },
-        opacity: 0.3,
-      
-    }
-    
+    opacity: 0.3,
+
+  }
+
 }
 
 export default (channel) => {
@@ -84,7 +86,7 @@ export default (channel) => {
     +--------------------------------------------+
     \`\`\`
     `,
-  },{
+  }, {
     author: 'david',
     creation: 1602832138892,
     content: `
@@ -94,7 +96,7 @@ export default (channel) => {
     improvements include changing the colors, replacing the HTML "send" button
     with an icon, working on the header, providing day/night themes ... be creative
     `,
-  },{
+  }, {
     author: 'sergei',
     creation: 1602840139202,
     content: `
@@ -108,7 +110,7 @@ export default (channel) => {
     top right corner of their homepage, it is now depreciated. Read the reasons
     and act accordingly.
     `,
-  },{
+  }, {
     author: 'david',
     creation: 1602844139200,
     content: `
@@ -136,28 +138,25 @@ export default (channel) => {
   return (
     <div css={styles.messages}>
       <div css={styles.channel}>
-      <link href="https://fonts.googleapis.com/css?family=Montserrat:100" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:100" rel="stylesheet"></link>
         <h1>Channel discussion #{channel.name}</h1>
       </div>
       <ul>
-        { messages.map( (message, i) => (
-        <li key={i} css={styles.message}>
-        <p>
-          <span><b>{message.author}</b></span>
-            {' '}
-          <span><small css={styles.small}>{(new moment(message.creation).format('MMMM Do YYYY, h:mm:ss a')).toString()}</small></span>
-        </p>
-        <div>
-        {
-          message.content
-          .split(/(\n +\n)/)
-          .filter( el => el.trim() )
-          .map( el => <p>{el}</p>)
-        }
-        </div>
-        </li>
+        {messages.map((message, i) => (
+          <li key={i} css={styles.message}>
+            <p>
+              <span><b>{message.author}</b></span>
+              {' '}
+              <span><small css={styles.small}>{(new moment(message.creation).format('MMMM Do YYYY, h:mm:ss a')).toString()}</small></span>
+            </p>
+            <div>
+              
+                <ReactMarkdown source={message.content} remarkPlugins={[remarkGfm]}/>
+
+            </div>
+          </li>
         ))}
       </ul>
-      </div>
+    </div>
   );
 }
