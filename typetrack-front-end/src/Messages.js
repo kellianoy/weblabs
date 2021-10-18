@@ -35,7 +35,19 @@ const styles = {
       fontFamily: "Montserrat, sans-serif",
       padding: "10px",
       boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+    },
+    small:{
+      margin: '.2rem',
+      padding: '.2rem',
+      boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+      // backgroundColor: '#66728E',
+      ':hover': {
+        backgroundColor: 'rgba(96,96,96,0.4)',
+      },
+        opacity: 0.3,
+      
     }
+    
 }
 
 export default (channel) => {
@@ -131,9 +143,9 @@ export default (channel) => {
         { messages.map( (message, i) => (
         <li key={i} css={styles.message}>
         <p>
-          <span>{message.author}</span>
+          <span><b>{message.author}</b></span>
             {' '}
-          <span>{(new moment(message.creation).format('MMMM Do YYYY, h:mm:ss a')).toString()}</span>
+          <span><small css={styles.small}>{(new moment(message.creation).format('MMMM Do YYYY, h:mm:ss a')).toString()}</small></span>
         </p>
         <div>
         {
