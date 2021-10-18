@@ -27,15 +27,6 @@ const styles = {
         backgroundColor: 'rgba(96,96,96,0.4)',
       },
     },
-    channel: {
-      textAlign: "center",
-      position: "-webkit-sticky",
-      position: "sticky",
-      alignSelf: "flex-start",
-      fontFamily: "Montserrat, sans-serif",
-      padding: "10px",
-      boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
-    },
     small:{
       margin: '.2rem',
       padding: '.2rem',
@@ -50,7 +41,7 @@ const styles = {
     
 }
 
-export default (channel) => {
+export default () => {
   const [messages, setMessages] = useState([{
     author: 'sergei',
     creation: 1602831101929,
@@ -135,10 +126,6 @@ export default (channel) => {
   }
   return (
     <div css={styles.messages}>
-      <div css={styles.channel}>
-      <link href="https://fonts.googleapis.com/css?family=Montserrat:100" rel="stylesheet"></link>
-        <h1>Channel discussion #{channel.name}</h1>
-      </div>
       <ul>
         { messages.map( (message, i) => (
         <li key={i} css={styles.message}>

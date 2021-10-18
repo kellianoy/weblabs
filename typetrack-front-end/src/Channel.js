@@ -13,9 +13,20 @@ const styles = {
         flexDirection: 'column',
         overflow: 'hidden',
         backgroundColor: '#212529',
+    },
+    channelHead: {
+        position: "-webkit-sticky",
+        position: "sticky",
+        alignSelf: "center",
+        fontFamily: "Montserrat, sans-serif",
+        padding: "10px",
+        boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+    },
+    textalign: {
+        fontSize: "30px",
+        textAlign: "center",
     }
 }
-
 
 const channel = {
     name: 'channel 1'
@@ -24,7 +35,11 @@ const channel = {
 function Channel() {
     return (
         <div css={styles.channel}>
-            {Messages(channel)}
+            <div css={styles.channelHeads}>
+                <link href="https://fonts.googleapis.com/css?family=Montserrat:100" rel="stylesheet"></link>
+                <h1 css={styles.textalign}>Channel discussion #{channel.name}</h1>
+            </div>
+            {Messages()}
             <MessageForm addMessage={addMessage}/>
         </div>
     );
