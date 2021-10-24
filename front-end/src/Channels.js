@@ -2,18 +2,10 @@
 /** @jsxImportSource @emotion/react */
 import {useState, useEffect} from 'react';
 import axios from 'axios';
+import * as React from 'react';
 // Layout
-import { Link } from '@mui/material';
+import ResponsiveDrawer from "./responsiveDrawer"
 
-const styles = {
-  root: {
-    minWidth: '200px',
-  },
-  channel: {
-    padding: '.2rem .5rem',
-    whiteSpace: 'nowrap', 
-  }
-}
 
 export default function Channels({
   onChannel
@@ -26,21 +18,8 @@ export default function Channels({
     }
     fetch()
   }, [])
-  return (
-    <ul style={styles.root}>
-      { channels.map( (channel, i) => (
-        <li key={i} css={styles.channel}>
-          <Link
-            href="#"
-            onClick={ (e) => {
-              e.preventDefault()
-              onChannel(channel)
-            }}
-            >
-            {channel.name}
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
+  return(
+    <ResponsiveDrawer channels={channels} onChannel={onChannel} />
+  )
 }
+
