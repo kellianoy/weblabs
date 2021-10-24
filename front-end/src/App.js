@@ -1,7 +1,7 @@
-import {useState} from 'react'
+
+/** @jsxImportSource @emotion/react */
+import {useState} from 'react';
 import './App.css';
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
 // Local
 import Footer from './Footer'
 import Header from './Header'
@@ -18,7 +18,7 @@ const styles = {
   },
 }
 
-export default () => {
+export default function App() {
   const [user, setUser] = useState(null)
   return (
     <div className="App" css={styles.root}>
