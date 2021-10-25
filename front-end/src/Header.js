@@ -1,24 +1,27 @@
-
-/** @jsxImportSource @emotion/react */
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx, css } from "@emotion/react";
 
 const styles = {
-  header: {
-    height: '60px',
-    backgroundColor: 'rgba(255,255,255,.3)',
-    flexShrink: 0,
-  },
-  headerLogIn: {
-    backgroundColor: 'red',
-  },
-  headerLogOut: {
-    backgroundColor: 'blue',
-  },
+    header: {
+      backgroundColor: '#14202F',
+      flexShrink: 0,
+    },
+    typetrack: {
+      textAlign: "left",
+      fontSize: "28px",
+      fontFamily: "Montserrat, sans-serif",
+      marginLeft: "26px",
+    }
 }
 
-export default function Header() {
+function Header() {
   return (
-    <header css={styles.header}>
-      Header
+    <header className="App-header" css={styles.header}>
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:100" rel="stylesheet"></link>
+      <h1 css={styles.typetrack}>typetrack</h1>
     </header>
   );
 }
+
+export default Header

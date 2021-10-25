@@ -35,6 +35,7 @@ const styles = {
         xs: 'block', 
         sm: 'none' },
       '& .MuiDrawer-paper': { 
+        
         width: 200,
         position: "absolute",
         boxSizing: 'border-box'
@@ -75,9 +76,7 @@ const styles = {
       <><div css={styles.menu}>
         <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ ml: 'auto', display: { sm: 'none', xs: 'block' } }}>
           <MenuIcon />
-        </IconButton>
-      </div>
-      
+        </IconButton></div>
       <Drawer variant="temporary" open={mobileOpen} onClose={handleDrawerToggle} ModalProps={{ keepMounted: true, }} sx={styles.littleDrawer}>
         {myChannels}
       </Drawer>

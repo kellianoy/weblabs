@@ -4,6 +4,7 @@
 import { useTheme } from '@mui/styles';
 
 import {Button, TextField} from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
 
 const useStyles = (theme) => ({
   root: {
@@ -41,13 +42,12 @@ export default function Login({
         <fieldset>
           <TextField id="password" label="Password" color="secondary" variant="standard" type="password"/>
         </fieldset>
-        
         <fieldset>
           <Button variant="contained" color="primary" onClick={ (e) => {
               e.stopPropagation()
               onUser({username: 'david'})
             }}>
-            Log In
+            Log In <LoginIcon/>
           </Button>
         </fieldset>
       </div>
