@@ -1,7 +1,9 @@
-
 /** @jsxImportSource @emotion/react */
 // Layout
 import { useTheme } from '@mui/styles';
+
+import {Button, TextField} from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
 
 const useStyles = (theme) => ({
   root: {
@@ -32,19 +34,20 @@ export default function Login({
   return (
     <div css={styles.root}>
       <div>
+        <h1 css={{marginLeft: '10px'}}>Please, log in the application</h1>
         <fieldset>
-          <label htmlFor="username">username: </label>
-          <input id="username" name="username" />
+          <TextField id="username" label="Username" color="secondary" variant="standard" />
         </fieldset>
         <fieldset>
-          <label htmlFor="password">password:</label>
-          <input id="password" name="password" type="password" />
+          <TextField id="password" label="Password" color="secondary" variant="standard" type="password"/>
         </fieldset>
         <fieldset>
-          <input type="submit" value="login" onClick={ (e) => {
-            e.stopPropagation()
-            onUser({username: 'david'})
-          }} />
+          <Button variant="contained" color="primary" onClick={ (e) => {
+              e.stopPropagation()
+              onUser({username: 'david'})
+            }}>
+            Log In <LoginIcon/>
+          </Button>
         </fieldset>
       </div>
     </div>
