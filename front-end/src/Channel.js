@@ -4,7 +4,7 @@ import {useRef, useState} from 'react';
 import axios from 'axios';
 // Layout
 import { useTheme } from '@mui/styles';
-import { Fab } from '@mui/material';
+import {Fab} from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // Local
 import Form from './channel/Form'
@@ -12,16 +12,12 @@ import List from './channel/List'
 
 const useStyles = (theme) => ({
   root: {
-    flex: '1 1 auto',
     height: '100%',
-    overflow: 'auto',
-    paddingLeft: '5px',
-    backgroundColor: '#373737',
-    boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
-    // backgroundColor: '#66728E',
-    ':hover': {
-      backgroundColor: 'rgba(96,96,96,0.4)',
-    }
+    flex: '1 1 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    overflowX: 'auto',
   },
   fab: {
     position: 'absolute !important',
