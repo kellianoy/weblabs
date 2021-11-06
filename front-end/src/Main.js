@@ -53,7 +53,7 @@ export default function Main({
       >
         <Channels onChannel={fetchChannel} />
       </Drawer>
-      {channel ? <Channel channel={channel} messages={[]} /> : <Welcome />}
-    </main>
+      {channel ? <Channel channel={channel} messages={[]} /> : <Welcome />}  
+  </main>
   );
 }

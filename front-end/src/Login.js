@@ -57,20 +57,35 @@ export default function Login
   //If there is a query code
   if (params.code)
   {
-
-
-    axios.post("http://127.0.0.1:5556/dex/token", qs.stringify(
+    //let's ask for verification if we have a coe
+    axios
+    .post("http://127.0.0.1:5556/dex/token", qs.stringify(
       {
         grant_type: 'authorization_code',
-        client_id: "example-app",
+        client_id: "typetrack",
         redirect_uri: "http://localhost:3000/callback",
         code_verifier: cookies.get('codeVerifier'),
         code: params.code
-      }
-    )).then(function(response){
-      console.log(response);
-    }); 
-    return null;
+      }))
+      .then(res => //Great ! The code worked. Now let's get the user info
+        {
+          console.log("yeay res", res)
+          axios
+          .get("http://127.0.0.1:5556/dex/userinfo", {
+            headers: {
+              'Authorization': "Bearer " + res.data.access_token 
+            }
+          })
+          .then(res=>
+            { //Let's set our cookie and send the user back to the main page
+              console.log(res.data.email) 
+              cookies.set('username', res.data.email, { path: '/' })
+              window.location.replace("http://localhost:3000")
+            })
+          .catch(err => console.log('error: ', err));
+        }
+      )
+      .catch(err => console.log('error: ', err));
   }
   else {
       //Check if the user is logged in or not, if so, let's enter the app
@@ -101,7 +116,7 @@ export default function Login
 
                 //we can now create our url
                 var url = ["http://127.0.0.1:5556/dex/auth" 
-                    + "?", "client_id=example-app"  
+                    + "?", "client_id=typetrack"  
                     + "&", "scope=openid email offline_access"
                     + "&", "response_type=code&", "redirect_uri=http://localhost:3000/callback"
                     + "&", "code_challenge=" + code_challenge 
