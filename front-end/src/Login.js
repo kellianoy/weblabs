@@ -6,6 +6,7 @@ import LoginIcon from '@mui/icons-material/Login';
 
 import Cookies from 'universal-cookie';
 import crypto from 'crypto';
+
 import queryString from 'query-string';
 import axios from 'axios';
 import qs from 'qs'
@@ -70,6 +71,7 @@ export default function Login
       .then(res => //Great ! The code worked. Now let's get the user info
         {
           console.log("yeay res", res)
+          cookies.set('refresh_token', res.data.refresh_token, { path: '/' })
           axios
           .get("http://127.0.0.1:5556/dex/userinfo", {
             headers: {
@@ -77,9 +79,7 @@ export default function Login
             }
           })
           .then(res=>
-            { //Let's set our cookie and send the user back to the main page
-              console.log(res.data.email) 
-              cookies.set('username', res.data.email, { path: '/' })
+            { //Let's send the user back to the main page
               window.location.replace("http://localhost:3000")
             })
           .catch(err => console.log('error: ', err));
@@ -89,8 +89,38 @@ export default function Login
   }
   else {
       //Check if the user is logged in or not, if so, let's enter the app
-    if (cookies.get("username")) {
-      onUser( { username: cookies.get('username') })
+    if (cookies.get("refresh_token")) {
+      axios
+      .post("http://127.0.0.1:5556/dex/token", qs.stringify(
+        {
+          grant_type: 'refresh_token',
+          client_id: "typetrack",
+          refresh_token: cookies.get("refresh_token")
+        }))
+        .then(res=>
+        {
+          cookies.set('refresh_token', res.data.refresh_token, { path: '/' })
+          axios
+          .get("http://127.0.0.1:5556/dex/userinfo", {
+            headers: {
+              'Authorization': "Bearer " + res.data.access_token 
+            }
+          })
+          .then(res=> //we send our result to the user array
+            { 
+              console.log(res.data.email)
+              onUser({ username: res.data.email })
+            })
+          .catch(err => { 
+            console.log('error: ', err)
+          })
+        })
+        .catch(err => //if error we remove the refresh token and we start again
+          {
+          cookies.remove("refresh_token")
+          console.log('error: ', err)
+        })
+          
       return null;
     }
     else { //if he is not logged, let's register

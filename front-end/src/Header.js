@@ -58,10 +58,12 @@ export default function Header({
         <link href="https://fonts.googleapis.com/css?family=Montserrat:100" rel="stylesheet"></link>
         <h1 css={styles.typetrack}>typetrack</h1>
         { 
-          cookies.get("username") && 
-          <><h2>Welcome {cookies.get('username')}</h2><Button variant="contained" color="primary" onClick={(e) => {
+          cookies.get("refresh_token") && 
+          <><h2>Welcome {} </h2>
+          
+            <Button variant="contained" color="primary" onClick={(e) => {
             e.stopPropagation();
-            cookies.remove("username");
+            cookies.remove("refresh_token");
             window.location.reload()
           } }>
             Log Out <LogoutIcon />
