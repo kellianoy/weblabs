@@ -1,22 +1,18 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx} from "@emotion/react";
+
+/** @jsxImportSource @emotion/react */
 
 const styles = {
-    footer: {
-        backgroundColor: '#192E46',
-        flexShrink: 0,
-        padding: "10px",
-        textAlign: "center",
-    }
+  footer: {
+    height: '30px',
+    backgroundColor: 'rgba(255,255,255,.3)',
+    flexShrink: 0,
+  },
 }
 
-function Footer() {
-    return (
-        <footer className="App-footer" style={styles.footer}>
-            <p>This was created by MESSALATI Yann and COTTART Kellian | Copyright @ECEParisLyon @Adaltas @wdavidw @sergkudinov</p>
-        </footer>
-    );
+export default function Footer() {
+  return (
+    <footer style={styles.footer}>
+      footer
+    </footer>
+  );
 }
-
-export default Footer

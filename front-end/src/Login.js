@@ -1,27 +1,27 @@
+
 /** @jsxImportSource @emotion/react */
+import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import crypto from 'crypto'
+import qs from 'qs'
+import axios from 'axios'
 // Layout
 import { useTheme } from '@mui/styles';
-import { Button } from '@mui/material';
-import LoginIcon from '@mui/icons-material/Login';
+import {Link} from '@mui/material';
 
-import Cookies from 'universal-cookie';
-import crypto from 'crypto';
-
-import queryString from 'query-string';
-import axios from 'axios';
-import qs from 'qs'
-
-//Encrypting data for challenge
-function base64URLEncode(str) {
-  return str.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+const base64URLEncode = (str) => {
+  return str.toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
 }
 
-function sha256(buffer) {
-  return crypto.createHash('sha256').update(buffer).digest();
+const sha256 = (buffer) => {
+  return crypto
+    .createHash('sha256')
+    .update(buffer)
+    .digest()
 }
-
-//starting cookies
-const cookies = new Cookies();
 
 const useStyles = (theme) => ({
   root: {
@@ -45,125 +45,121 @@ const useStyles = (theme) => ({
   },
 })
 
-export default function Login
-({ 
-  onUser 
+const Redirect = ({
+  config,
+  codeVerifier,
+}) => {
+  const styles = useStyles(useTheme())
+  const redirect = (e) => {
+    e.stopPropagation()
+    const code_challenge = base64URLEncode(sha256(codeVerifier))
+    const url = [
+      `${config.authorization_endpoint}?`,
+      `client_id=${config.client_id}&`,
+      `scope=${config.scope}&`,
+      `response_type=code&`,
+      `redirect_uri=${config.redirect_uri}&`,
+      `code_challenge=${code_challenge}&`,
+      `code_challenge_method=S256`,
+    ].join('')
+    window.location = url
+  }
+  return (
+    <div css={styles.root}>
+      <Link onClick={redirect} color="secondary">Login with OpenID Connect and OAuth2</Link>
+    </div>
+  )
+}
+
+const Tokens = ({
+  oauth
+}) => {
+  const [,, removeCookie] = useCookies([]);
+  const styles = useStyles(useTheme())
+  const {id_token} = oauth
+  const id_payload = id_token.split('.')[1]
+  const {email} = JSON.parse(atob(id_payload))
+  const logout = (e) => {
+    e.stopPropagation()
+    removeCookie('oauth')
+  }
+  return (
+    <div css={styles.root}>
+      Welcome {email} <Link onClick={logout} color="secondary">logout</Link>
+    </div>
+  )
+}
+
+const LoadToken = function({
+  code,
+  codeVerifier,
+  config,
+  removeCookie,
+  setCookie
 }) {
   const styles = useStyles(useTheme())
-  
-  //let's check if there are params
-  const url = window.location.search;
-  const params = queryString.parse(url);
-
-  //If there is a query code
-  if (params.code)
-  {
-    //let's ask for verification if we have a coe
-    axios
-    .post("http://127.0.0.1:5556/dex/token", qs.stringify(
-      {
-        grant_type: 'authorization_code',
-        client_id: "typetrack",
-        redirect_uri: "http://localhost:3000/callback",
-        code_verifier: cookies.get('codeVerifier'),
-        code: params.code
-      }))
-      .then(res => //Great ! The code worked. Now let's get the user info
-        {
-          console.log("yeay res", res)
-          cookies.set('refresh_token', res.data.refresh_token, { path: '/' })
-          axios
-          .get("http://127.0.0.1:5556/dex/userinfo", {
-            headers: {
-              'Authorization': "Bearer " + res.data.access_token 
-            }
-          })
-          .then(res=>
-            { //Let's send the user back to the main page
-              window.location.replace("http://localhost:3000")
-            })
-          .catch(err => console.log('error: ', err));
-        }
-      )
-      .catch(err => console.log('error: ', err));
-  }
-  else {
-      //Check if the user is logged in or not, if so, let's enter the app
-    if (cookies.get("refresh_token")) {
-      axios
-      .post("http://127.0.0.1:5556/dex/token", qs.stringify(
-        {
-          grant_type: 'refresh_token',
-          client_id: "typetrack",
-          refresh_token: cookies.get("refresh_token")
+  useEffect( () => {
+    const fetch = async () => {
+      try {
+        const {data: oauth} = await axios.post(
+          config.token_endpoint
+        , qs.stringify ({
+          grant_type: 'authorization_code',
+          client_id: `${config.client_id}`,
+          code_verifier: `${codeVerifier}`,
+          redirect_uri: `${config.redirect_uri}`,
+          code: `${code}`,
         }))
-        .then(res=>
-        {
-          cookies.set('refresh_token', res.data.refresh_token, { path: '/' })
-          axios
-          .get("http://127.0.0.1:5556/dex/userinfo", {
-            headers: {
-              'Authorization': "Bearer " + res.data.access_token 
-            }
-          })
-          .then(res=> //we send our result to the user array
-            { 
-              console.log(res.data.email)
-              onUser({ username: res.data.email })
-            })
-          .catch(err => { 
-            console.log('error: ', err)
-          })
-        })
-        .catch(err => //if error we remove the refresh token and we start again
-          {
-          cookies.remove("refresh_token")
-          console.log('error: ', err)
-        })
-          
-      return null;
+        removeCookie('code_verifier')
+        setCookie('oauth', oauth)
+        window.location = '/'
+      }catch (err) {
+        console.error(err)
+      }
     }
-    else { //if he is not logged, let's register
-      return (
-        <div css={styles.root}>
-          <div>
-            <h1 css={{ marginLeft: '10px' }}>Please, log in the application</h1>
-            <fieldset>
-              <Button variant="contained" color="primary" onClick={(e) => {
-                e.stopPropagation()
-      
-                //First, let's build our url
+    fetch()
+  })
+  return (
+    <div css={styles.root}>Loading tokens</div>
+  )
+}
 
-                //let's generate a code verifier
-                const code_verifier = base64URLEncode(crypto.randomBytes(32))
-
-                //let's save it in the cookies
-                cookies.set('codeVerifier', code_verifier, { path: '/' });
-                console.log(cookies.get('codeVerifier'));
-
-                //let's create a code challenge for this code
-                const code_challenge = base64URLEncode(sha256(code_verifier))
-
-                //we can now create our url
-                var url = ["http://127.0.0.1:5556/dex/auth" 
-                    + "?", "client_id=typetrack"  
-                    + "&", "scope=openid email offline_access"
-                    + "&", "response_type=code&", "redirect_uri=http://localhost:3000/callback"
-                    + "&", "code_challenge=" + code_challenge 
-                    + "&", "code_challenge_method=S256"].join('');
-                
-                //and redirect the user to it
-                console.log(url)
-                window.location.replace(url)
-                
-              }}>
-                Log In <LoginIcon />
-              </Button>
-            </fieldset>
-          </div>
-        </div>
-  
-      );
-    }
+export default function Login({
+  onUser
+}) {
+  const styles = useStyles(useTheme())
+  const [cookies, setCookie, removeCookie] = useCookies([]);
+  const config = {
+    authorization_endpoint: 'http://127.0.0.1:5556/dex/auth',
+    token_endpoint: 'http://127.0.0.1:5556/dex/token',
+    client_id: 'webtech-frontend',
+    redirect_uri: 'http://127.0.0.1:3000',
+    scope: 'openid%20email%20offline_access',
   }
+  const params = new URLSearchParams(window.location.search)
+  const code = params.get('code')
+  // Is there a code query parameters in the url
+  if(!code){ // No: we are no being redirected from an oauth server
+    if(!cookies.oauth){
+      const codeVerifier = base64URLEncode(crypto.randomBytes(32))
+      setCookie('code_verifier', codeVerifier)
+      return (
+        <Redirect codeVerifier={codeVerifier} config={config} css={styles.root} />
+      )
+    }else{ // Yes: user is already logged in, great, is is working
+      return (
+        <Tokens oauth={cookies.oauth} css={styles.root} />
+      )
+    }
+  }else{ // Yes, we are coming from an oauth server
+    return (
+      <LoadToken
+        code={code}
+        codeVerifier={cookies.code_verifier}
+        config={config}
+        setCookie={setCookie}
+        removeCookie={removeCookie} />
+    )
+  }
+  
 }
