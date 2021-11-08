@@ -7,7 +7,8 @@ import * as serviceWorker from './serviceWorker';
 import 'typeface-roboto'
 // Layout
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import { ContextProvider } from './App';
+import { ChannelProvider } from './Main';
 const theme = createTheme({
   palette: {
     mode: 'dark',
@@ -16,11 +17,15 @@ const theme = createTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-      <CookiesProvider>
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-      </CookiesProvider>
+    <ChannelProvider>
+      <ContextProvider>
+        <CookiesProvider>
+          <ThemeProvider theme={theme}>
+           <App />
+          </ThemeProvider>
+        </CookiesProvider>
+      </ContextProvider>
+    </ChannelProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

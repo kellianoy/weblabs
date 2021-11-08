@@ -1,6 +1,6 @@
 
 /** @jsxImportSource @emotion/react */
-import {useState} from 'react'
+import React, {useState} from 'react'
 // Layout
 import { useTheme } from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -9,6 +9,8 @@ import {Drawer} from '@mui/material';
 import Channels from './Channels'
 import Channel from './Channel'
 import Welcome from './Welcome'
+
+import {useContext} from 'react';
 
 const useStyles = (theme) => ({
   main: {
@@ -28,13 +30,29 @@ const useStyles = (theme) => ({
   },
 })
 
+export const ChannelContext = React.createContext();
+
+export const ChannelProvider = ({
+  children
+}) => {
+  const [channel, setChannel] = useState(null)
+  return (
+    <ChannelContext.Provider value={{
+      channel: channel,
+      setChannel: setChannel,
+      fetchChannel: async (channel) => {
+        setChannel(channel)
+      }
+    }}>{children}</ChannelContext.Provider>
+  )
+}
+
 export default function Main({
   drawerMobileVisible,
 }) {
-  const [channel, setChannel] = useState(null)
-  const fetchChannel = async (channel) => {
-    setChannel(channel)
-  }
+  
+  const { channel, setChannel, fetchChannel} = useContext(ChannelContext)
+  
   const theme = useTheme()
   const styles = useStyles(theme)
   const alwaysOpen = useMediaQuery(theme.breakpoints.up('sm'))

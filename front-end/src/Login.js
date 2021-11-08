@@ -31,6 +31,7 @@ const useStyles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    padding: "5px",
     '& > div': {
       margin: `${theme.spacing(1)}`,
       marginLeft: 'auto',
@@ -89,7 +90,7 @@ const Tokens = ({
   const id_payload = id_token.split('.')[1];
   const { email } = JSON.parse(atob(id_payload));
 
-  onUser({ username: email });
+  onUser(email);
   return null
 }
 
@@ -122,7 +123,7 @@ const LoadToken = function({
     }
     fetch()
   })
-  return null
+  return (<div css={styles.root}>Loading tokens</div>)
 }
 
 export default function Login({

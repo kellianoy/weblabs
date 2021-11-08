@@ -22,7 +22,7 @@ const styles = {
 
 export const UserContext = React.createContext({ user: null, setUser: null, logout: null});
 
-export const Provider = ({
+export const ContextProvider = ({
   children
 }) => {
   const [user, setUser] = useState(null)
@@ -41,8 +41,7 @@ export default function App()  {
 
   const { user, setUser,} = useContext(UserContext)
 
-
-  console.log(setUser)
+  console.log(user)
   const [drawerMobileVisible, setDrawerMobileVisible] = useState(false)
   const drawerToggleListener = () => {
     setDrawerMobileVisible(!drawerMobileVisible)
