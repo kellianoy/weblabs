@@ -16,11 +16,11 @@ const theme = createTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <CookiesProvider>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </CookiesProvider>
+      <CookiesProvider>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </CookiesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

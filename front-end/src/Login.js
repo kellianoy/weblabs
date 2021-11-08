@@ -7,7 +7,8 @@ import qs from 'qs'
 import axios from 'axios'
 // Layout
 import { useTheme } from '@mui/styles';
-import {Link} from '@mui/material';
+import { Button } from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
 
 const base64URLEncode = (str) => {
   return str.toString('base64')
@@ -66,28 +67,30 @@ const Redirect = ({
   }
   return (
     <div css={styles.root}>
-      <Link onClick={redirect} color="secondary">Login with OpenID Connect and OAuth2</Link>
+          <div>
+            <h1 css={{ marginLeft: '10px' }}>Please, log in the application</h1>
+            <fieldset>
+              <Button variant="contained" color="primary" onClick={
+                redirect
+              }>
+                Log In <LoginIcon />
+              </Button>
+            </fieldset>
+          </div>
     </div>
   )
 }
 
 const Tokens = ({
-  oauth
+  oauth, onUser
 }) => {
-  const [,, removeCookie] = useCookies([]);
-  const styles = useStyles(useTheme())
-  const {id_token} = oauth
-  const id_payload = id_token.split('.')[1]
-  const {email} = JSON.parse(atob(id_payload))
-  const logout = (e) => {
-    e.stopPropagation()
-    removeCookie('oauth')
-  }
-  return (
-    <div css={styles.root}>
-      Welcome {email} <Link onClick={logout} color="secondary">logout</Link>
-    </div>
-  )
+  const styles = useStyles(useTheme());
+  const { id_token } = oauth;
+  const id_payload = id_token.split('.')[1];
+  const { email } = JSON.parse(atob(id_payload));
+
+  onUser({ username: email });
+  return null
 }
 
 const LoadToken = function({
@@ -119,9 +122,7 @@ const LoadToken = function({
     }
     fetch()
   })
-  return (
-    <div css={styles.root}>Loading tokens</div>
-  )
+  return null
 }
 
 export default function Login({
@@ -132,8 +133,8 @@ export default function Login({
   const config = {
     authorization_endpoint: 'http://127.0.0.1:5556/dex/auth',
     token_endpoint: 'http://127.0.0.1:5556/dex/token',
-    client_id: 'webtech-frontend',
-    redirect_uri: 'http://127.0.0.1:3000',
+    client_id: 'typetrack',
+    redirect_uri: 'http://localhost:3000/callback',
     scope: 'openid%20email%20offline_access',
   }
   const params = new URLSearchParams(window.location.search)
@@ -148,7 +149,7 @@ export default function Login({
       )
     }else{ // Yes: user is already logged in, great, is is working
       return (
-        <Tokens oauth={cookies.oauth} css={styles.root} />
+        <Tokens oauth={cookies.oauth} onUser={onUser} css={styles.root} />
       )
     }
   }else{ // Yes, we are coming from an oauth server

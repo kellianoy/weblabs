@@ -1,47 +1,77 @@
-
 /** @jsxImportSource @emotion/react */
 // Layout
+
 import { useTheme } from '@mui/styles';
-import {IconButton} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Button, IconButton} from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useCookies } from 'react-cookie';
+import {useContext} from 'react';
+import {UserContext} from './App'
 
 const useStyles = (theme) => ({
-  header: {
-    padding: theme.spacing(1),
-    backgroundColor: 'rgba(255,255,255,.3)',
-    flexShrink: 0,
-  },
-  headerLogIn: {
-    backgroundColor: 'red',
-  },
-  headerLogOut: {
-    backgroundColor: 'blue',
-  },
-  menu: {
-    [theme.breakpoints.up('sm')]: {
-      display: 'none !important',
+    header: {
+      backgroundColor: '#14202F',
+      padding: theme.spacing(1),
+      flexShrink: 0,
     },
-  }
+    typetrack: {
+      textAlign: "left",
+      fontSize: "28px",
+      fontFamily: "Montserrat, sans-serif",
+      marginLeft: "26px",
+    },
+    navibar: {
+      overflow: 'hidden',
+      flex: '1 1 auto',
+      alignItems : 'center',
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-around'
+    },
+    menu: {
+      [theme.breakpoints.up('sm')]: {
+        display: 'none !important',
+      },
+    }
 })
 
 export default function Header({
   drawerToggleListener
 }) {
+  const { user, setUser, logout} = useContext(UserContext)
   const styles = useStyles(useTheme())
+  const [cookies,, removeCookie] = useCookies([]);
   const handleDrawerToggle = (e) => {
     drawerToggleListener()
   }
   return (
-    <header css={styles.header}>
-      <IconButton
+    <header className="App-header" css={styles.header}>
+    <IconButton
         color="inherit"
         aria-label="open drawer"
         onClick={handleDrawerToggle}
         css={styles.menu}
-      >
+    >
         <MenuIcon />
       </IconButton>
-      Header
+      <div css={styles.navibar}>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:100" rel="stylesheet"></link>
+        <h1 css={styles.typetrack}>typetrack</h1>
+        { 
+          cookies.oauth && 
+          <><h2>Welcome { user } </h2>
+          
+            <Button variant="contained" color="primary" onClick={(e) => {
+              e.stopPropagation()
+              removeCookie('oauth')
+              window.location.reload()
+              logout()
+          } }>
+            Log Out <LogoutIcon />
+          </Button></>
+        } 
+      </div>
     </header>
   );
 }
