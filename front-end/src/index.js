@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom';
 import { CookiesProvider } from 'react-cookie';
 import './index.css';
 import App from './App';
+import { Provider as ContextProvider } from './Context';
 import * as serviceWorker from './serviceWorker';
 import 'typeface-roboto'
 // Layout
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { ContextProvider } from './App';
-import { ChannelProvider } from './Main';
+import {
+  BrowserRouter as Router,
+} from "react-router-dom";
+
 const theme = createTheme({
   palette: {
     mode: 'dark',
@@ -17,15 +20,15 @@ const theme = createTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <ChannelProvider>
-      <ContextProvider>
-        <CookiesProvider>
-          <ThemeProvider theme={theme}>
-           <App />
-          </ThemeProvider>
-        </CookiesProvider>
-      </ContextProvider>
-    </ChannelProvider>
+    <ContextProvider>
+      <CookiesProvider>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <App />
+          </Router>
+        </ThemeProvider>
+      </CookiesProvider>
+    </ContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

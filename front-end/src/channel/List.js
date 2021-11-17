@@ -4,7 +4,7 @@ import {forwardRef, useImperativeHandle, useLayoutEffect, useRef} from 'react'
 // Layout
 import { useTheme } from '@mui/styles';
 // Markdown
-import {unified} from 'unified'
+import { unified } from 'unified'
 import markdown from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import html from 'rehype-stringify'
@@ -24,10 +24,7 @@ const useStyles = (theme) => ({
   root: {
     position: 'relative',
     flex: '1 1 auto',
-    'pre': {
-      
-      overflowY: 'auto',
-    },
+    overflow: 'auto',
     '& ul': {
       'margin': 0,
       'padding': 0,
