@@ -31,7 +31,7 @@ const useStyles = (theme) => ({
     color: theme.palette.primary.contrastText,
   },
   channels: {
-
+    margin : 'auto',
     padding: '.2rem .5rem',
     whiteSpace: 'nowrap',
 
@@ -79,6 +79,8 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
     fontSize: theme.typography.pxToRem(15),
     marginRight: theme.spacing(1),
     color: theme.palette.primary.contrastText,
+    width:"90%",
+    margin:'auto',
     marginTop: '4px',
     '&.Mui-selected': {
       color: theme.palette.misc.main,
