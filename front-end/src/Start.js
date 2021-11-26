@@ -65,7 +65,7 @@ const useStyles = (theme) => ({
         textAlign: 'center',
         fontFamily: theme.palette.primary.textFont,
         fontSize: '24px',
-        fontWeight: '600',
+        fontWeight: '100',
         color: theme.palette.primary.contrastText,
         margin: '5px',
     },
@@ -84,7 +84,7 @@ export default function Start({
     const isSmall = !useMediaQuery(theme.breakpoints.up('md'))
     
     return (
-        <Grid container rowSpacing={{ xs: 28, sm: 28, md: 26 }} columnSpacing={{ xs: 2, sm: 8, md: 18 }}>
+        <Grid container rowSpacing={{ xs: 26, sm: 26, md: 26 }} columnSpacing={{ xs: 2, sm: 8, md: 8  }}>
             <Grid item xs={12}>
                 <h2 css={styles.topleftsub}> Refined chatting for tasteful people </h2>
                 <h1 css={styles.typetrack}> typetrack. </h1>
@@ -107,8 +107,7 @@ export default function Start({
                         <MenuIcon css={styles.icons} />
                     </ScaleUp>
                     <h1 css={[styles.titles, isSmall && {fontSize: "20px",}  ]}>Channels</h1>
-                    <h2 css={styles.subtitles, isSmall && {fontSize: "14px", marginBottom: "0"}}> Navigating through channels </h2>
-                    <h2 css={styles.subtitles, isSmall && {fontSize: "14px", margin: "0"}}> never felt that good </h2>
+                    <h2 css={styles.subtitles, isSmall && {fontSize: "14px", marginBottom: "0"}}> Navigating through channels never felt that good </h2>
                 </div>
             </Grid>
             <Grid item xs={4}>
@@ -126,8 +125,7 @@ export default function Start({
                         <FullscreenIcon css={styles.icons} />
                     </ScaleUp>
                     <h1 css={[styles.titles, isSmall && {fontSize: "20px",}  ]}>Focused</h1>
-                    <h2 css={styles.subtitles,{marginBottom: "0"}, isSmall && {fontSize: "14px", marginBottom: "0"}}> Made by users for users, using </h2>
-                    <h2 css={styles.subtitles, isSmall && {fontSize: "14px", margin: "0"}}> your feedback to improve</h2>
+                    <h2 css={styles.subtitles,{marginBottom: "0"}, isSmall && {fontSize: "14px", marginBottom: "0"}}> Made by users for users, using your feedback to improve </h2>
                 </div>
             </Grid>
         </Grid>

@@ -31,13 +31,12 @@ const useStyles = (theme) => ({
     color: theme.palette.primary.contrastText,
   },
   channels: {
-    '& a': {
-      padding: '.2rem .5rem',
-      whiteSpace: 'nowrap',
-    },
+
+    padding: '.2rem .5rem',
+    whiteSpace: 'nowrap',
+
   },
   channel: {
-    center: 'left',
     fontFamily: theme.palette.primary.textFont,
     fontSize: '16px',
     fontWeight: '600',
@@ -80,7 +79,7 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
     fontSize: theme.typography.pxToRem(15),
     marginRight: theme.spacing(1),
     color: theme.palette.primary.contrastText,
-    margin: '6px',
+    marginTop: '4px',
     '&.Mui-selected': {
       color: theme.palette.misc.main,
     },
@@ -140,7 +139,7 @@ export default function Channels() {
             },
           }}
         >
-          <StyledTab wrapped label="typetrack" css={styles.typetrack} component={RouterLink} to="/channels" />
+          <StyledTab wrapped label="typetrack." css={styles.typetrack} component={RouterLink} to="/channels" />
           <Divider variant="middle" css={{ backgroundColor: theme.palette.primary.contrastText, width: "20%", margin: 'auto' }} />
           {channels.map((channel, i) => (
             <StyledTab wrapped label={channel.name} css={styles.channel} onClick={(e) => {
@@ -154,7 +153,6 @@ export default function Channels() {
 
       <AppBar position="absolute" sx={{ backgroundColor: theme.palette.primary.dark, top: 'auto', bottom: 0 }}>
         <List>
-
           <ListItem disablePadding>
             <ListItemAvatar>
               <Avatar sx={{ bgcolor: theme.palette.misc.main, margin: 'auto', width: '36px', height: '36px', }}>
@@ -180,6 +178,7 @@ export default function Channels() {
             />
             <Tooltip title="Settings">
               <IconButton
+                onClick={onClickLogout}
                 color="misc"
                 size="large"
                 sx={{

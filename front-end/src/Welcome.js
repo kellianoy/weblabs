@@ -6,12 +6,13 @@ import { Grid, Typography } from '@mui/material';
 import { ReactComponent as ChannelIcon } from './icons/channel.svg';
 import { ReactComponent as FriendsIcon } from './icons/friends.svg';
 import { ReactComponent as SettingsIcon } from './icons/settings.svg';
+import ChannelHeader from './ChannelHeader';
 
 const useStyles = (theme) => ({
   root: {
-    height: '100%',
-    flex: '1 1 auto',
+    flex: '1 6',
     display: 'flex',
+    flexDirection: 'column',
     background: theme.palette.primary.light,
   },
   card: {
@@ -27,6 +28,7 @@ export default function Welcome() {
   const styles = useStyles(useTheme())
   return (
     <div css={styles.root}>
+      <ChannelHeader name={"Home"}/>
       <Grid
         container
         direction="row"
