@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import getTheme from './switch'
+import getTheme from './switch';
 
 // eslint-disable-next-line no-unused-vars
 export const CustomThemeContext = React.createContext(

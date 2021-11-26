@@ -1,21 +1,26 @@
 
 /** @jsxImportSource @emotion/react */
-import {useContext} from 'react'
+import { useContext } from 'react'
 // Layout
+
+import { useTheme } from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Drawer } from '@mui/material';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import IconButton from '@mui/material/IconButton';
 // Local
 import Context from './Context'
 import Channels from './Channels'
 import Channel from './Channel'
 import Welcome from './Welcome'
 
-import { useTheme } from '@mui/styles';
 
 import {
   Route,
   Routes,
 } from 'react-router-dom'
+
+const drawerWidth = 300;
 
 const useStyles = (theme) => ({
   root: {
@@ -27,27 +32,33 @@ const useStyles = (theme) => ({
     position: 'relative',
   },
   drawer: {
-    width: '200px',
-    display: 'none',
-  },
-  drawerVisible: {
     display: 'block',
+    width: drawerWidth,
+    backgroundColor: theme.palette.primary.main,
+    flexShrink: 0,
+    '& .MuiDrawer-paper': {
+      backgroundColor: theme.palette.primary.main,
+      width: drawerWidth,
+      boxSizing: 'border-box',
+    },
   },
+  drawerclosed: {
+    display: 'none',
+  }
 })
 
-export default function Main() {
-  const {
-    // currentChannel, not yet used
-    drawerVisible,
-  } = useContext(Context)
 
+export default function Main() {
   const theme = useTheme()
   const styles = useStyles(theme)
+  const {
+    drawerVisible, setDrawerVisible
+  } = useContext(Context)
 
-  console.log(theme)
-
+  const close = (e) => {setDrawerVisible(false)}
   const alwaysOpen = useMediaQuery(theme.breakpoints.up('sm'))
-  const isDrawerVisible = alwaysOpen || drawerVisible
+  const displayDrawer = alwaysOpen || drawerVisible
+  console.log(displayDrawer)
   return (
     <main css={styles.root}>
       <Drawer
@@ -56,15 +67,21 @@ export default function Main() {
         ModalProps={{
           style: { position: 'relative' }
         }}
+        css={[displayDrawer ? styles.drawer : styles.drawerclosed, !alwaysOpen && {width:'100%', '& .MuiDrawer-paper': { width: '100%'}}]}
         variant="persistent"
-        open={isDrawerVisible}
-        css={[styles.drawer, isDrawerVisible && styles.drawerVisible]}
+        anchor="left"
+        open={displayDrawer}
       >
+        { !alwaysOpen &&
+        <IconButton color='misc' onClick={close}>
+           <ChevronLeftIcon />
+         </IconButton>
+        } 
         <Channels />
       </Drawer>
       <Routes>
-        <Route path=":id" element={<Channel />}/>
-        <Route path="*" element={<Welcome />}/>
+        <Route path=":id" element={<Channel />} />
+        <Route path="*" element={<Welcome />} />
       </Routes>
     </main>
   );

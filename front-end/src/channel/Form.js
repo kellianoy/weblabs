@@ -6,26 +6,27 @@ import axios from 'axios';
 import { Button, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { useTheme } from '@mui/styles';
+import InputBase from '@mui/material/InputBase';
 
-const useStyles = (theme) => {
-  // See https://github.com/mui-org/material-ui/blob/next/packages/material-ui/src/OutlinedInput/OutlinedInput.js
-  const borderColor = theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)';
-  return {
-    form: {
-      borderTop: `2px solid ${borderColor}`,
-      padding: '.5rem',
+const useStyles = (theme) => ({
+    form:{
+      padding: '1rem',
       display: 'flex',
     },
     content: {
       flex: '1 1 auto',
+      padding:"5px",
+      borderRadius:'10px',
+      backgroundColor: theme.palette.primary.dark,
+      color: theme.palette.secondary.light,
       '&.MuiTextField-root': {
         marginRight: theme.spacing(1),
       },
     },
     send: {
     },
-  }
-}
+})
+
 
 export default function Form({
   addMessage,
@@ -48,22 +49,20 @@ export default function Form({
   }
   return (
     <form css={styles.form} onSubmit={onSubmit} noValidate>
-      <TextField
+     
+      <InputBase
         id="outlined-multiline-flexible"
-        label="Message"
+        sx={styles.content}
         multiline
-        maxRows={4}
+        placeholder="Send a message"
         value={content}
         onChange={handleChange}
-        variant="outlined"
-        css={styles.content}
       />
       <div>
         <Button
           variant="contained"
           color="primary"
           css={styles.send}
-          endIcon={<SendIcon />}
           onClick={onSubmit}
         >
           Send

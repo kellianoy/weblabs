@@ -12,14 +12,14 @@ const useStyles = (theme) => ({
     height: '100%',
     flex: '1 1 auto',
     display: 'flex',
-    // background: 'rgba(0,0,0,.2)',
+    background: theme.palette.primary.light,
   },
   card: {
     textAlign: 'center',
   },
   icon: {
     width: '30%',
-    fill: '#fff',
+    fill: theme.palette.secondary.dark,
   }
 })
 
@@ -37,7 +37,7 @@ export default function Welcome() {
         <Grid item xs>
           <div css={styles.card}>
             <ChannelIcon css={styles.icon} />
-            <Typography color="textPrimary">
+            <Typography color="contrastText">
               Create channels
             </Typography>
           </div>
@@ -45,7 +45,7 @@ export default function Welcome() {
         <Grid item xs>
           <div css={styles.card}>
             <FriendsIcon css={styles.icon} />
-            <Typography color="textPrimary">
+            <Typography color="contrastText">
               Invite friends
             </Typography>
           </div>
@@ -53,7 +53,7 @@ export default function Welcome() {
         <Grid item xs>
           <div css={styles.card}>
             <SettingsIcon css={styles.icon} />
-            <Typography color="textPrimary">
+            <Typography color="contrastText">
               Settings
             </Typography>
           </div>

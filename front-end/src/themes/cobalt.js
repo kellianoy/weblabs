@@ -6,16 +6,17 @@ const theme = createTheme({
     type: 'dark',
     primary: {
       main: '#1C1C1C',
-      light: '#292A2D',
+      light: '#242429',
       dark: '#131313',
       contrastText: '#ffffff',
       textFont: 'Montserrat',
     },
     secondary: {
       main: '#FFB734',
-      light: '#FFCA6B',
-      dark: '#F9AA1B',
+      light: '#FFECC9',
+      dark: '#FFAE1C',
       contrastText: '#292A2D',
+      textFont: 'Open Sans',
     },
     misc: {
       main: '#BB86FC',

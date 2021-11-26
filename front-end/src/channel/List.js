@@ -27,16 +27,39 @@ const useStyles = (theme) => ({
     overflow: 'auto',
     '& ul': {
       'margin': 0,
+      'marginLeft': '1%',
       'padding': 0,
       'textIndent': 0,
       'listStyleType': 0,
     },
   },
+  author: {
+    padding: '2px',
+    marginRight: '1%',
+    color: theme.palette.secondary.dark,
+    fontFamily: theme.palette.secondary.textFont,
+    fontSize:'20px',
+    fontWeight: "800",
+    "&:hover":{
+      textDecoration: `underline` ,
+      textUnderlineOffset : '4px',
+    }
+  },
+  date: {
+    padding: '2px',
+    color: theme.palette.secondary.dark,
+    fontFamily: theme.palette.secondary.textFont,
+    fontWeight: "600",
+    fontSize:'12px',
+    opacity: '0.75',
+  },
   message: {
-    padding: '.2rem .5rem',
-    ':hover': {
-      backgroundColor: 'rgba(255,255,255,.05)',
-    },
+    padding: '0px',
+    margin: '0px',
+    color: theme.palette.secondary.light,
+    fontFamily: theme.palette.secondary.textFont,
+    fontWeight: "600",
+    fontSize:'14px',
   },
   fabWrapper: {
     position: 'absolute',
@@ -48,7 +71,7 @@ const useStyles = (theme) => ({
     position: 'fixed !important',
     top: 0,
     width: '50px',
-  },
+  }
 })
 
 export default forwardRef(({
@@ -85,7 +108,6 @@ export default forwardRef(({
   })
   return (
     <div css={styles.root} ref={rootEl}>
-      <h1>Messages for {channel.name}</h1>
       <ul>
         { messages.map( (message, i) => {
             const {value} = unified()
@@ -96,11 +118,10 @@ export default forwardRef(({
             return (
               <li key={i} css={styles.message}>
                 <p>
-                  <span>{message.author}</span>
-                  {' - '}
-                  <span>{dayjs().calendar(message.creation)}</span>
+                  <span css={styles.author}>{message.author}</span>
+                  <span css={styles.date}>{dayjs().calendar(message.creation)}</span>
                 </p>
-                <div dangerouslySetInnerHTML={{__html: value}}>
+                <div css={styles.message} dangerouslySetInnerHTML={{__html: value}}>
                 </div>
               </li>
             )
