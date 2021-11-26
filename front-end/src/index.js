@@ -7,28 +7,22 @@ import { Provider as ContextProvider } from './Context';
 import * as serviceWorker from './serviceWorker';
 import 'typeface-roboto'
 // Layout
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CustomThemeProvider from './themes/CustomThemeProvider'
 import {
   BrowserRouter as Router,
 } from "react-router-dom";
 
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-  }
-});
-
 ReactDOM.render(
   <React.StrictMode>
-    <ContextProvider>
-      <CookiesProvider>
-        <ThemeProvider theme={theme}>
+    <CustomThemeProvider>
+      <ContextProvider>
+        <CookiesProvider>
           <Router>
-            <App />
+              <App/>
           </Router>
-        </ThemeProvider>
-      </CookiesProvider>
-    </ContextProvider>
+        </CookiesProvider>
+      </ContextProvider>
+    </CustomThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

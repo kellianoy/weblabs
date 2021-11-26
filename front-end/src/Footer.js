@@ -1,18 +1,23 @@
-
 /** @jsxImportSource @emotion/react */
 
-const styles = {
-  footer: {
-    height: '30px',
-    backgroundColor: 'rgba(255,255,255,.3)',
-    flexShrink: 0,
-  },
-}
+import { useTheme } from '@mui/styles';
 
-export default function Footer() {
+const useStyles = (theme) => ({
+  footer: {
+      backgroundColor: '#192E46',
+      flexShrink: 0,
+      padding: "10px",
+      textAlign: "center",
+  }
+})
+
+function Footer() {
+  const styles = useStyles(useTheme())
   return (
-    <footer style={styles.footer}>
-      footer
-    </footer>
+      <footer className="App-footer" style={styles.footer}>
+          <span>This was created by MESSALATI Yann and COTTART Kellian <br></br>Copyright @ECEParisLyon @Adaltas @wdavidw @sergkudinov</span>
+      </footer>
   );
 }
+
+export default Footer

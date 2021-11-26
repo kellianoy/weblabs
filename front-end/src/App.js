@@ -20,9 +20,7 @@ const styles = {
   root: {
     boxSizing: 'border-box',
     display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: '#565E71',
-    padding: '50px',
+    flexDirection: 'column'
   },
 }
 
@@ -47,13 +45,12 @@ export default function App() {
   />)
   return (
     <div className="App" css={styles.root}>
-      <Header drawerToggleListener={drawerToggleListener}/>
+      {/*<Header drawerToggleListener={drawerToggleListener}/>*/}
       <Routes>
         <Route exact path="/" element={oauth ? (gochannels) : (<Login />)}/>
         <Route path="/channels/*" element={oauth ? (<Main />) : (gohome)}/>
         <Route path="/Oups" element={<Oups />} />
       </Routes>
-      <Footer />
     </div>
   );
 }

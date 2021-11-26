@@ -14,6 +14,13 @@ import {
   useNavigate
 } from "react-router-dom";
 
+import { Button } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import StarIcon from '@mui/icons-material/Star';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+
+import Grid from '@mui/material/Grid';
+
 const base64URLEncode = (str) => {
   return str.toString('base64')
     .replace(/\+/g, '-')
@@ -30,23 +37,73 @@ const sha256 = (buffer) => {
 
 const useStyles = (theme) => ({
   root: {
+    background: theme.palette.primary.dark,
+    width:'100%',
+    height:'100%'
+  },
+  cards: {
+    display : 'flex',
     flex: '1 1 auto',
-    background: theme.palette.background.default,
-    display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
+    textAlign : 'center',
     alignItems: 'center',
-    '& > div': {
-      margin: `${theme.spacing(1)}`,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-    '& fieldset': {
-      border: 'none',
-      '& label': {
-        marginBottom: theme.spacing(.5),
-        display: 'block',
-      },
-    },
+  },
+  topleftsub: {
+    textAlign: 'left',
+    fontFamily: theme.palette.primary.textFont,
+    fontSize: '24px',
+    fontWeight: '600',
+    color: theme.palette.primary.contrastText,
+    margin:'0px',
+    marginTop:'65px',
+    marginLeft:'5%',
+  },
+  midleftsub: {
+    textAlign: 'left',
+    fontFamily: theme.palette.primary.textFont,
+    fontSize: '26px',
+    fontWeight: '600',
+    color: theme.palette.primary.contrastText,
+    margin:'0px',
+    marginBottom: '1%',
+  },
+  middle: {
+    display: 'flex',
+    flex: '1 1 auto',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  typetrack: {
+    textAlign: 'left',
+    fontFamily: theme.palette.primary.textFont,
+    fontSize: '60px',
+    fontWeight: '600',
+    color: theme.palette.secondary.dark,
+    margin:'0px',
+    marginLeft:'5%',
+  },
+  titles: {
+    textAlign: 'center',
+    fontFamily: theme.palette.primary.textFont,
+    fontSize: '42px',
+    fontWeight: '600',
+    color: theme.palette.secondary.dark,
+    margin:'0px',
+  },
+  subtitles: {
+    textAlign: 'center',
+    fontFamily: theme.palette.primary.textFont,
+    fontSize: '24px',
+    fontWeight: '600',
+    color: theme.palette.primary.contrastText,
+    margin:'5px',
+  },
+  icons: {
+    transform: 'scale(3)',
+    color: theme.palette.secondary.dark,
+    marginBottom: '8%',
   },
 })
 
@@ -71,7 +128,45 @@ const Redirect = ({
   }
   return (
     <div css={styles.root}>
-      <Link onClick={redirect} color="secondary">Login with OpenID Connect and OAuth2</Link>
+      <Grid container rowSpacing={{ xs: 18, sm: 20, md: 30 }} columnSpacing={{ xs: 6, sm: 10, md: 14 }}>
+        <Grid item xs={12}>
+            <h2 css={styles.topleftsub}> Refined chatting for tasteful people </h2>
+            <h1 css={styles.typetrack}> typetrack. </h1> 
+        </Grid>
+        <Grid item xs={12}>
+          <div css={styles.middle}>
+            <h1 css={styles.midleftsub}>Please, log in the application</h1>
+              <Button size="medium" variant="contained" color="misc" onClick={
+                redirect
+              }>
+                Log In
+              </Button>
+          </div>
+        </Grid>
+        <Grid item xs={4}>
+            <div css={styles.cards}>
+              <MenuIcon css={styles.icons}/>
+              <h1 css={styles.titles}>Channels</h1>
+              <h2 css={styles.subtitles}> Navigating through channels </h2>
+              <h2 css={styles.subtitles}> never felt that good </h2>
+            </div>
+        </Grid>
+        <Grid item xs={4}>
+            <div css={styles.cards}>
+              <StarIcon css={styles.icons}/>
+              <h1 css={styles.titles}>Unique</h1>
+              <h2 css={styles.subtitles}> Premium chatting experience</h2>
+            </div>
+        </Grid>
+        <Grid item xs={4}>
+            <div css={styles.cards}>
+              <FullscreenIcon css={styles.icons}/>
+              <h1 css={styles.titles}>Focused</h1>
+              <h2 css={styles.subtitles}> Made by users for users, using </h2>
+              <h2 css={styles.subtitles}> your feedback to improve</h2>
+            </div>
+        </Grid>
+      </Grid>
     </div>
   )
 }

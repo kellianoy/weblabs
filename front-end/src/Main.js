@@ -2,7 +2,6 @@
 /** @jsxImportSource @emotion/react */
 import {useContext} from 'react'
 // Layout
-import { useTheme } from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Drawer } from '@mui/material';
 // Local
@@ -10,6 +9,9 @@ import Context from './Context'
 import Channels from './Channels'
 import Channel from './Channel'
 import Welcome from './Welcome'
+
+import { useTheme } from '@mui/styles';
+
 import {
   Route,
   Routes,
@@ -17,7 +19,7 @@ import {
 
 const useStyles = (theme) => ({
   root: {
-    backgroundColor: '#373B44',
+    backgroundColor: theme.palette.primary.dark,
     overflow: 'hidden',
     flex: '1 1 auto',
     display: 'flex',
@@ -38,9 +40,12 @@ export default function Main() {
     // currentChannel, not yet used
     drawerVisible,
   } = useContext(Context)
-  
+
   const theme = useTheme()
   const styles = useStyles(theme)
+
+  console.log(theme)
+
   const alwaysOpen = useMediaQuery(theme.breakpoints.up('sm'))
   const isDrawerVisible = alwaysOpen || drawerVisible
   return (
