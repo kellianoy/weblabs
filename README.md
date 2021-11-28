@@ -1,6 +1,7 @@
-# Typetrack chat application - Final Project
+# typetrack. chat application - Final Project
 
-*presentation, introduction, ...*
+Today, we're presenting our brand new chat application : typetrack.
+Inspired by Keybase & Discord, it aims to be a convivial yet luxury chatting app.
 
 ## Usage
 
@@ -71,20 +72,71 @@ Yann MESSALATI :
 Project management
 
 * Naming convention   
-  *place your graduation and comments*
+  
+  We used camel case as naming convention, which seems the most used in React : 
+  - Components as `Component.js`
+  - Default exports as `export default Component`
+  - Functions & variables as `myFunction` & `variable`
+ 
+  Source : https://en.wikipedia.org/wiki/Camel_case
+  
+  Points : 2/2
+  
 * Project structure   
-  *place your graduation and comments*
+  
+  The project is stuctured using folders by group of components.
+  
+  - Channels components are stored in `channel` folder
+  - Themes are stored in `themes`
+  - Special effects such as special hovers are stored in `effects`
+  - Icons are stored in `icons`
+  - Component such as settings or welcome page are stored in `misc`
+  
+  Points : 4/4
+  
 * Code quality   
-  *place your graduation and comments*
+  
+  ESLint has been implemented, as well as prettierEslint.
+  
+  - Code is properly idented using prettierEslint
+  - We are using PropsTypes to validate our data used in functions.
+  - Line spacing is respected
+  - The code is commented as much as we could
+ 
+  Points : 4/4
+  
 * Design, UX   
-  *place your graduation and comments*
+  
+  We were inspired by Keybase, Discord and Typhora for themes and look&feel. 
+  
+  We managed to have a very comfy look, making the user feel at home, with nice sets of colors and themes. 
+  
+  - Simple but efficient design
+  - Nice colors
+  - Everything is one or two clicks away
+  - Responsive : It has been thought for mobile usage as well 
+  
+  Points : 4/4
+  
 * Git and DevOps   
-  *place your graduation and comments*
-
+  
+  - Linter has been implemented to check the parameters of functions & components
+  - We're using GitKraken to manage our git, branching whenever we want to implement a new fonctionnality
+  - We're rebasing main onto each working functionnality instead of using merge, because sometimes fonctionnalities are lost
+  
+  Points : 2/4 (wip)
+  
 Application development
 
 * Welcome screens   
-  *place your graduation and comments*
+  
+  We prototyped our login screen using Adobe XD. 
+  
+  We went along with a luxury chat application, using gold & black to bring out a "feel good experience".
+  We're trying to give a "drinking a coffee or a tea" vibe, with a call-to-action designed to be a unique experience. 
+  
+  Points : 2/4 (wip)
+  
 * New channel creation   
   *place your graduation and comments*
 * Channel membership and access   
