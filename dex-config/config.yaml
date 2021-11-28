@@ -25,7 +25,7 @@ staticClients:
 - id: webtech-frontend
   redirectURIs:
   - 'http://localhost:3000'
-  name: 'WetTech Front End Chat Server'
+  name: 'WebTech Front End Chat Server'
   public: true
 
 connectors:
@@ -33,8 +33,8 @@ connectors:
   id: github
   name: GitHub
   config:
-    clientID: xxxx98f1c26493dbxxxx
-    clientSecret: xxxxxxxxx80e139441b637796b128d8xxxxxxxxx
+    clientID: f013c2f90bb91226dd35
+    clientSecret: 535f79c53580bc5ad95c4b545a6a7f52f828a48e
     redirectURI: http://127.0.0.1:5556/dex/callback
 
 # Let dex keep a list of passwords which can be used to login to dex.

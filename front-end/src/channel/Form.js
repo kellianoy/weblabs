@@ -1,55 +1,49 @@
-
 /** @jsxImportSource @emotion/react */
-import { useState } from 'react'
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
 // Layout
-import { Button, TextField } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
-import { useTheme } from '@mui/styles';
-import InputBase from '@mui/material/InputBase';
+import { Button } from "@mui/material";
+import { useTheme } from "@mui/styles";
+import InputBase from "@mui/material/InputBase";
+import PropTypes from "prop-types";
 
 const useStyles = (theme) => ({
-    form:{
-      padding: '1rem',
-      display: 'flex',
+  form: {
+    padding: "1rem",
+    display: "flex",
+  },
+  content: {
+    flex: "1 1 auto",
+    padding: "5px",
+    borderRadius: "10px",
+    backgroundColor: theme.palette.primary.dark,
+    color: theme.palette.secondary.light,
+    "&.MuiTextField-root": {
+      marginRight: theme.spacing(1),
     },
-    content: {
-      flex: '1 1 auto',
-      padding:"5px",
-      borderRadius:'10px',
-      backgroundColor: theme.palette.primary.dark,
-      color: theme.palette.secondary.light,
-      '&.MuiTextField-root': {
-        marginRight: theme.spacing(1),
-      },
-    },
-    send: {
-    },
-})
+  },
+  send: {},
+});
 
-
-export default function Form({
-  addMessage,
-  channel,
-}) {
-  const [content, setContent] = useState('')
-  const styles = useStyles(useTheme())
+export default function Form({ addMessage, channel }) {
+  const [content, setContent] = useState("");
+  const styles = useStyles(useTheme());
   const onSubmit = async () => {
-    const {data: message} = await axios.post(
-      `http://localhost:3001/channels/${channel.id}/messages`
-    , {
-      content: content,
-      author: 'david',
-    })
-    addMessage(message)
-    setContent('')
-  }
+    const { data: message } = await axios.post(
+      `http://localhost:3001/channels/${channel.id}/messages`,
+      {
+        content: content,
+        author: "david",
+      }
+    );
+    addMessage(message);
+    setContent("");
+  };
   const handleChange = (e) => {
-    setContent(e.target.value)
-  }
+    setContent(e.target.value);
+  };
   return (
     <form css={styles.form} onSubmit={onSubmit} noValidate>
-     
       <InputBase
         id="outlined-multiline-flexible"
         sx={styles.content}
@@ -69,5 +63,10 @@ export default function Form({
         </Button>
       </div>
     </form>
-  )
+  );
 }
+
+Form.propTypes = {
+  addMessage: PropTypes.func.isRequired,
+  channel: PropTypes.element.isRequired,
+};

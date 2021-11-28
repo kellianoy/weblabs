@@ -1,27 +1,27 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 // Dark theme
 const theme = createTheme({
   palette: {
-    type: 'dark',
+    type: "dark",
     primary: {
-      main: '#1C1C1C',
-      light: '#242429',
-      dark: '#131313',
-      contrastText: '#ffffff',
-      textFont: 'Montserrat',
+      main: "#1C1C1C",
+      light: "#242429",
+      dark: "#131313",
+      contrastText: "#ffffff",
+      textFont: "Montserrat",
     },
     secondary: {
-      main: '#FFB734',
-      light: '#FFECC9',
-      dark: '#FFAE1C',
-      contrastText: '#292A2D',
-      textFont: 'Open Sans',
+      main: "#FFB734",
+      light: "#FFECC9",
+      dark: "#FFAE1C",
+      contrastText: "#292A2D",
+      textFont: "Open Sans",
     },
     misc: {
-      main: '#BB86FC',
-      contrastText: '#000000',
-    }, 
+      main: "#BB86FC",
+      contrastText: "#000000",
+    },
   },
   breakpoints: {
     xs: 0,
@@ -30,6 +30,6 @@ const theme = createTheme({
     lg: 1200,
     xl: 1536,
   },
-})
+});
 
-export default theme
+export default theme;
