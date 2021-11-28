@@ -5,7 +5,7 @@ import StarIcon from "@mui/icons-material/Star";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import Grid from "@mui/material/Grid";
 import { useTheme } from "@mui/styles";
-import ScaleUp from "./effects/ScaleUp";
+import ScaleUp from "../effects/ScaleUp";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import PropTypes from "prop-types";
 
@@ -76,6 +76,7 @@ const useStyles = (theme) => ({
   },
 });
 
+//This component exports the typetrack. call to action, before you log in in the website.
 export default function Start({ redirect }) {
   const theme = useTheme();
   const styles = useStyles(theme);

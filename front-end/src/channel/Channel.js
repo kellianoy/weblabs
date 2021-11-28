@@ -9,7 +9,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 // Local
 import Form from "./Form";
 import List from "./List";
-import Context from "../Context";
+import Context from "../context/Context";
 import { useNavigate, useParams } from "react-router-dom";
 import ChannelHeader from "./ChannelHeader";
 
@@ -65,7 +65,7 @@ export default function Channel() {
           listRef.current.scroll();
         }
       } catch (err) {
-        navigate("/oups");
+        navigate("/BadGateway");
       }
     };
     fetch();
@@ -90,7 +90,7 @@ export default function Channel() {
         onScrollDown={onScrollDown}
         ref={listRef}
       />
-      <Form addMessage={addMessage} channel={channel} />
+      <Form addMessage={addMessage} channel={channel} user={oauth} />
       <Fab
         color="primary"
         aria-label="Latest messages"

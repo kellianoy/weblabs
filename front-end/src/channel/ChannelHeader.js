@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 //Local
-import Context from "../Context";
+import Context from "../context/Context";
 
 const useStyles = (theme) => ({
   nameblock: {

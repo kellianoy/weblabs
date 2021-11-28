@@ -25,15 +25,16 @@ const useStyles = (theme) => ({
   send: {},
 });
 
-export default function Form({ addMessage, channel }) {
+export default function Form({ addMessage, channel, user }) {
   const [content, setContent] = useState("");
   const styles = useStyles(useTheme());
+
   const onSubmit = async () => {
     const { data: message } = await axios.post(
       `http://localhost:3001/channels/${channel.id}/messages`,
       {
         content: content,
-        author: "david",
+        author: user.email,
       }
     );
     addMessage(message);
@@ -68,5 +69,6 @@ export default function Form({ addMessage, channel }) {
 
 Form.propTypes = {
   addMessage: PropTypes.func.isRequired,
-  channel: PropTypes.element.isRequired,
+  channel: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };

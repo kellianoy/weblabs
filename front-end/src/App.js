@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { useContext } from "react";
 // Local
-import Oups from "./Oups";
+import BadGateway from "./misc/BadGateway";
 import Main from "./Main";
 import Login from "./Login";
-import Context from "./Context";
+import Context from "./context/Context";
 // Routes
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 
@@ -37,11 +37,10 @@ export default function App() {
   );
   return (
     <div className="App" css={styles.root}>
-      {/*<Header drawerToggleListener={drawerToggleListener}/>*/}
       <Routes>
         <Route exact path="/" element={oauth ? gochannels : <Login />} />
         <Route path="/channels/*" element={oauth ? <Main /> : gohome} />
-        <Route path="/Oups" element={<Oups />} />
+        <Route path="/BadGateway" element={<BadGateway />} />
       </Routes>
     </div>
   );

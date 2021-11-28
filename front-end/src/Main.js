@@ -8,10 +8,10 @@ import { Drawer } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import IconButton from "@mui/material/IconButton";
 // Local
-import Context from "./Context";
+import Context from "./context/Context";
 import Channels from "./channel/Channels";
 import Channel from "./channel/Channel";
-import Welcome from "./Welcome";
+import Welcome from "./misc/Home";
 
 import { Route, Routes } from "react-router-dom";
 

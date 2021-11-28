@@ -6,7 +6,7 @@ import { useTheme } from "@mui/styles";
 import { IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Tabs, { tabsClasses } from "@mui/material/Tabs";
+import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
@@ -21,8 +21,9 @@ import ListItemText from "@mui/material/ListItemText";
 import AppBar from "@mui/material/AppBar";
 import Tooltip from "@mui/material/Tooltip";
 import ArrowRight from "@mui/icons-material/ArrowRight";
+
 // Local
-import Context from "../Context";
+import Context from "../context/Context";
 
 const useStyles = (theme) => ({
   root: {
@@ -58,10 +59,9 @@ const StyledTabs = styled((props) => (
   "& .MuiTabs-indicator": {
     display: "flex",
     justifyContent: "center",
-    backgroundColor: "transparent",
+    bgcolor: "transparent",
   },
   "& .MuiTabs-indicatorSpan": {
-    maxWidth: 30,
     width: "100%",
     height: "30%",
     margin: "auto",
@@ -72,9 +72,6 @@ const StyledTabs = styled((props) => (
 const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
   ({ theme }) => ({
     textTransform: "none",
-    fontWeight: theme.typography.fontWeightRegular,
-    fontSize: theme.typography.pxToRem(15),
-    marginRight: theme.spacing(1),
     color: theme.palette.primary.contrastText,
     width: "90%",
     margin: "auto",
@@ -93,7 +90,8 @@ export default function Channels() {
   const theme = useTheme();
   const styles = useStyles(theme);
   const [value, setValue] = React.useState(0);
-  const handleChange = (event, newValue) => {
+  const handleChange = (e, newValue) => {
+    e.stopPropagation();
     setValue(newValue);
   };
   const { oauth, setOauth, channels, setChannels } = useContext(Context);
@@ -129,19 +127,14 @@ export default function Channels() {
           orientation="vertical"
           value={value}
           onChange={handleChange}
-          centered="true"
           variant="scrollable"
-          scrollButtons="auto"
-          sx={{
-            [`& .${tabsClasses.scrollButtons}`]: {
-              "&.Mui-disabled": { opacity: 0.3 },
-            },
-          }}
         >
           <StyledTab
             wrapped
             label="typetrack."
-            css={styles.typetrack}
+            value={0}
+            key={0}
+            sx={styles.typetrack}
             component={RouterLink}
             to="/channels"
           />
@@ -153,18 +146,21 @@ export default function Channels() {
               margin: "auto",
             }}
           />
-          {channels.map((channel, i) => (
-            <StyledTab
-              wrapped
-              label={channel.name}
-              key={i}
-              css={styles.channel}
-              onClick={(e) => {
-                e.preventDefault();
-                navigate(`/channels/${channel.id}`);
-              }}
-            />
-          ))}
+          {channels.map((channel, i) => {
+            return (
+              <StyledTab
+                wrapped
+                label={channel.name}
+                key={i + 1}
+                value={i + 1}
+                css={styles.channel}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(`/channels/${channel.id}`);
+                }}
+              />
+            );
+          })}
         </StyledTabs>
         <Divider
           variant="middle"

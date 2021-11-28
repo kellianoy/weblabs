@@ -139,7 +139,7 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
 
 List.propTypes = {
   onScrollDown: PropTypes.func.isRequired,
-  messages: PropTypes.element.isRequired,
+  messages: PropTypes.array.isRequired,
 };
 
 export default List;

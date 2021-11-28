@@ -2,10 +2,10 @@
 // Layout
 import { useTheme } from "@mui/styles";
 import { Grid, Typography } from "@mui/material";
-import { ReactComponent as ChannelIcon } from "./icons/channel.svg";
-import { ReactComponent as FriendsIcon } from "./icons/friends.svg";
-import { ReactComponent as SettingsIcon } from "./icons/settings.svg";
-import ChannelHeader from "./channel/ChannelHeader";
+import { ReactComponent as ChannelIcon } from "../icons/channel.svg";
+import { ReactComponent as FriendsIcon } from "../icons/friends.svg";
+import { ReactComponent as SettingsIcon } from "../icons/settings.svg";
+import ChannelHeader from "../channel/ChannelHeader";
 
 const useStyles = (theme) => ({
   root: {
@@ -23,7 +23,8 @@ const useStyles = (theme) => ({
   },
 });
 
-export default function Welcome() {
+//This component exports the typetrack. button screen : it is also the welcome screen of the application when you log in
+export default function Home() {
   const styles = useStyles(useTheme());
   return (
     <div css={styles.root}>

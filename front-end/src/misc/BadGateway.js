@@ -13,7 +13,8 @@ const useStyles = (theme) => ({
   },
 });
 
-export default function Oups() {
+//This component exports a error sentence, for a bad gateway
+export default function BadGateway() {
   const styles = useStyles(useTheme());
   return (
     <main css={styles.root}>

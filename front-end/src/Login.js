@@ -8,9 +8,9 @@ import axios from "axios";
 import { useTheme } from "@mui/styles";
 import { Link } from "@mui/material";
 // Local
-import Context from "./Context";
+import Context from "./context/Context";
 import { useNavigate } from "react-router-dom";
-import Start from "./Start";
+import Start from "./misc/Start";
 import PropTypes from "prop-types";
 
 const base64URLEncode = (str) => {
@@ -93,6 +93,22 @@ const LoadToken = ({ code, codeVerifier, config, removeCookie, setOauth }) => {
         );
         removeCookie("code_verifier");
         setOauth(data);
+        /*
+        //Now we now who is trying to get on the website : let's check if he is already in our database
+        const { data: userList } = await axios.get(
+          `http://localhost:3001/users`
+        );
+        //no: we need to create a new entry
+        if (!userList.find(data.email)) {
+          const { data: user } = await axios.post(
+            `http://localhost:3001/users`,
+            {
+              username: user.email,
+              email: user.email,
+            }
+          );
+        } */
+
         navigate("/");
       } catch (err) {
         console.error(err);
@@ -151,9 +167,9 @@ export default function Login() {
 }
 
 LoadToken.propTypes = {
-  code: PropTypes.element.isRequired,
-  codeVerifier: PropTypes.element.isRequired,
-  config: PropTypes.element.isRequired,
+  code: PropTypes.string.isRequired,
+  codeVerifier: PropTypes.string.isRequired,
+  config: PropTypes.object.isRequired,
   removeCookie: PropTypes.func.isRequired,
   setOauth: PropTypes.func.isRequired,
 };
@@ -163,6 +179,6 @@ Tokens.propTypes = {
 };
 
 Redirect.propTypes = {
-  codeVerifier: PropTypes.element.isRequired,
-  config: PropTypes.element.isRequired,
+  codeVerifier: PropTypes.string.isRequired,
+  config: PropTypes.object.isRequired,
 };
