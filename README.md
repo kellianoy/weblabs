@@ -1,6 +1,7 @@
-# Typetrack chat application - Final Project
+# typetrack. chat application - Final Project
 
-*presentation, introduction, ...*
+Today, we're presenting our brand new chat application : typetrack.
+Inspired by Keybase & Discord, it aims to be a convivial yet luxury chatting app.
 
 ## Usage
 
@@ -71,7 +72,12 @@ Yann MESSALATI :
 Project management
 
 * Naming convention   
-  *place your graduation and comments*
+  
+  We used camel case convention : 
+  - Components as `Component.js`
+  - Functions & variables as `myFunction` & `variable`
+  Source : https://en.wikipedia.org/wiki/Camel_case
+  
 * Project structure   
   *place your graduation and comments*
 * Code quality   
