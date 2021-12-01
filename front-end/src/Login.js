@@ -75,6 +75,24 @@ const Tokens = ({ oauth }) => {
   );
 };
 
+//To get the users in the db
+async function getUsers() {
+  return await axios.get(`http://localhost:3001/users`).then((res) => res.data);
+}
+
+//find return an element
+//data.find((element) => element.email == "kellian.cottart@edu.ece.fr")
+
+//using an email, create a new user entry in the db
+async function createUser(email) {
+  //To get the users in the db
+  const res = await axios.post(`http://localhost:3001/users`, {
+    username: email,
+    email: email,
+  });
+  return res.data;
+}
+
 const LoadToken = ({ code, codeVerifier, config, removeCookie, setOauth }) => {
   const styles = useStyles(useTheme());
   const navigate = useNavigate();
@@ -93,23 +111,12 @@ const LoadToken = ({ code, codeVerifier, config, removeCookie, setOauth }) => {
         );
         removeCookie("code_verifier");
         setOauth(data);
-        /*
-        //Now we now who is trying to get on the website : let's check if he is already in our database
-        const { data: userList } = await axios.get(
-          `http://localhost:3001/users`
-        );
-        //no: we need to create a new entry
-        if (!userList.find(data.email)) {
-          const { data: user } = await axios.post(
-            `http://localhost:3001/users`,
-            {
-              username: user.email,
-              email: user.email,
-            }
-          );
-        } */
-
         navigate("/");
+        //If there is not already a user with that email, let's create one, if not do nothing
+        getUsers().then((users) => {
+          if (!users.find((user) => user.email == data.email))
+            createUser(data.email);
+        });
       } catch (err) {
         console.error(err);
       }

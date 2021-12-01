@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useContext, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 // Layout
 import { useTheme } from "@mui/styles";
 import { IconButton } from "@mui/material";
@@ -89,11 +90,8 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
 export default function Channels() {
   const theme = useTheme();
   const styles = useStyles(theme);
-  const [value, setValue] = React.useState(0);
-  const handleChange = (e, newValue) => {
-    e.stopPropagation();
-    setValue(newValue);
-  };
+  //let's get what channel is used to be able to set our current channel
+  const id = useParams();
   const { oauth, setOauth, channels, setChannels } = useContext(Context);
   const navigate = useNavigate();
   useEffect(() => {
@@ -108,12 +106,22 @@ export default function Channels() {
           }
         );
         setChannels(channels);
+        channels.map((channel, i) => {
+          //Current channel is the one with a matching id to the url id
+          if (channel.id == id["*"]) setValue(i + 1);
+        });
       } catch (err) {
         console.error(err);
       }
     };
     fetch();
   }, [oauth, setChannels]);
+
+  const [value, setValue] = React.useState(0);
+  const handleChange = (e, newValue) => {
+    e.stopPropagation();
+    setValue(newValue);
+  };
 
   const onClickLogout = (e) => {
     e.stopPropagation();
