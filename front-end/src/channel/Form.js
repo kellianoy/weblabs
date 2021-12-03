@@ -19,16 +19,15 @@ const useStyles = (theme) => ({
     backgroundColor: theme.palette.primary.dark,
     color: theme.palette.secondary.light,
     "&.MuiTextField-root": {
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacing(5),
     },
   },
-  send: {},
+  send: { marginLeft: "10%" },
 });
 
 export default function Form({ addMessage, channel, user }) {
   const [content, setContent] = useState("");
   const styles = useStyles(useTheme());
-
   const onSubmit = async () => {
     const { data: message } = await axios.post(
       `http://localhost:3001/channels/${channel.id}/messages`,
