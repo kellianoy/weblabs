@@ -9,7 +9,7 @@ import ChannelHeader from "../channel/ChannelHeader";
 
 const useStyles = (theme) => ({
   root: {
-    flex: "1 6",
+    flex: "1 1",
     display: "flex",
     flexDirection: "column",
     background: theme.palette.primary.light,
@@ -29,32 +29,35 @@ export default function Home() {
   return (
     <div css={styles.root}>
       <ChannelHeader name={"Home"} />
-      <Grid
-        container
-        direction="row"
-        justify="center"
-        alignItems="center"
-        spacing={5}
-      >
-        <Grid item xs>
-          <div css={styles.card}>
-            <ChannelIcon css={styles.icon} />
-            <Typography color="contrastText">Create channels</Typography>
-          </div>
+      <div>
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+          spacing={5}
+          css={{ margin: "auto" }}
+        >
+          <Grid item xs>
+            <div css={styles.card}>
+              <ChannelIcon css={styles.icon} />
+              <Typography color="contrastText">Create channels</Typography>
+            </div>
+          </Grid>
+          <Grid item xs>
+            <div css={styles.card}>
+              <FriendsIcon css={styles.icon} />
+              <Typography color="contrastText">Invite friends</Typography>
+            </div>
+          </Grid>
+          <Grid item xs>
+            <div css={styles.card}>
+              <SettingsIcon css={styles.icon} />
+              <Typography color="contrastText">Settings</Typography>
+            </div>
+          </Grid>
         </Grid>
-        <Grid item xs>
-          <div css={styles.card}>
-            <FriendsIcon css={styles.icon} />
-            <Typography color="contrastText">Invite friends</Typography>
-          </div>
-        </Grid>
-        <Grid item xs>
-          <div css={styles.card}>
-            <SettingsIcon css={styles.icon} />
-            <Typography color="contrastText">Settings</Typography>
-          </div>
-        </Grid>
-      </Grid>
+      </div>
     </div>
   );
 }
