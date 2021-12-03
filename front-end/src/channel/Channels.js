@@ -12,7 +12,7 @@ import Tab from "@mui/material/Tab";
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import Divider from "@mui/material/Divider";
-import FolderIcon from "@mui/icons-material/Folder";
+import Gravatar from "react-gravatar";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Avatar from "@mui/material/Avatar";
 import List from "@mui/material/List";
@@ -195,7 +195,7 @@ export default function Channels() {
                   height: "36px",
                 }}
               >
-                <FolderIcon />
+                <Gravatar email={oauth.email} size={36} />
               </Avatar>
             </ListItemAvatar>
             <ListItemText
