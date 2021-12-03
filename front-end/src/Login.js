@@ -75,24 +75,6 @@ const Tokens = ({ oauth }) => {
   );
 };
 
-//To get the users in the db
-async function getUsers() {
-  return await axios.get(`http://localhost:3001/users`).then((res) => res.data);
-}
-
-//find return an element
-//data.find((element) => element.email == "kellian.cottart@edu.ece.fr")
-
-//using an email, create a new user entry in the db
-async function createUser(email) {
-  //To get the users in the db
-  const res = await axios.post(`http://localhost:3001/users`, {
-    username: email,
-    email: email,
-  });
-  return res.data;
-}
-
 const LoadToken = ({ code, codeVerifier, config, removeCookie, setOauth }) => {
   const styles = useStyles(useTheme());
   const navigate = useNavigate();
@@ -109,14 +91,26 @@ const LoadToken = ({ code, codeVerifier, config, removeCookie, setOauth }) => {
             code: `${code}`,
           })
         );
+        //We remove the codeverifier from the cookies
         removeCookie("code_verifier");
+        //We set our data as our oauth factor -> we can get the email and all
         setOauth(data);
-        navigate("/");
-        //If there is not already a user with that email, let's create one, if not do nothing
-        getUsers().then((users) => {
-          if (!users.find((user) => user.email == data.email))
-            createUser(data.email);
+        //To get the users in the db
+        const { data: users } = await axios.get(`http://localhost:3001/users`, {
+          headers: {
+            Authorization: `Bearer ${data.access_token}`,
+          },
         });
+        //If there is not already a user with that email, let's create one, if not do nothing
+        //using an email, create a new user entry in the db
+        if (!users.find((user) => user.email == data.email)) {
+          //Function to create a user in the db
+          await axios.post(`http://localhost:3001/users`, {
+            username: data.email,
+            email: data.email,
+          });
+        }
+        navigate("/");
       } catch (err) {
         console.error(err);
       }

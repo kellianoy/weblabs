@@ -71,7 +71,12 @@ app.post('/users', async (req, res) => {
 })
 
 app.get('/users/:id', async (req, res) => {
-  const user = await db.users.get(req.params.id)
+  const user = await db.users.getID(req.params.id)
+  res.json(user)
+})
+
+app.get('/users/:email', async (req, res) => {
+  const user = await db.users.getEmail(req.params.email)
   res.json(user)
 })
 

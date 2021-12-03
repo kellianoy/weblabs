@@ -93,6 +93,7 @@ export default function Channels() {
   //let's get what channel is used to be able to set our current channel
   const id = useParams();
   const { oauth, setOauth, channels, setChannels } = useContext(Context);
+
   const navigate = useNavigate();
   useEffect(() => {
     const fetch = async () => {

@@ -8,7 +8,8 @@ const db = level(__dirname + '/../db')
 module.exports = {
   channels: {
     create: async (channel) => {
-      if(!channel.name) throw Error('Invalid channel')
+      if(!channel.name) throw Error('Invalid channel name')
+      if(!channel.owner) throw Error('Invalid channel creator')
       const id = uuid()
       await db.put(`channels:${id}`, JSON.stringify(channel))
       return merge(channel, {id: id})
@@ -81,16 +82,25 @@ module.exports = {
   },
   users: {
     create: async (user) => {
+      if(!user.username) throw Error('No username given')
       if(!user.email) throw Error('No email given')
       const id = uuid()
+      //Entry in the lookup table
+      await db.put(`usersByEmail:${ user.email}`, JSON.stringify(id))
       await db.put(`users:${id}`, JSON.stringify(user))
       return merge(user, {id: id})
     },
-    get: async (id) => {
+    getID: async (id) => {
       if(!id) throw Error('Invalid id')
       const data = await db.get(`users:${id}`)
       const user = JSON.parse(data)
       return merge(user, {id: id})
+    },
+    getEmail: async (email) => {
+      if(!id) throw Error('Invalid mail')
+      const data = await db.get(`usersByEmail:${email}`)
+      const user = JSON.parse(data)
+      return merge(user, {email: email})
     },
     list: async () => {
       return new Promise( (resolve, reject) => {
@@ -115,8 +125,9 @@ module.exports = {
       store.users[id] = merge(original, user)
     },
     delete: (id) => {
-      const original = store.users[id]
-      if(!original) throw Error('Unregistered user id')
+      if(!store.users[id]) throw Error('Unregistered user id')
+      if(!store.usersByEmail[store.users[id].email]) throw Error('Unregistered user email')
+      delete store.usersByEmail[store.users[id].email]
       delete store.users[id]
     }
   },

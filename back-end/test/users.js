@@ -19,24 +19,26 @@ describe('users', () => {
   
   it('list one element', async () => {
     // Create a user
-    await supertest(app)
+    const {body: user} = await supertest(app)
     .post('/users')
-    .send({email: 'user_1'})
+    .send({username: 'user_1', email: 'user_1'})
+    .expect(201)
     // Ensure we list the users correctly
     const {body: users} = await supertest(app)
     .get('/users')
     .expect(200)
     users.should.match([{
       id: /^\w+-\w+-\w+-\w+-\w+$/,
-      email: 'user_1'
+      username: user.username,
+      email: user.email,
     }])
   })
   
   it('add one element', async () => {
     // Create a user
-    const {body: user} = await supertest(app)
+    await supertest(app)
     .post('/users')
-    .send({email: 'user_1'})
+    .send({username: 'user_1', email: 'user_1'})
     .expect(201)
     // Check its return value
     // Check it was correctly inserted
@@ -49,7 +51,8 @@ describe('users', () => {
     // Create a user
     const {body: user1} = await supertest(app)
     .post('/users')
-    .send({email: 'user_1'})
+    .send({username: 'user_1', email: 'user_1'})
+    .expect(201)
     // Check it was correctly inserted
     const {body: user} = await supertest(app)
     .get(`/users/${user1.id}`)
