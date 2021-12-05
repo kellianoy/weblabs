@@ -8,10 +8,18 @@ const db = level(__dirname + '/../db')
 module.exports = {
   channels: {
     create: async (channel) => {
+      console.log(channel)
       if(!channel.name) throw Error('Invalid channel name')
       if(!channel.owner) throw Error('Invalid channel creator')
       const id = uuid()
-      await db.put(`channels:${id}`, JSON.stringify(channel))
+      //we have a new ID, now we have to add the channel to the owner
+      const data = await db.get(`users:${channel.owner}`)
+      var user = JSON.parse(data)
+      user.channels.push(id)
+      //Then we create a new channel entry
+      await db.put(`channels:${id}`, JSON.stringify(merge(channel, {users:[]})))
+      //Then we update the entry of the user
+      await db.put(`users:${channel.owner}`, JSON.stringify(user))
       return merge(channel, {id: id})
     },
     get: async (id) => {
@@ -37,15 +45,17 @@ module.exports = {
         })
       })
     },
-    update: (id, channel) => {
-      const original = store.channels[id]
+    update: async (id, channel) => {
+      //Get the original channel
+      const original = JSON.parse(await db.get(`channels:${id}`))
       if(!original) throw Error('Unregistered channel id')
-      store.channels[id] = merge(original, channel)
+      await db.put(`channels:${id}`, JSON.stringify(merge(original, channel)))
+      //return the new one
+      return merge(original, channel)
     },
-    delete: (id, channel) => {
-      const original = store.channels[id]
-      if(!original) throw Error('Unregistered channel id')
-      delete store.channels[id]
+    delete: async (id) => {
+      if (!id) throw Error("No id given")
+      await db.del(`channels:${id}`)
     }
   },
   messages: {
@@ -85,10 +95,11 @@ module.exports = {
       if(!user.username) throw Error('No username given')
       if(!user.email) throw Error('No email given')
       const id = uuid()
+      const merged=merge(user, {id: id})
       //Entry in the lookup table
-      await db.put(`usersByEmail:${ user.email}`, JSON.stringify(id))
-      await db.put(`users:${id}`, JSON.stringify(user))
-      return merge(user, {id: id})
+      await db.put(`users_email:${user.email}`, JSON.stringify({id: id}))
+      await db.put(`users:${id}`, JSON.stringify(merge(user, {channels:[]})))
+      return merged
     },
     getID: async (id) => {
       if(!id) throw Error('Invalid id')
@@ -97,8 +108,8 @@ module.exports = {
       return merge(user, {id: id})
     },
     getEmail: async (email) => {
-      if(!id) throw Error('Invalid mail')
-      const data = await db.get(`usersByEmail:${email}`)
+      if(!email) throw Error('Invalid email')
+      const data = await db.get(`users_email:${email}`)
       const user = JSON.parse(data)
       return merge(user, {email: email})
     },

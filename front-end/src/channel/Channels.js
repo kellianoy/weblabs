@@ -12,8 +12,8 @@ import Tab from "@mui/material/Tab";
 import { useNavigate } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import Divider from "@mui/material/Divider";
-import Gravatar from "react-gravatar";
 import SettingsIcon from "@mui/icons-material/Settings";
+import Gravatar from "react-gravatar";
 import Avatar from "@mui/material/Avatar";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -25,7 +25,6 @@ import ArrowRight from "@mui/icons-material/ArrowRight";
 
 // Local
 import Context from "../context/Context";
-
 const useStyles = (theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
@@ -98,8 +97,41 @@ export default function Channels() {
   useEffect(() => {
     const fetch = async () => {
       try {
+        //First get the user id in the db using the lookup table
+        /*
+        const { data: userid } = await axios.get(
+          `http://localhost:3001/users/e/${oauth.email}`,
+          {
+            headers: {
+              Authorization: `Bearer ${oauth.access_token}`,
+            },
+          }
+        );
+        //Then get the user in the db
+        const { data: user } = await axios.get(
+          `http://localhost:3001/users/${userid.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${oauth.access_token}`,
+            },
+          }
+        );
+        //Then get its channels
+        const myChannels = [];
+        //Like we only have the channels ID we have to build it back from the ground up
+        user.channels.map(async (channel) => {
+          const { data: current } = await axios.get(
+            `http://localhost:3001/channels/${channel}`,
+            {
+              headers: {
+                Authorization: `Bearer ${oauth.access_token}`,
+              },
+            }
+          );
+          myChannels.push(current);
+        }); */
         const { data: channels } = await axios.get(
-          "http://localhost:3001/channels",
+          `http://localhost:3001/channels/`,
           {
             headers: {
               Authorization: `Bearer ${oauth.access_token}`,
@@ -155,6 +187,9 @@ export default function Channels() {
               margin: "auto",
             }}
           />
+          {!channels.length && (
+            <StyledTab wrapped label="No channels" css={styles.channel} />
+          )}
           {channels.map((channel, i) => {
             return (
               <StyledTab

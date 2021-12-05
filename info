@@ -1,0 +1,8 @@
+/* 
+        //How to create a new channel
+        const { data: newchannel } = await axios.post(
+          "http://localhost:3001/channels/",
+          { name: "channel", owner: user.id }
+        ); 
+        console.log(newchannel);
+        */

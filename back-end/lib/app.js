@@ -31,13 +31,18 @@ app.post('/channels', async (req, res) => {
   res.status(201).json(channel)
 })
 
-app.get('/channels/:id', async (req, res) => {
+app.get('/channels/:id', authenticate, async (req, res) => {
   const channel = await db.channels.get(req.params.id)
   res.json(channel)
 })
 
-app.put('/channels/:id', async (req, res) => {
-  const channel = await db.channels.update(req.body)
+app.put('/channels/:id', authenticate, async (req, res) => {
+  const channel = await db.channels.update(req.params.id, req.body)
+  res.json(channel)
+})
+
+app.delete('/channels/:id', authenticate, async (req, res) => {
+  const channel = await db.channels.delete(req.params.id)
   res.json(channel)
 })
 
@@ -75,7 +80,7 @@ app.get('/users/:id', async (req, res) => {
   res.json(user)
 })
 
-app.get('/users/:email', async (req, res) => {
+app.get('/users/e/:email', async (req, res) => {
   const user = await db.users.getEmail(req.params.email)
   res.json(user)
 })
