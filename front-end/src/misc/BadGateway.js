@@ -4,8 +4,8 @@ import { useTheme } from "@mui/styles";
 
 const useStyles = (theme) => ({
   root: {
-    background: theme.palette.background.default,
-    overflow: "hidden",
+    bgcolor: theme.palette.primary.dark,
+    color: theme.palette.primary.contrastText,
     flex: "1 1 auto",
     display: "flex",
     justifyContent: "center",

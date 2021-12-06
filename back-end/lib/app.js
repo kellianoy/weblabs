@@ -36,6 +36,18 @@ app.get('/channels/:id', authenticate, async (req, res) => {
   res.json(channel)
 })
 
+//list user channels
+app.get('/users/channels/:email', authenticate, async (req, res) => {
+  const channel = await db.channels.listUserChannels(req.params.email)
+  res.json(channel)
+})
+
+//list channel users
+app.get('/channels/users/:id', authenticate, async (req, res) => {
+  const users = await db.channels.listChannelUsers(req.params.id)
+  res.json(users)
+})
+
 app.put('/channels/:id', authenticate, async (req, res) => {
   const channel = await db.channels.update(req.params.id, req.body)
   res.json(channel)

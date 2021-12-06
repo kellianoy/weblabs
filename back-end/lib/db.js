@@ -8,18 +8,20 @@ const db = level(__dirname + '/../db')
 module.exports = {
   channels: {
     create: async (channel) => {
-      console.log(channel)
       if(!channel.name) throw Error('Invalid channel name')
       if(!channel.owner) throw Error('Invalid channel creator')
       const id = uuid()
       //we have a new ID, now we have to add the channel to the owner
-      const data = await db.get(`users:${channel.owner}`)
-      var user = JSON.parse(data)
+      const data = await db.get(`users_email:${channel.owner}`)
+      const userID = JSON.parse(data)
+      const data2 = await db.get(`users:${userID.id}`)
+      const user = JSON.parse(data2)
+      channel = merge(channel, {owner: userID.id} )
       user.channels.push(id)
       //Then we create a new channel entry
-      await db.put(`channels:${id}`, JSON.stringify(merge(channel, {users:[]})))
+      await db.put(`channels:${id}`, JSON.stringify(merge(channel, {users:[userID.id]})))
       //Then we update the entry of the user
-      await db.put(`users:${channel.owner}`, JSON.stringify(user))
+      await db.put(`users:${userID.id}`, JSON.stringify(user))
       return merge(channel, {id: id})
     },
     get: async (id) => {
@@ -42,6 +44,50 @@ module.exports = {
           reject(err)
         }).on( 'end', () => {
           resolve(channels)
+        })
+      })
+    },
+    listUserChannels: async (email) => {
+      const data = await db.get(`users_email:${email}`)
+      const userID = JSON.parse(data)
+      const data2 = await db.get(`users:${userID.id}`)
+      const user = JSON.parse(data2)
+      //Now that we have our array, we can get only the channels that we want
+      return new Promise( (resolve, reject) => {
+        const channels = []
+        db.createReadStream({
+          gt: "channels:",
+          lte: "channels" + String.fromCharCode(":".charCodeAt(0) + 1),
+        }).on( 'data', ({key, value}) => {
+          channel = JSON.parse(value)
+          channel.id = key.split(':')[1]
+          if(user.channels.includes(channel.id))
+            channels.push(channel)
+        }).on( 'error', (err) => {
+          reject(err)
+        }).on( 'end', () => {
+          resolve(channels)
+        })
+      })
+    },
+    listChannelUsers: async (id) => {
+      const data = await db.get(`channels:${id}`)
+      const channel = JSON.parse(data)
+      //Now that we have our array, we can get only the channels that we want
+      return new Promise( (resolve, reject) => {
+        const users = []
+        db.createReadStream({
+          gt: "users:",
+          lte: "users" + String.fromCharCode(":".charCodeAt(0) + 1),
+        }).on( 'data', ({key, value}) => {
+          user = JSON.parse(value)
+          user.id = key.split(':')[1]
+          if(channel.users.includes(user.id))
+            users.push(user)
+        }).on( 'error', (err) => {
+          reject(err)
+        }).on( 'end', () => {
+          resolve(users)
         })
       })
     },

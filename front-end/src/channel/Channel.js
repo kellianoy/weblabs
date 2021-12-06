@@ -65,7 +65,7 @@ export default function Channel() {
           listRef.current.scroll();
         }
       } catch (err) {
-        navigate("/BadGateway");
+        navigate("/404");
       }
     };
     fetch();

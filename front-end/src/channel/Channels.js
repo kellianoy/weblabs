@@ -25,6 +25,8 @@ import ArrowRight from "@mui/icons-material/ArrowRight";
 
 // Local
 import Context from "../context/Context";
+import Useritem from "./Useritem";
+
 const useStyles = (theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
@@ -97,41 +99,8 @@ export default function Channels() {
   useEffect(() => {
     const fetch = async () => {
       try {
-        //First get the user id in the db using the lookup table
-        /*
-        const { data: userid } = await axios.get(
-          `http://localhost:3001/users/e/${oauth.email}`,
-          {
-            headers: {
-              Authorization: `Bearer ${oauth.access_token}`,
-            },
-          }
-        );
-        //Then get the user in the db
-        const { data: user } = await axios.get(
-          `http://localhost:3001/users/${userid.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${oauth.access_token}`,
-            },
-          }
-        );
-        //Then get its channels
-        const myChannels = [];
-        //Like we only have the channels ID we have to build it back from the ground up
-        user.channels.map(async (channel) => {
-          const { data: current } = await axios.get(
-            `http://localhost:3001/channels/${channel}`,
-            {
-              headers: {
-                Authorization: `Bearer ${oauth.access_token}`,
-              },
-            }
-          );
-          myChannels.push(current);
-        }); */
         const { data: channels } = await axios.get(
-          `http://localhost:3001/channels/`,
+          `http://localhost:3001/users/channels/${oauth.email}`,
           {
             headers: {
               Authorization: `Bearer ${oauth.access_token}`,
@@ -149,6 +118,18 @@ export default function Channels() {
     };
     fetch();
   }, [oauth, setChannels]);
+
+  const getUsers = async (channel) => {
+    const { data: users } = await axios.get(
+      `http://localhost:3001/channels/users/${channel}`,
+      {
+        headers: {
+          Authorization: `Bearer ${oauth.access_token}`,
+        },
+      }
+    );
+    return users;
+  };
 
   const [value, setValue] = React.useState(0);
   const handleChange = (e, newValue) => {
@@ -211,7 +192,20 @@ export default function Channels() {
           css={{ backgroundColor: theme.palette.primary.contrastText }}
         />
       </Box>
-
+      <Box>
+        {channels.map((channel, index) => {
+          if (channel.id === id["*"]) {
+            const users = getUsers(channel.id);
+            return (
+              <div key={index}>
+                {users.map((user, i) => {
+                  return <Useritem user={user} key={i} />;
+                })}
+              </div>
+            );
+          }
+        })}
+      </Box>
       <AppBar
         position="absolute"
         sx={{

@@ -18,7 +18,7 @@ describe('messages', () => {
     //Create channel
     const {body: channel} = await supertest(app)
     .post('/channels')
-    .send({name: 'channel 1', owner: user1.id})
+    .send({name: 'channel 1', owner: user1.email})
     .expect(201)
     // Get messages
     const {body: messages} = await supertest(app)
@@ -34,9 +34,9 @@ describe('messages', () => {
     .send({username: 'user_1', email:'user_1'})
     //Create channel
     const {body: channel} = await supertest(app)
-    .post('/channels')
-    .send({name: 'channel 1', owner: user1.id})
-    .expect(201)
+     .post('/channels')
+     .send({name: 'channel 1', owner: user1.email})
+     .expect(201)
     // and a message inside it
     await supertest(app)
     .post(`/channels/${channel.id}/messages`)
@@ -59,9 +59,9 @@ describe('messages', () => {
     .send({username: 'user_1', email:'user_1'})
     //Create channel
     const {body: channel} = await supertest(app)
-    .post('/channels')
-    .send({name: 'channel 1', owner: user1.id})
-    .expect(201)
+     .post('/channels')
+     .send({name: 'channel 1', owner: user1.email})
+     .expect(201)
     // Create a message inside it
     const {body: message} = await supertest(app)
     .post(`/channels/${channel.id}/messages`)
