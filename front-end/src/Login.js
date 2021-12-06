@@ -139,7 +139,6 @@ export default function Login() {
     // no: we are not being redirected from an oauth server
     if (!oauth) {
       const codeVerifier = base64URLEncode(crypto.randomBytes(32));
-      console.log("set code_verifier", codeVerifier);
       setCookie("code_verifier", codeVerifier);
       return (
         <Redirect
@@ -154,7 +153,6 @@ export default function Login() {
     }
   } else {
     // yes: we are coming from an oauth server
-    console.log("get code_verifier", cookies.code_verifier);
     return (
       <LoadToken
         code={code}

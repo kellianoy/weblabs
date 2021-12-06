@@ -106,6 +106,7 @@ export default function Channels() {
             },
           }
         );
+        console.log(channels);
         setChannels(channels);
         //set the current channel to the one in parameters
         if (id)

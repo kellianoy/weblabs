@@ -39,6 +39,66 @@ describe('channels', () => {
       }])
     })  
   })
+
+  describe( 'get', () => {
+      
+  it('get channel', async () => {
+    // Create a user
+    const {body: user1} = await supertest(app)
+    .post('/users')
+    .send({username: 'user_1', email:'user_1'}) 
+    //Create channel
+    const {body: channel1} = await supertest(app)
+    .post('/channels')
+    .send({name: 'channel 1', owner: user1.email})
+    .expect(201)
+    // Check it was correctly inserted
+    const {body: channel} = await supertest(app)
+    .get(`/channels/${channel1.id}`)
+    .expect(200)
+    channel.name.should.eql('channel 1')
+  })
+
+  it('get channels of a user', async () => {
+    // Create a user
+    const {body: user1} = await supertest(app)
+    .post('/users')
+    .send({username: 'user_1', email:'user_1'})
+    //Create channel
+    const {body: channel1} = await supertest(app)
+    .post('/channels')
+    .send({name: 'yappa', owner: user1.email})
+    .expect(201)
+    // Get list of channels of this user
+    const {body: channels} = await supertest(app)
+    .get(`/users/channels/${user1.email}`)
+    .expect(200)
+    channels.should.match([{
+      name: 'yappa',
+      owner: user1.id,
+    }])
+  })
+    
+    it('get users of a channel', async () => {
+      // Create a user
+      const {body: user2} = await supertest(app)
+      .post('/users')
+      .send({username: 'user_2', email:'user_2'})
+       //Create channel
+       const {body: channel1} = await supertest(app)
+       .post('/channels')
+       .send({name: 'channel 1', owner: user2.email})
+       .expect(201)
+      // Get list of channels of this user
+      const {body: users} = await supertest(app)
+      .get(`/channels/users/${channel1.id}`)
+      .expect(200)
+      users.should.match([{
+        username: user2.username,
+        email: user2.email
+      }])
+    })
+  })
   
   it('create one element', async () => {
     // Create a user
@@ -66,84 +126,6 @@ describe('channels', () => {
     .get('/channels')
     channels.length.should.eql(1)
   })
-  
-  it('get channel', async () => {
-    // Create a user
-    const {body: user1} = await supertest(app)
-    .post('/users')
-    .send({username: 'user_1', email:'user_1'}) 
-    //Create channel
-    const {body: channel1} = await supertest(app)
-    .post('/channels')
-    .send({name: 'channel 1', owner: user1.email})
-    .expect(201)
-    // Check it was correctly inserted
-    const {body: channel} = await supertest(app)
-    .get(`/channels/${channel1.id}`)
-    .expect(200)
-    channel.name.should.eql('channel 1')
-  })
-
-  it('get channels of a user', async () => {
-    // Create a user
-    const {body: user1} = await supertest(app)
-    .post('/users')
-    .send({username: 'user_1', email:'user_1'})
-    //Create a 2nd user
-    // Create a user
-    const {body: user2} = await supertest(app)
-    .post('/users')
-    .send({username: 'user_2', email:'user_2'})
-     //Create channel
-     const {body: channel1} = await supertest(app)
-     .post('/channels')
-     .send({name: 'channel 1', owner: user2.email})
-     .expect(201)
-    //Create channel
-    const {body: channel2} = await supertest(app)
-    .post('/channels')
-    .send({name: 'Yippy', owner: user1.email})
-    .expect(201)
-
-    // Get list of channels of this user
-    const {body: channels} = await supertest(app)
-    .get(`/users/channels/${user1.email}`)
-    .expect(200)
-    channels.should.match([{
-      name: 'Yippy',
-      owner: user1.id,
-    }])
-  })
-    
-    it('get users of a channel', async () => {
-      // Create a user
-      const {body: user1} = await supertest(app)
-      .post('/users')
-      .send({username: 'user_1', email:'user_1'})
-      //Create a 2nd user
-      // Create a user
-      const {body: user2} = await supertest(app)
-      .post('/users')
-      .send({username: 'user_2', email:'user_2'})
-       //Create channel
-       const {body: channel1} = await supertest(app)
-       .post('/channels')
-       .send({name: 'channel 1', owner: user2.email})
-       .expect(201)
-      //Create channel
-      const {body: channel2} = await supertest(app)
-      .post('/channels')
-      .send({name: 'Yippy', owner: user1.email})
-      .expect(201)
-      // Get list of channels of this user
-      const {body: users} = await supertest(app)
-      .get(`/channels/users/${channel1.id}`)
-      .expect(200)
-      users.should.match([{
-        username: user2.username,
-        email: user2.email
-      }])
-    })
 
   it('update channel', async () => {
     // Create a user
