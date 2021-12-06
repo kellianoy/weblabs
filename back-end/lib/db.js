@@ -156,8 +156,10 @@ module.exports = {
     getEmail: async (email) => {
       if(!email) throw Error('Invalid email')
       const data = await db.get(`users_email:${email}`)
-      const user = JSON.parse(data)
-      return merge(user, {email: email})
+      const userE = JSON.parse(data)
+      const data2 = await db.get(`users:${userE.id}`)
+      const user = JSON.parse(data2)
+      return merge(user)
     },
     list: async () => {
       return new Promise( (resolve, reject) => {

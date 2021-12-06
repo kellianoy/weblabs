@@ -4,27 +4,20 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 // Layout
 import { useTheme } from "@mui/styles";
-import { IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useNavigate } from "react-router-dom";
 import Divider from "@mui/material/Divider";
-import SettingsIcon from "@mui/icons-material/Settings";
-import Gravatar from "react-gravatar";
-import Avatar from "@mui/material/Avatar";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemText from "@mui/material/ListItemText";
-import AppBar from "@mui/material/AppBar";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
-import ArrowRight from "@mui/icons-material/ArrowRight";
+
 // Local
 import Context from "../context/Context";
 import Useritem from "./Useritem";
-
+import AuthenticatedUser from "./AuthenticatedUser";
 const useStyles = (theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
@@ -73,9 +66,9 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
   ({ theme }) => ({
     textTransform: "none",
     color: theme.palette.primary.contrastText,
-    width: "90%",
+    width: "95%",
     margin: "auto",
-    marginTop: "4px",
+    marginTop: "2px",
     "&.Mui-selected": {
       color: theme.palette.misc.main,
     },
@@ -91,7 +84,7 @@ export default function Channels() {
   const styles = useStyles(theme);
   //let's get what channel is being used
   const [id, setID] = useState(useParams()["*"]);
-  const { oauth, setOauth, channels, setChannels } = useContext(Context);
+  const { oauth, channels, setChannels } = useContext(Context);
   //Setting a hook for a list of channel users
   const [channelUsers, setChannelUsers] = useState([]);
   const navigate = useNavigate();
@@ -141,160 +134,104 @@ export default function Channels() {
     setValue(newValue);
   };
 
-  const onClickLogout = (e) => {
-    e.stopPropagation();
-    setOauth(null);
-  };
-
   return (
     <div css={styles.root}>
-      <Box sx={{ flexGrow: 1 }}>
-        <StyledTabs
-          orientation="vertical"
-          value={value}
-          onChange={handleChange}
-          variant="scrollable"
+      <Box>
+        <Box
+          sx={{
+            display: "flex",
+            flex: "1 1 auto",
+            flexDirection: "column",
+          }}
         >
-          <StyledTab
-            wrapped
-            label="typetrack."
-            value={0}
-            key={0}
-            sx={styles.typetrack}
-            onClick={(e) => {
-              e.preventDefault();
-              //go to this channel
-              setID();
-              navigate(`/channels/`);
-            }}
-          />
-          <Divider
-            variant="middle"
-            css={{
-              backgroundColor: theme.palette.primary.contrastText,
-              width: "20%",
-              margin: "auto",
-            }}
-          />
-          {!channels.length && (
-            <StyledTab wrapped label="No channels" css={styles.channel} />
-          )}
-          {channels.map((channel, i) => {
-            return (
-              <StyledTab
-                wrapped
-                label={channel.name}
-                key={i + 1}
-                value={i + 1}
-                css={styles.channel}
-                onClick={(e) => {
-                  e.preventDefault();
-                  //go to this channel
-                  setID(channel.id);
-                  navigate(`/channels/${channel.id}`);
-                }}
-              />
-            );
-          })}
-        </StyledTabs>
+          <StyledTabs
+            orientation="vertical"
+            variant="scrollable"
+            scrollButtons="true"
+            value={value}
+            onChange={handleChange}
+          >
+            <StyledTab
+              wrapped
+              variant="fullWidth"
+              label="typetrack."
+              value={0}
+              key={0}
+              sx={styles.typetrack}
+              onClick={(e) => {
+                e.preventDefault();
+                //go to this channel
+                setID();
+                navigate(`/channels/`);
+              }}
+            />
+            <Divider
+              variant="middle"
+              css={{
+                backgroundColor: theme.palette.primary.contrastText,
+                width: "20%",
+                margin: "auto",
+              }}
+            />
+            {!channels.length && (
+              <StyledTab wrapped label="No channels" css={styles.channel} />
+            )}
+            {channels.map((channel, i) => {
+              return (
+                <StyledTab
+                  wrapped
+                  label={channel.name}
+                  key={i + 1}
+                  value={i + 1}
+                  css={styles.channel}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    //go to this channel
+                    setID(channel.id);
+                    navigate(`/channels/${channel.id}`);
+                  }}
+                />
+              );
+            })}
+          </StyledTabs>
+          <Tooltip title="New channel" placement="right">
+            <Fab
+              sx={{
+                backgroundColor: theme.palette.misc.main,
+                margin: "auto",
+                marginTop: "2%",
+                marginBottom: "6%",
+                ":hover": {
+                  backgroundColor: theme.palette.misc.main,
+                  opacity: "0.85",
+                },
+              }}
+              size="small"
+              aria-label="add"
+            >
+              <AddIcon />
+            </Fab>
+          </Tooltip>
+        </Box>
         <Divider
           variant="middle"
           css={{ backgroundColor: theme.palette.primary.contrastText }}
         />
+        <Box>
+          {channelUsers.map((user, i) => {
+            return (
+              <Useritem
+                user={user}
+                key={i}
+                owner={i === 0 ? "Channel owner" : "User"}
+              />
+            );
+          })}
+        </Box>
       </Box>
       <Box>
-        {channelUsers.map((user, i) => {
-          return (
-            <Useritem
-              user={user}
-              key={i}
-              owner={i === 0 ? "Channel owner" : "User"}
-            />
-          );
-        })}
+        <AuthenticatedUser />
       </Box>
-      <AppBar
-        position="absolute"
-        sx={{
-          backgroundColor: theme.palette.primary.dark,
-          top: "auto",
-          bottom: 0,
-        }}
-      >
-        <List>
-          <ListItem disablePadding>
-            <ListItemAvatar>
-              <Avatar
-                sx={{
-                  bgcolor: theme.palette.misc.main,
-                  margin: "auto",
-                  width: "36px",
-                  height: "36px",
-                }}
-              >
-                <Gravatar email={oauth.email} size={36} />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary={oauth.email}
-              primaryTypographyProps={{
-                fontSize: 16,
-                fontWeight: "400",
-                letterSpacing: 0,
-                color: theme.palette.secondary.main,
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-              }}
-              secondary="jeune âme en perdition"
-              secondaryTypographyProps={{
-                fontSize: 14,
-                color: theme.palette.primary.contrastText,
-              }}
-            />
-            <Tooltip title="Settings">
-              <IconButton
-                onClick={onClickLogout}
-                color="misc"
-                size="large"
-                sx={{
-                  color: theme.palette.misc.main,
-                  "& svg": {
-                    color: theme.palette.misc.main,
-                    transition: "0.2s",
-                    transform: "translateX(0) rotate(0)",
-                  },
-                  "&:hover, &:focus": {
-                    bgcolor: "unset",
-                    opacity: "0.85",
-                    "& svg:first-of-type": {
-                      transform: "translateX(-4px) rotate(-20deg)",
-                    },
-                    "& svg:last-of-type": {
-                      right: 0,
-                      opacity: 1,
-                    },
-                  },
-                  "&:after": {
-                    content: '""',
-                    position: "absolute",
-                    height: "80%",
-                    display: "block",
-                    left: 0,
-                    width: "1px",
-                    bgcolor: "divider",
-                  },
-                }}
-              >
-                <SettingsIcon />
-                <ArrowRight
-                  sx={{ position: "absolute", right: 4, opacity: 0 }}
-                />
-              </IconButton>
-            </Tooltip>
-          </ListItem>
-        </List>
-      </AppBar>
     </div>
   );
 }
