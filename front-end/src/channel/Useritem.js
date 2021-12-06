@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import PropTypes from "prop-types";
 // Layout
 import { useTheme } from "@mui/styles";
 import Gravatar from "react-gravatar";
@@ -9,7 +10,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 //Local
 
-export default function Useritem(user, key) {
+export default function Useritem({ user, owner }) {
   const theme = useTheme();
   return (
     <List>
@@ -37,7 +38,7 @@ export default function Useritem(user, key) {
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
           }}
-          secondary={key === 0 ? "Owner" : "User"}
+          secondary={owner}
           secondaryTypographyProps={{
             fontSize: 14,
             color: theme.palette.primary.contrastText,
@@ -47,3 +48,8 @@ export default function Useritem(user, key) {
     </List>
   );
 }
+
+Useritem.propTypes = {
+  user: PropTypes.object.isRequired,
+  owner: PropTypes.string.isRequired,
+};

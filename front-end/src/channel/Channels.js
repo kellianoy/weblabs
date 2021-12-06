@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 // Layout
@@ -10,7 +10,6 @@ import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useNavigate } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Gravatar from "react-gravatar";
@@ -22,7 +21,6 @@ import ListItemText from "@mui/material/ListItemText";
 import AppBar from "@mui/material/AppBar";
 import Tooltip from "@mui/material/Tooltip";
 import ArrowRight from "@mui/icons-material/ArrowRight";
-
 // Local
 import Context from "../context/Context";
 import Useritem from "./Useritem";
@@ -91,10 +89,11 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
 export default function Channels() {
   const theme = useTheme();
   const styles = useStyles(theme);
-  //let's get what channel is used to be able to set our current channel
-  const id = useParams();
+  //let's get what channel is being used
+  const [id, setID] = useState(useParams()["*"]);
   const { oauth, setOauth, channels, setChannels } = useContext(Context);
-
+  //Setting a hook for a list of channel users
+  const [channelUsers, setChannelUsers] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     const fetch = async () => {
@@ -108,30 +107,34 @@ export default function Channels() {
           }
         );
         setChannels(channels);
-        channels.map((channel, i) => {
-          //Current channel is the one with a matching id to the url id
-          if (channel.id == id["*"]) setValue(i + 1);
-        });
+        //set the current channel to the one in parameters
+        if (id)
+          setValue(channels.findIndex((channel) => channel.id === id) + 1);
       } catch (err) {
         console.error(err);
       }
     };
     fetch();
+    //get the users of the channel
   }, [oauth, setChannels]);
-
-  const getUsers = async (channel) => {
-    const { data: users } = await axios.get(
-      `http://localhost:3001/channels/users/${channel}`,
-      {
-        headers: {
-          Authorization: `Bearer ${oauth.access_token}`,
-        },
-      }
-    );
-    return users;
-  };
-
-  const [value, setValue] = React.useState(0);
+  //UseEffect() for the users : getting the users and refreshing the list each time
+  useEffect(() => {
+    const getUsers = async (channel) => {
+      if (id) {
+        const { data: users } = await axios.get(
+          `http://localhost:3001/channels/users/${channel}`,
+          {
+            headers: {
+              Authorization: `Bearer ${oauth.access_token}`,
+            },
+          }
+        );
+        setChannelUsers(users);
+      } else setChannelUsers([]);
+    };
+    getUsers(id);
+  }, [id, setID]);
+  const [value, setValue] = useState(0);
   const handleChange = (e, newValue) => {
     e.stopPropagation();
     setValue(newValue);
@@ -157,8 +160,12 @@ export default function Channels() {
             value={0}
             key={0}
             sx={styles.typetrack}
-            component={RouterLink}
-            to="/channels"
+            onClick={(e) => {
+              e.preventDefault();
+              //go to this channel
+              setID();
+              navigate(`/channels/`);
+            }}
           />
           <Divider
             variant="middle"
@@ -181,6 +188,8 @@ export default function Channels() {
                 css={styles.channel}
                 onClick={(e) => {
                   e.preventDefault();
+                  //go to this channel
+                  setID(channel.id);
                   navigate(`/channels/${channel.id}`);
                 }}
               />
@@ -193,17 +202,14 @@ export default function Channels() {
         />
       </Box>
       <Box>
-        {channels.map((channel, index) => {
-          if (channel.id === id["*"]) {
-            const users = getUsers(channel.id);
-            return (
-              <div key={index}>
-                {users.map((user, i) => {
-                  return <Useritem user={user} key={i} />;
-                })}
-              </div>
-            );
-          }
+        {channelUsers.map((user, i) => {
+          return (
+            <Useritem
+              user={user}
+              key={i}
+              owner={i === 0 ? "Channel owner" : "User"}
+            />
+          );
         })}
       </Box>
       <AppBar
