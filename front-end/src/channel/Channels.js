@@ -13,15 +13,21 @@ import Divider from "@mui/material/Divider";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
-
+import AppBar from "@mui/material/AppBar";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 // Local
 import Context from "../context/Context";
 import Useritem from "./Useritem";
-import AuthenticatedUser from "./AuthenticatedUser";
 const useStyles = (theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
+    display: "flex",
+    flex: "1 1 auto",
+    overflow: "auto",
+    flexDirection: "column",
   },
   channels: {
     margin: "auto",
@@ -39,6 +45,7 @@ const useStyles = (theme) => ({
     fontFamily: theme.palette.primary.textFont,
     fontSize: "22px",
     fontWeight: "600",
+    padding: "4%",
     color: theme.palette.secondary.dark,
   },
 });
@@ -99,7 +106,6 @@ export default function Channels() {
             },
           }
         );
-        console.log(channels);
         setChannels(channels);
         //set the current channel to the one in parameters
         if (id)
@@ -114,17 +120,21 @@ export default function Channels() {
   //UseEffect() for the users : getting the users and refreshing the list each time
   useEffect(() => {
     const getUsers = async (channel) => {
-      if (id) {
-        const { data: users } = await axios.get(
-          `http://localhost:3001/channels/users/${channel}`,
-          {
-            headers: {
-              Authorization: `Bearer ${oauth.access_token}`,
-            },
-          }
-        );
-        setChannelUsers(users);
-      } else setChannelUsers([]);
+      try {
+        if (id) {
+          const { data: users } = await axios.get(
+            `http://localhost:3001/channels/users/${channel}`,
+            {
+              headers: {
+                Authorization: `Bearer ${oauth.access_token}`,
+              },
+            }
+          );
+          setChannelUsers(users);
+        } else setChannelUsers([]);
+      } catch (err) {
+        console.error(err);
+      }
     };
     getUsers(id);
   }, [id, setID]);
@@ -135,89 +145,119 @@ export default function Channels() {
   };
 
   return (
-    <div css={styles.root}>
-      <Box>
-        <Box
-          sx={{
-            display: "flex",
-            flex: "1 1 auto",
-            flexDirection: "column",
-          }}
+    <Box css={styles.root}>
+      <AppBar
+        elevation={0}
+        position="relative"
+        sx={{
+          bottom: "auto",
+          top: 0,
+        }}
+      >
+        <StyledTabs
+          orientation="vertical"
+          value={value}
+          onChange={handleChange}
         >
-          <StyledTabs
-            orientation="vertical"
-            variant="scrollable"
-            scrollButtons="true"
-            value={value}
-            onChange={handleChange}
-          >
-            <StyledTab
-              wrapped
-              variant="fullWidth"
-              label="typetrack."
-              value={0}
-              key={0}
-              sx={styles.typetrack}
-              onClick={(e) => {
-                e.preventDefault();
-                //go to this channel
-                setID();
-                navigate(`/channels/`);
-              }}
-            />
-            <Divider
-              variant="middle"
-              css={{
-                backgroundColor: theme.palette.primary.contrastText,
-                width: "20%",
-                margin: "auto",
-              }}
-            />
-            {!channels.length && (
-              <StyledTab wrapped label="No channels" css={styles.channel} />
-            )}
-            {channels.map((channel, i) => {
-              return (
-                <StyledTab
-                  wrapped
-                  label={channel.name}
-                  key={i + 1}
-                  value={i + 1}
-                  css={styles.channel}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    //go to this channel
-                    setID(channel.id);
-                    navigate(`/channels/${channel.id}`);
-                  }}
-                />
-              );
-            })}
-          </StyledTabs>
-          <Tooltip title="New channel" placement="right">
-            <Fab
-              sx={{
-                backgroundColor: theme.palette.misc.main,
-                margin: "auto",
-                marginTop: "2%",
-                marginBottom: "6%",
-                ":hover": {
-                  backgroundColor: theme.palette.misc.main,
-                  opacity: "0.85",
-                },
-              }}
-              size="small"
-              aria-label="add"
-            >
-              <AddIcon />
-            </Fab>
-          </Tooltip>
-        </Box>
+          <StyledTab
+            variant="fullWidth"
+            label="typetrack."
+            value={0}
+            key={0}
+            sx={styles.typetrack}
+            onClick={(e) => {
+              e.preventDefault();
+              //go to this channel
+              setID();
+              navigate(`/channels/`);
+            }}
+          />
+        </StyledTabs>
         <Divider
           variant="middle"
-          css={{ backgroundColor: theme.palette.primary.contrastText }}
+          css={{
+            backgroundColor: theme.palette.primary.contrastText,
+            width: "20%",
+            margin: "auto",
+          }}
         />
-        <Box>
+        <div css={{ height: "10%" }}></div>
+      </AppBar>
+      <Box
+        sx={{
+          display: "flex",
+          flex: "1 1 auto",
+          flexDirection: "column",
+          height: "25%",
+        }}
+      >
+        <List sx={{ maxHeight: "100%", overflow: "auto", textAlign: "center" }}>
+          {channels.length !== 0 && (
+            <StyledTabs
+              orientation="vertical"
+              value={value}
+              onChange={handleChange}
+            >
+              {channels.map((channel, i) => {
+                return (
+                  <StyledTab
+                    wrapped
+                    label={channel.name}
+                    key={i + 1}
+                    value={i + 1}
+                    css={styles.channel}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      //go to this channel
+                      setID(channel.id);
+                      navigate(`/channels/${channel.id}`);
+                    }}
+                  />
+                );
+              })}
+            </StyledTabs>
+          )}
+          <ListItem>
+            <ListItemText
+              primary="Add a channel"
+              primaryTypographyProps={{
+                fontSize: 20,
+                fontWeight: "400",
+                color: theme.palette.secondary.main,
+                textAlign: "left",
+              }}
+            />
+            <Tooltip title="Create or join a channel" placement="right">
+              <Fab
+                sx={{
+                  backgroundColor: theme.palette.misc.main,
+                  ":hover": {
+                    backgroundColor: theme.palette.misc.main,
+                    opacity: "0.85",
+                  },
+                }}
+                size="small"
+                aria-label="add"
+              >
+                <AddIcon />
+              </Fab>
+            </Tooltip>
+          </ListItem>
+        </List>
+      </Box>
+
+      <Divider
+        variant="middle"
+        css={{ backgroundColor: theme.palette.primary.contrastText }}
+      />
+      <Box
+        sx={{
+          display: "flex",
+          flex: "1 1 auto",
+          flexDirection: "column",
+        }}
+      >
+        <List sx={{ maxHeight: "100%", overflow: "auto" }}>
           {channelUsers.map((user, i) => {
             return (
               <Useritem
@@ -227,11 +267,8 @@ export default function Channels() {
               />
             );
           })}
-        </Box>
+        </List>
       </Box>
-      <Box>
-        <AuthenticatedUser />
-      </Box>
-    </div>
+    </Box>
   );
 }

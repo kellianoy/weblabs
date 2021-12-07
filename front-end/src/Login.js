@@ -75,7 +75,14 @@ const Tokens = ({ oauth }) => {
   );
 };
 
-const LoadToken = ({ code, codeVerifier, config, removeCookie, setOauth }) => {
+const LoadToken = ({
+  code,
+  codeVerifier,
+  config,
+  removeCookie,
+  setOauth,
+  oauth,
+}) => {
   const styles = useStyles(useTheme());
   const navigate = useNavigate();
   useEffect(() => {
@@ -91,25 +98,28 @@ const LoadToken = ({ code, codeVerifier, config, removeCookie, setOauth }) => {
             code: `${code}`,
           })
         );
-        //We remove the codeverifier from the cookies
-        removeCookie("code_verifier");
-        //We set our data as our oauth factor -> we can get the email and all
-        setOauth(data);
+
         //To get the users in the db
         const { data: users } = await axios.get(`http://localhost:3001/users`, {
           headers: {
             Authorization: `Bearer ${data.access_token}`,
           },
         });
+        //We remove the codeverifier from the cookies
+        removeCookie("code_verifier");
+        //We set our data as our oauth factor -> we can get the email and all
+        setOauth(data);
+        console.log(users);
         //If there is not already a user with that email, let's create one, if not do nothing
         //using an email, create a new user entry in the db
-        if (!users.find((user) => user.email == data.email)) {
+        if (!users.find((user) => user.email === oauth.email)) {
           //Function to create a user in the db
           await axios.post(`http://localhost:3001/users`, {
             username: data.email,
             email: data.email,
           });
         }
+
         navigate("/");
       } catch (err) {
         console.error(err);
@@ -171,6 +181,7 @@ LoadToken.propTypes = {
   config: PropTypes.object.isRequired,
   removeCookie: PropTypes.func.isRequired,
   setOauth: PropTypes.func.isRequired,
+  oauth: PropTypes.object.isRequired,
 };
 
 Tokens.propTypes = {

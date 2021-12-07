@@ -12,9 +12,8 @@ import Context from "./context/Context";
 import Channels from "./channel/Channels";
 import Channel from "./channel/Channel";
 import Welcome from "./misc/Home";
-
 import { Route, Routes } from "react-router-dom";
-
+import AuthenticatedUser from "./channel/AuthenticatedUser";
 const drawerWidth = 300;
 
 const useStyles = (theme) => ({
@@ -60,7 +59,7 @@ export default function Main() {
         PaperProps={{ style: { position: "relative" } }}
         BackdropProps={{ style: { position: "relative" } }}
         ModalProps={{
-          style: { position: "relative" },
+          style: { position: "absolute" },
         }}
         css={[
           displayDrawer ? styles.drawer : styles.drawerclosed,
@@ -79,6 +78,7 @@ export default function Main() {
           </IconButton>
         )}
         <Channels />
+        <AuthenticatedUser />
       </Drawer>
       <Routes>
         <Route path=":id" element={<Channel />} />

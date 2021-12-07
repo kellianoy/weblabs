@@ -46,7 +46,7 @@ export default function AuthenticatedUser() {
   }, [oauth, setUser]);
   return (
     <AppBar
-      position="absolute"
+      position="relative"
       sx={{
         backgroundColor: theme.palette.primary.dark,
         top: "auto",
