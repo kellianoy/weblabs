@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import axios from "axios";
 // Layout
 import { useContext, useState } from "react";
 import { useTheme } from "@mui/styles";
@@ -6,21 +7,40 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
 import Transition from "@mui/material/Grow";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ArrowForward from "@mui/icons-material/ArrowForwardIos";
-import Divider from "@mui/material/Divider";
+import Button from "@mui/material/Button";
+import InputBase from "@mui/material/InputBase";
+import Paper from "@mui/material/Paper";
+import FormControl from "@mui/material/FormControl";
 //Local
 import Context from "../context/Context";
 
 export default function AddChannels() {
   const theme = useTheme();
-  const { openDialog, setOpenDialog } = useContext(Context);
+  const { oauth, openDialog, setOpenDialog } = useContext(Context);
   const [openCreate, setOpenCreate] = useState(false);
   const [openJoin, setOpenJoin] = useState(false);
+  const [createContent, setCreateContent] = useState("");
+  const [joinContent, setJoinContent] = useState("");
+  console.log(joinContent);
+  const createChannel = async () => {
+    try {
+      await axios.post(`http://localhost:3001/channels/`, {
+        name: createContent,
+        owner: oauth.email,
+      });
+      setOpenCreate(false);
+      setOpenDialog(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <>
       <Dialog
@@ -62,14 +82,7 @@ export default function AddChannels() {
             You can choose if you want to create a new channel or join an
             existing one
           </DialogContentText>
-          <Divider
-            variant="middle"
-            css={{
-              backgroundColor: theme.palette.primary.contrastText,
-              width: "40%",
-              margin: "auto",
-            }}
-          />
+
           <List>
             <ListItemButton
               sx={{
@@ -124,9 +137,9 @@ export default function AddChannels() {
           </List>
         </DialogContent>
       </Dialog>
-
       <Dialog
         TransitionComponent={Transition}
+        noValidate
         open={openCreate}
         onClose={() => setOpenCreate(false)}
         maxWidth="sx"
@@ -163,16 +176,53 @@ export default function AddChannels() {
           >
             Insert a channel name and confirm, your channel will be created
           </DialogContentText>
-          <Divider
-            variant="middle"
-            css={{
-              backgroundColor: theme.palette.primary.contrastText,
-              width: "40%",
-              margin: "auto",
+          <Paper
+            fullwidth="true"
+            sx={{
+              p: "2px 4px",
+              display: "flex",
+              alignItems: "center",
+              bgcolor: theme.palette.primary.dark,
             }}
-          />
+          >
+            <FormControl>
+              <InputBase
+                onChange={(e) => {
+                  setCreateContent(e.target.value);
+                }}
+                sx={{
+                  flex: 1,
+                  paddingLeft: "2%",
+                  color: theme.palette.primary.contrastText,
+                  fontFamily: theme.palette.primary.textFont,
+                }}
+                defaultValue={createContent}
+                fullwidth="true"
+                autoFocus
+                placeholder="Channel..."
+              />
+            </FormControl>
+          </Paper>
         </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: theme.palette.misc.main,
+              color: theme.palette.primary.dark,
+              "&:hover": {
+                backgroundColor: theme.palette.misc.main,
+                color: theme.palette.primary.dark,
+                opacity: "0.8",
+              },
+            }}
+            onClick={createChannel}
+          >
+            Create
+          </Button>
+        </DialogActions>
       </Dialog>
+
       <Dialog
         TransitionComponent={Transition}
         open={openJoin}
@@ -212,15 +262,51 @@ export default function AddChannels() {
             Enter the link of the channel you want to join, and you will be
             added to the channel
           </DialogContentText>
-          <Divider
-            variant="middle"
-            css={{
-              backgroundColor: theme.palette.primary.contrastText,
-              width: "40%",
-              margin: "auto",
+          <Paper
+            sx={{
+              p: "2px 4px",
+              display: "flex",
+              alignItems: "center",
+              maxWidth: "sx",
+
+              bgcolor: theme.palette.primary.dark,
             }}
-          />
+          >
+            <FormControl>
+              <InputBase
+                onChange={(e) => {
+                  setJoinContent(e.target.value);
+                }}
+                sx={{
+                  flex: 1,
+                  paddingLeft: "2%",
+                  color: theme.palette.primary.contrastText,
+                  fontFamily: theme.palette.primary.textFont,
+                }}
+                defaultValue={joinContent}
+                fullwidth="true"
+                autoFocus
+                placeholder="localhost:3000/..."
+              />
+            </FormControl>
+          </Paper>
         </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: theme.palette.misc.main,
+              color: theme.palette.primary.dark,
+              "&:hover": {
+                backgroundColor: theme.palette.misc.main,
+                color: theme.palette.primary.dark,
+                opacity: "0.8",
+              },
+            }}
+          >
+            Join
+          </Button>
+        </DialogActions>
       </Dialog>
     </>
   );

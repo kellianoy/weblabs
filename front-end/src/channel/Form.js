@@ -6,7 +6,6 @@ import { Button } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import InputBase from "@mui/material/InputBase";
 import PropTypes from "prop-types";
-
 const useStyles = (theme) => ({
   form: {
     padding: "1rem",

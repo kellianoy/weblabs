@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 // Layout
 import { useTheme } from "@mui/styles";
 import { styled } from "@mui/material/styles";
@@ -21,7 +22,6 @@ import Context from "../context/Context";
 import ChannelUsers from "./ChannelUsers";
 import AddChannel from "./AddChannel";
 
-import { useParams } from "react-router-dom";
 const useStyles = (theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
@@ -49,6 +49,7 @@ const useStyles = (theme) => ({
     fontWeight: "600",
     padding: "4%",
     color: theme.palette.secondary.dark,
+    opacity: "1",
   },
 });
 
@@ -91,21 +92,21 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
 export default function Channels() {
   const theme = useTheme();
   const styles = useStyles(theme);
+
   //let's get what channel is being used
   //getting the oauth channels and setChannels from the context
-  const { id, setID, oauth, channels, setChannels, setOpenDialog } =
+  const { id, setID, oauth, channels, setChannels, openDialog, setOpenDialog } =
     useContext(Context);
+  const navigate = useNavigate();
   //Setting the id as the params of the page
-  setID(useParams()["*"]);
-
   //Setting the value for tabs
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(false);
   const handleChange = (e, newValue) => {
     e.stopPropagation();
     setValue(newValue);
   };
-  const navigate = useNavigate();
-  //First use effect using the get channels
+  const firstId = useParams()["*"];
+  //use effect using the get channels
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -119,19 +120,19 @@ export default function Channels() {
         );
         setChannels(channels);
         //set the current channel to the one in parameters
-        if (id)
-          setValue(channels.findIndex((channel) => channel.id === id) + 1);
+        setID(firstId);
+        if (id) setValue(channels.findIndex((channel) => channel.id === id));
       } catch (err) {
         console.error(err);
       }
     };
     fetch();
     //get the users of the channel
-  }, [oauth, setChannels]);
+  }, [oauth, setChannels, openDialog]);
 
   return (
     <Box css={styles.root}>
-      <AddChannel />
+      {openDialog && <AddChannel />}
       <AppBar
         elevation={0}
         position="relative"
@@ -140,25 +141,18 @@ export default function Channels() {
           top: 0,
         }}
       >
-        <StyledTabs
-          orientation="vertical"
-          value={value}
-          onChange={handleChange}
-        >
-          <StyledTab
-            variant="fullWidth"
-            label="typetrack."
-            value={0}
-            key={0}
-            sx={styles.typetrack}
-            onClick={(e) => {
-              e.preventDefault();
-              //go to this channel
-              setID();
-              navigate(`/channels/`);
-            }}
-          />
-        </StyledTabs>
+        <StyledTab
+          variant="fullWidth"
+          label="typetrack."
+          sx={styles.typetrack}
+          onClick={(e) => {
+            e.preventDefault();
+            setID();
+            setValue(false);
+            //go to start page
+            navigate(`/channels/`);
+          }}
+        />
         <Divider
           variant="middle"
           css={{
@@ -189,8 +183,8 @@ export default function Channels() {
                   <StyledTab
                     wrapped
                     label={channel.name}
-                    key={i + 1}
-                    value={i + 1}
+                    key={i}
+                    value={i}
                     css={styles.channel}
                     onClick={(e) => {
                       e.preventDefault();
