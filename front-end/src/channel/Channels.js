@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 // Layout
 import { useTheme } from "@mui/styles";
 import { styled } from "@mui/material/styles";
@@ -19,7 +18,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 // Local
 import Context from "../context/Context";
-import Useritem from "./Useritem";
+import ChannelUsers from "./ChannelUsers";
+import AddChannel from "./AddChannel";
+
+import { useParams } from "react-router-dom";
 const useStyles = (theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
@@ -90,11 +92,20 @@ export default function Channels() {
   const theme = useTheme();
   const styles = useStyles(theme);
   //let's get what channel is being used
-  const [id, setID] = useState(useParams()["*"]);
-  const { oauth, channels, setChannels } = useContext(Context);
-  //Setting a hook for a list of channel users
-  const [channelUsers, setChannelUsers] = useState([]);
+  //getting the oauth channels and setChannels from the context
+  const { id, setID, oauth, channels, setChannels, setOpenDialog } =
+    useContext(Context);
+  //Setting the id as the params of the page
+  setID(useParams()["*"]);
+
+  //Setting the value for tabs
+  const [value, setValue] = useState(0);
+  const handleChange = (e, newValue) => {
+    e.stopPropagation();
+    setValue(newValue);
+  };
   const navigate = useNavigate();
+  //First use effect using the get channels
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -117,35 +128,10 @@ export default function Channels() {
     fetch();
     //get the users of the channel
   }, [oauth, setChannels]);
-  //UseEffect() for the users : getting the users and refreshing the list each time
-  useEffect(() => {
-    const getUsers = async (channel) => {
-      try {
-        if (id) {
-          const { data: users } = await axios.get(
-            `http://localhost:3001/channels/users/${channel}`,
-            {
-              headers: {
-                Authorization: `Bearer ${oauth.access_token}`,
-              },
-            }
-          );
-          setChannelUsers(users);
-        } else setChannelUsers([]);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    getUsers(id);
-  }, [id, setID]);
-  const [value, setValue] = useState(0);
-  const handleChange = (e, newValue) => {
-    e.stopPropagation();
-    setValue(newValue);
-  };
 
   return (
     <Box css={styles.root}>
+      <AddChannel />
       <AppBar
         elevation={0}
         position="relative"
@@ -238,6 +224,10 @@ export default function Channels() {
                 }}
                 size="small"
                 aria-label="add"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpenDialog(true);
+                }}
               >
                 <AddIcon />
               </Fab>
@@ -245,30 +235,7 @@ export default function Channels() {
           </ListItem>
         </List>
       </Box>
-
-      <Divider
-        variant="middle"
-        css={{ backgroundColor: theme.palette.primary.contrastText }}
-      />
-      <Box
-        sx={{
-          display: "flex",
-          flex: "1 1 auto",
-          flexDirection: "column",
-        }}
-      >
-        <List sx={{ maxHeight: "100%", overflow: "auto" }}>
-          {channelUsers.map((user, i) => {
-            return (
-              <Useritem
-                user={user}
-                key={i}
-                owner={i === 0 ? "Channel owner" : "User"}
-              />
-            );
-          })}
-        </List>
-      </Box>
+      <ChannelUsers />
     </Box>
   );
 }
