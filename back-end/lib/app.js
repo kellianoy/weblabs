@@ -53,6 +53,12 @@ app.put('/channels/:id', authenticate, async (req, res) => {
   res.json(channel)
 })
 
+app.put('/channels/join/:id', authenticate, async (req, res) => {
+  const channel = await db.channels.join(req.params.id, req.body)
+  res.json(channel)
+})
+
+
 app.delete('/channels/:id', authenticate, async (req, res) => {
   const channel = await db.channels.delete(req.params.id)
   res.json(channel)
@@ -97,8 +103,8 @@ app.get('/users/e/:email', async (req, res) => {
   res.json(user)
 })
 
-app.put('/users/:id', async (req, res) => {
-  const user = await db.users.update(req.body)
+app.put('/users/:email', async (req, res) => {
+  const user = await db.users.update(req.params.email, req.body)
   res.json(user)
 })
 

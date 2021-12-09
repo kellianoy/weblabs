@@ -149,6 +149,29 @@ describe('channels', () => {
     })
   })
 
+  it('join channel', async () => {
+    // Create two users
+    const {body: user1} = await supertest(app)
+    .post('/users')
+    .send({username: 'user_1', email:'user_1'})
+
+    const {body: user2} = await supertest(app)
+    .post('/users')
+    .send({username: 'user_2', email:'user_2'})
+    //Create channel
+     const {body: channel} = await supertest(app)
+     .post('/channels')
+     .send({name: 'channel 1', owner: user1.email})
+     .expect(201)
+    //join channel
+    const {body: newChannel} = await supertest(app)
+    .put(`/channels/join/${channel.id}`)
+    .send({email: "user_2"})
+    .expect(200)
+    //there should be two users in this array
+    newChannel.users.length.should.eql(2)
+  })
+
   it('delete channel', async () => {
     // Create a user
     const {body: user1} = await supertest(app)

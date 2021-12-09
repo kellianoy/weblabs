@@ -5,7 +5,7 @@ const microtime = require('microtime')
 const level = require('level')
 const db = level(__dirname + '/../db')
 
-module.exports = {
+const self = module.exports = {
   channels: {
     create: async (channel) => {
       if(!channel.name) throw Error('Invalid channel name')
@@ -21,7 +21,7 @@ module.exports = {
       //Then we create a new channel entry
       await db.put(`channels:${id}`, JSON.stringify(merge(channel, {users:[userID.id]})))
       //Then we update the entry of the user
-      await db.put(`users:${userID.id}`, JSON.stringify(user))
+      self.users.update(user.email, user)
       return merge(channel, {id: id})
     },
     get: async (id) => {
@@ -100,8 +100,32 @@ module.exports = {
       return merge(original, channel)
     },
     delete: async (id) => {
+      //WIP -> not taking care of removing anything from users
       if (!id) throw Error("No id given")
       await db.del(`channels:${id}`)
+    },
+    join: async(id, joiner) => {
+      if(!id) throw Error('Invalid channel id')
+      if(!joiner.email) throw Error('Invalid channel joiner')
+      //First, check if the user doesn't already have the channel in its array 
+      //Getting a user through his email
+      const data = await db.get(`users_email:${joiner.email}`)
+      const userID = JSON.parse(data)
+      //Getting a user through his id
+      const data2 = await db.get(`users:${userID.id}`)
+      const user = JSON.parse(data2)
+      if (user.channels.includes(id)) throw Error('User has already joined this channel.')
+      //Now get the channel to update it
+      const data3 = await db.get(`channels:${id}`)
+      const selectedChannel=JSON.parse(data3)
+      //First update the channel
+      selectedChannel.users.push(userID.id)
+      //Then update the user
+      user.channels.push(id)
+      const newUser=self.users.update(user.email, user)
+      //Finally, update the final channel
+      const newChannel = self.channels.update(id, selectedChannel)
+      return newChannel 
     }
   },
   messages: {
@@ -178,10 +202,13 @@ module.exports = {
         })
       })
     },
-    update: (id, user) => {
-      const original = store.users[id]
-      if(!original) throw Error('Unregistered user id')
-      store.users[id] = merge(original, user)
+    update: async (email, newUser) => {
+      //Get the original channel
+      const original = JSON.parse(await db.get(`users_email:${email}`))
+      if(!original) throw Error('Unregistered channel id')
+      await db.put(`users:${original.id}`, JSON.stringify(merge(original, newUser)))
+      //return the new one
+      return merge(original, newUser)
     },
     delete: (id) => {
       if(!store.users[id]) throw Error('Unregistered user id')

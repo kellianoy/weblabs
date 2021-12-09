@@ -60,4 +60,32 @@ describe('users', () => {
     user.email.should.eql('user_1')
   })
   
+  it('update user', async () => {
+    // Create a user
+    const {body: user1} = await supertest(app)
+    .post('/users')
+    .send({username: 'user_1', email: 'user_1'})
+    .expect(201)
+
+    const {body: newUser} = await supertest(app)
+    .put(`/users/${user1.email}`)
+    .send({username: 'Dodge', email: 'user_1'})
+    .expect(200)
+    newUser.username.should.match("Dodge")
+    newUser.email.should.match("user_1")
+  })
+  
+  it('update user channels', async () => {
+    // Create a user
+    const {body: user1} = await supertest(app)
+    .post('/users')
+    .send({username: 'user_1', email: 'user_1'})
+    .expect(201)
+
+    const {body: newUser} = await supertest(app)
+    .put(`/users/${user1.email}`)
+    .send({channels: [5000, 2200]})
+    .expect(200)
+    newUser.channels.should.match([5000,2200])
+  })
 })
