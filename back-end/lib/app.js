@@ -61,7 +61,7 @@ app.put('/channels/:id', authenticate, async (req, res) => {
 app.put('/channels/join/:id', authenticate, async (req, res) => {
   try {
     const channel = await db.channels.join(req.params.id, req.body)
-    res.status(204).json(channel)
+    res.status(200).json(channel)
   }
   catch(err){
     res.status(403).send(err)
