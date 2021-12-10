@@ -261,11 +261,35 @@ describe('channels', () => {
       await supertest(app)
       .delete(`/channels/${channel.id}`)
       .expect(200)
-
       const {body: list} = await supertest(app)
       .get(`/channels`)
       .expect(200)
       list.length.should.match(0)
+    })
+
+    it('delete a channel only', async () => {
+      // Create a user
+      const {body: user1} = await supertest(app)
+      .post('/users')
+      .send({username: 'user_1', email:'user_1'})
+      //Create channel
+      const {body: channel1} = await supertest(app)
+      .post('/channels')
+      .send({name: 'channel 1', owner: user1.email})
+      .expect(201)
+      //Create 2nd channel
+      const {body: channel2} = await supertest(app)
+      .post('/channels')
+      .send({name: 'channel 2', owner: user1.email})
+      .expect(201)
+      //delete
+      await supertest(app)
+      .delete(`/channels/${channel1.id}`)
+      .expect(200)
+      const {body: list2} = await supertest(app)
+      .get(`/users/channels/${user1.email}`)
+      .expect(200)
+      list2.length.should.match(1)
     })
 
     it('delete channel link in users', async () => {

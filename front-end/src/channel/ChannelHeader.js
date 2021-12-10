@@ -83,7 +83,7 @@ export default function ChannelHeader(channel) {
           )}
         </Toolbar>
       </AppBar>
-      <JoinLink open={open} setOpen={setOpen} />
+      {open && <JoinLink open={open} setOpen={setOpen} />}
       <DeleteLink open={openAlert} setOpen={setOpenAlert} />
     </>
   );

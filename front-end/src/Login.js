@@ -59,6 +59,7 @@ const Tokens = ({ oauth }) => {
   const { id_token } = oauth;
   const id_payload = id_token.split(".")[1];
   const { email } = JSON.parse(atob(id_payload));
+
   return <div css={styles.root}>Welcome {email} </div>;
 };
 
@@ -98,6 +99,7 @@ export default function Login() {
   // const location = useLocation();
   const [cookies, setCookie, removeCookie] = useCookies([]);
   const { oauth, setOauth } = useContext(Context);
+
   const config = {
     authorization_endpoint: "http://localhost:5556/dex/auth",
     token_endpoint: "http://localhost:5556/dex/token",
@@ -107,7 +109,6 @@ export default function Login() {
   };
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
-
   // is there a code query parameters in the url
   if (!code) {
     // no: we are not being redirected from an oauth server
@@ -123,6 +124,7 @@ export default function Login() {
       );
     } else {
       // yes: user is already logged in, great, is is working
+
       return <Tokens oauth={oauth} css={styles.root} />;
     }
   } else {

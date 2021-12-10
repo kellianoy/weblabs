@@ -104,7 +104,7 @@ const self = module.exports = {
       //Before deleting the channel, let's remove every occurence of this channel in users
       const users = await self.channels.listChannelUsers(id)
       users.map(async (user, i) =>{
-        user.channels.splice(user.channels.indexOf(id))
+        user.channels.splice(user.channels.indexOf(id), 1)
         await self.users.update(user.email, user)
       })
       //Then delete the channel
@@ -138,10 +138,10 @@ const self = module.exports = {
       //Now get the channel to update it
       const selectedChannel=JSON.parse(await db.get(`channels:${id}`))
       //update the user
-      user.channels.splice(user.channels.indexOf(id))
+      user.channels.splice(user.channels.indexOf(id), 1)
       await self.users.update(user.email, user)
       //Finally, update the final channel
-      selectedChannel.users.splice(selectedChannel.users.indexOf(userID.id))
+      selectedChannel.users.splice(selectedChannel.users.indexOf(userID.id), 1)
       const newChannel = await self.channels.update(id, selectedChannel)
       return newChannel 
     },
@@ -239,7 +239,7 @@ const self = module.exports = {
         if(channel.owner===user.id)
           await self.channels.delete(channel.id, channel)
         else{
-          channel.users.splice(channel.users.indexOf(user.id))
+          channel.users.splice(channel.users.indexOf(user.id), 1)
           await self.channels.update(channel.id, channel)
         }
       })

@@ -127,15 +127,15 @@ export default function Channels() {
       }
     };
     fetch();
-    //get the users of the channel
-  }, [oauth, setChannels, openDialog, id]);
+  }, [oauth, setID, openDialog]);
+
   //useEffect for ID
   useEffect(() => {
     const update = () => {
       if (id) setValue(channels.findIndex((channel) => channel.id === id));
     };
     update();
-  }, [id]);
+  }, [id, channels, setChannels]);
 
   return (
     <Box css={styles.root}>

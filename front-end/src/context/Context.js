@@ -16,6 +16,7 @@ export const Provider = ({ children }) => {
   const [openDialog, setOpenDialog] = useState(false);
   //let's get what channel is being used
   const [id, setID] = useState("");
+  const [user, setUser] = useState({});
   return (
     <Context.Provider
       value={{
@@ -49,6 +50,8 @@ export const Provider = ({ children }) => {
         setOpenDialog: setOpenDialog,
         id: id,
         setID: setID,
+        user: user,
+        setUser: setUser,
       }}
     >
       {children}

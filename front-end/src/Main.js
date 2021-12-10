@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import axios from "axios";
 // Layout
-
 import { useTheme } from "@mui/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Drawer } from "@mui/material";
@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import Context from "./context/Context";
 import Channels from "./channel/Channels";
 import Channel from "./channel/Channel";
-import Welcome from "./misc/Home";
+import Home from "./misc/Home";
 import { Route, Routes } from "react-router-dom";
 import AuthenticatedUser from "./channel/AuthenticatedUser";
 const drawerWidth = 300;
@@ -44,15 +44,52 @@ const useStyles = (theme) => ({
 export default function Main() {
   const theme = useTheme();
   const styles = useStyles(theme);
-  const { drawerVisible, setDrawerVisible } = useContext(Context);
+  const { drawerVisible, setDrawerVisible, oauth, setUser, user, setChannel } =
+    useContext(Context);
 
   const close = (e) => {
     e.stopPropagation();
     setDrawerVisible(false);
   };
-
   const alwaysOpen = useMediaQuery(theme.breakpoints.up("sm"));
   const displayDrawer = alwaysOpen || drawerVisible;
+  useEffect(() => {
+    const fetch = async () => {
+      if (!user) {
+        try {
+          //Function to create a user in the db
+          await axios.post(
+            `http://localhost:3001/users`,
+            {
+              username: oauth.email,
+              email: oauth.email,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${oauth.access_token}`,
+              },
+            }
+          );
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      try {
+        const { data: get } = await axios.get(
+          `http://localhost:3001/users/email/${oauth.email}`,
+          {
+            headers: {
+              Authorization: `Bearer ${oauth.access_token}`,
+            },
+          }
+        );
+        setUser(get);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetch();
+  }, [oauth, setChannel]);
   return (
     <main css={styles.root}>
       <Drawer
@@ -88,7 +125,7 @@ export default function Main() {
       </Drawer>
       <Routes>
         <Route path=":id" element={<Channel />} />
-        <Route path="*" element={<Welcome />} />
+        <Route path="*" element={<Home />} />
       </Routes>
     </main>
   );

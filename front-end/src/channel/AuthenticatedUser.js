@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useContext, useState, useEffect } from "react";
-import axios from "axios";
+import { useContext } from "react";
 // Layout
 import { IconButton } from "@mui/material";
 import { useTheme } from "@mui/styles";
@@ -20,48 +19,11 @@ import Context from "../context/Context";
 //This component shows the currently authenticated user in the navbar
 export default function AuthenticatedUser() {
   const theme = useTheme();
-  const { oauth, setOauth } = useContext(Context);
-  const [user, setUser] = useState({});
+  const { setOauth, user } = useContext(Context);
   const onClickLogout = (e) => {
     e.stopPropagation();
     setOauth(null);
   };
-  //Use effect to create a new user in db in case be
-  useEffect(() => {
-    setTimeout(() => {
-      const fetch = async () => {
-        try {
-          //Function to create a user in the db
-          await axios.post(
-            `http://localhost:3001/users`,
-            {
-              username: oauth.email,
-              email: oauth.email,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${oauth.access_token}`,
-              },
-            }
-          );
-
-          const { data: user } = await axios.get(
-            `http://localhost:3001/users/email/${oauth.email}`,
-            {
-              headers: {
-                Authorization: `Bearer ${oauth.access_token}`,
-              },
-            }
-          );
-          setUser(user);
-        } catch (err) {
-          console.error(err);
-        }
-      };
-      fetch();
-    }, 500);
-    //get the users of the channel
-  }, [oauth]);
   return (
     <AppBar
       position="relative"
