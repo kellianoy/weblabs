@@ -26,13 +26,14 @@ app.get('/channels', authenticate, async (req, res) => {
   res.json(channels)
 })
 
+//Create a channel
 app.post('/channels', authenticate, async (req, res) => {
   try {
   const channel = await db.channels.create(req.body)
   res.status(201).json(channel)
   }
   catch(err){
-    res.status(403).send(err)
+    res.status(403).send("Channel name isn't correct")
   }
 })
 
@@ -68,10 +69,19 @@ app.put('/channels/join/:id', authenticate, async (req, res) => {
   }
 })
 
+app.put('/channels/leave/:id', authenticate, async (req, res) => {
+  try {
+    const channel = await db.channels.leave(req.params.id, req.body)
+    res.status(200).json(channel)
+  }
+  catch(err){
+    res.status(403).send(err)
+  }
+})
 
 app.delete('/channels/:id', authenticate, async (req, res) => {
-  const channel = await db.channels.delete(req.params.id)
-  res.json(channel)
+  await db.channels.delete(req.params.id)
+  res.status(200).send("Done")
 })
 
 // Messages
@@ -116,6 +126,11 @@ app.get('/users/e/:email', authenticate, async (req, res) => {
 app.put('/users/:email', authenticate, async (req, res) => {
   const user = await db.users.update(req.params.email, req.body)
   res.json(user)
+})
+
+app.delete('/users/:email', authenticate, async (req, res) => {
+  await db.users.delete(req.params.email)
+  res.status(200).send("Done")
 })
 
 module.exports = app

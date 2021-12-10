@@ -172,24 +172,78 @@ describe('channels', () => {
     newChannel.users.length.should.eql(2)
   })
 
-  it('delete channel', async () => {
+  it('leave a channel', async () => {
     // Create a user
     const {body: user1} = await supertest(app)
     .post('/users')
-    .send({username: 'user_1', email:'user_1'})
+    .send({username: 'user_1', email: 'user_1'})
+    .expect(201)
+    // Create a second user
+    const {body: user2} = await supertest(app)
+    .post('/users')
+    .send({username: 'user_2', email: 'user_2'})
+    .expect(201)
     //Create channel
-     const {body: channel} = await supertest(app)
-     .post('/channels')
-     .send({name: 'channel 1', owner: user1.email})
-     .expect(201)
-    //delete
+    const {body: channel} = await supertest(app)
+    .post('/channels')
+    .send({name: 'channel 1', owner: user1.email})
+    .expect(201)
+    //Join channel with user 2
     await supertest(app)
-    .delete(`/channels/${channel.id}`)
+    .put(`/channels/join/${channel.id}`)
+    .send({email: user2.email})
     .expect(200)
-    // Check it was correctly deleted
-    const {body: channels} = await supertest(app)
-    .get('/channels')
-    channels.length.should.eql(0)
+    //Leave channel with user 2
+    const {body: newChannel} = await supertest(app)
+    .put(`/channels/leave/${channel.id}`)
+    .send({email: user2.email})
+    .expect(200)
+    //there should be two users in this array
+    newChannel.users.length.should.eql(1)
+    
   })
   
+  describe( 'delete', () => {
+
+    it('delete channel', async () => {
+      // Create a user
+      const {body: user1} = await supertest(app)
+      .post('/users')
+      .send({username: 'user_1', email:'user_1'})
+      //Create channel
+      const {body: channel} = await supertest(app)
+      .post('/channels')
+      .send({name: 'channel 1', owner: user1.email})
+      .expect(201)
+      //delete
+      await supertest(app)
+      .delete(`/channels/${channel.id}`)
+      .expect(200)
+
+      const {body: list} = await supertest(app)
+      .get(`/channels`)
+      .expect(200)
+      list.length.should.match(0)
+    })
+
+    it('delete channel link in users', async () => {
+      // Create a user
+      const {body: user1} = await supertest(app)
+      .post('/users')
+      .send({username: 'user_1', email:'user_1'})
+      //Create channel
+      const {body: channel} = await supertest(app)
+      .post('/channels')
+      .send({name: 'channel 1', owner: user1.email})
+      .expect(201)
+      //delete
+      await supertest(app)
+      .delete(`/channels/${channel.id}`)
+      .expect(200)
+      const {body: user} = await supertest(app)
+      .get(`/users/${user1.id}`)
+      user.channels.length.should.eql(0)
+    })
+
+  })
 })

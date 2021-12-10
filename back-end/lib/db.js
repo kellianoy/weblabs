@@ -100,8 +100,14 @@ const self = module.exports = {
       return merge(original, channel)
     },
     delete: async (id) => {
-      //WIP -> not taking care of removing anything from users
       if (!id) throw Error("No id given")
+      //Before deleting the channel, let's remove every occurence of this channel in users
+      const users = await self.channels.listChannelUsers(id)
+      users.map(async (user, i) =>{
+        user.channels.splice(user.channels.indexOf(id))
+        await self.users.update(user.email, user)
+      })
+      //Then delete the channel
       await db.del(`channels:${id}`)
     },
     join: async(id, joiner) => {
@@ -109,24 +115,36 @@ const self = module.exports = {
       if(!joiner.email) throw Error('Invalid channel joiner')
       //First, check if the user doesn't already have the channel in its array 
       //Getting a user through his email
-      const data = await db.get(`users_email:${joiner.email}`)
-      const userID = JSON.parse(data)
-      //Getting a user through his id
-      const data2 = await db.get(`users:${userID.id}`)
-      const user = JSON.parse(data2)
+      const userID = JSON.parse(await db.get(`users_email:${joiner.email}`))
+      //Getting a user through his id 
+      const user = JSON.parse(await db.get(`users:${userID.id}`))
       if (user.channels.includes(id)) throw Error('User has already joined this channel.')
       //Now get the channel to update it
-      const data3 = await db.get(`channels:${id}`)
-      const selectedChannel=JSON.parse(data3)
+      const selectedChannel=JSON.parse(await db.get(`channels:${id}`))
       //First update the channel
       selectedChannel.users.push(userID.id)
       //Then update the user
       user.channels.push(id)
-      const newUser=self.users.update(user.email, user)
+      const newUser= await self.users.update(user.email, user)
       //Finally, update the final channel
-      const newChannel = self.channels.update(id, selectedChannel)
+      const newChannel = await self.channels.update(id, selectedChannel)
       return newChannel 
-    }
+    },
+    leave: async (id, leaver) => {
+      if(!id) throw Error('Invalid channel id')
+      if(!leaver.email) throw Error('Invalid channel leaver')
+      const userID = JSON.parse(await db.get(`users_email:${leaver.email}`))
+      const user = JSON.parse(await db.get(`users:${userID.id}`))
+      //Now get the channel to update it
+      const selectedChannel=JSON.parse(await db.get(`channels:${id}`))
+      //update the user
+      user.channels.splice(user.channels.indexOf(id))
+      await self.users.update(user.email, user)
+      //Finally, update the final channel
+      selectedChannel.users.splice(selectedChannel.users.indexOf(userID.id))
+      const newChannel = await self.channels.update(id, selectedChannel)
+      return newChannel 
+    },
   },
   messages: {
     create: async (channelId, message) => {
@@ -210,11 +228,23 @@ const self = module.exports = {
       //return the new one
       return merge(original, newUser)
     },
-    delete: (id) => {
-      if(!store.users[id]) throw Error('Unregistered user id')
-      if(!store.usersByEmail[store.users[id].email]) throw Error('Unregistered user email')
-      delete store.usersByEmail[store.users[id].email]
-      delete store.users[id]
+    delete: async (email) => {
+      if (!email) throw Error("No id given")
+      const user = JSON.parse(await db.get(`users_email:${email}`))
+      //Before deleting the user, let's remove every occurence of this user in channels
+      const channels = await self.channels.listUserChannels(email)
+      channels.map(async (channel, i) =>{
+        //If the owner is our user, we need to delete all of his channels
+        if(channel.owner===user.id)
+          await self.channels.delete(channel.id, channel)
+        else{
+          channel.users.splice(channel.users.indexOf(user.id))
+          await self.channels.update(channel.id, channel)
+        }
+      })
+      //Then delete the user
+      await db.del(`users:${user.id}`)
+      await db.del(`users_email:${email}`)
     }
   },
   admin: {
