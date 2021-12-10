@@ -1,35 +1,35 @@
 /** @jsxImportSource @emotion/react */
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 // Layout
 import { useTheme } from "@mui/styles";
-import { IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useNavigate } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
 import Divider from "@mui/material/Divider";
-import Gravatar from "react-gravatar";
-import SettingsIcon from "@mui/icons-material/Settings";
-import Avatar from "@mui/material/Avatar";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import Tooltip from "@mui/material/Tooltip";
+import AppBar from "@mui/material/AppBar";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
-import AppBar from "@mui/material/AppBar";
-import Tooltip from "@mui/material/Tooltip";
-import ArrowRight from "@mui/icons-material/ArrowRight";
-
 // Local
 import Context from "../context/Context";
+import ChannelUsers from "./ChannelUsers";
+import AddChannel from "./AddChannel";
 
 const useStyles = (theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
+    display: "flex",
+    flex: "1 1 auto",
+    overflow: "auto",
+    flexDirection: "column",
   },
   channels: {
     margin: "auto",
@@ -47,7 +47,9 @@ const useStyles = (theme) => ({
     fontFamily: theme.palette.primary.textFont,
     fontSize: "22px",
     fontWeight: "600",
+    padding: "4%",
     color: theme.palette.secondary.dark,
+    opacity: "1",
   },
 });
 
@@ -74,9 +76,9 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
   ({ theme }) => ({
     textTransform: "none",
     color: theme.palette.primary.contrastText,
-    width: "90%",
+    width: "95%",
     margin: "auto",
-    marginTop: "4px",
+    marginTop: "2px",
     "&.Mui-selected": {
       color: theme.palette.misc.main,
     },
@@ -87,18 +89,30 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
   })
 );
 
+//This components shows the left part of the screen with the channels list and users part
 export default function Channels() {
   const theme = useTheme();
   const styles = useStyles(theme);
-  //let's get what channel is used to be able to set our current channel
-  const id = useParams();
-  const { oauth, setOauth, channels, setChannels } = useContext(Context);
+
+  //let's get what channel is being used
+  //getting the oauth channels and setChannels from the context
+  const { id, setID, oauth, channels, setChannels, openDialog, setOpenDialog } =
+    useContext(Context);
   const navigate = useNavigate();
+  //Setting the id as the params of the page
+  //Setting the value for tabs
+  const [value, setValue] = useState(false);
+  const handleChange = (e, newValue) => {
+    e.stopPropagation();
+    setValue(newValue);
+  };
+  const firstId = useParams()["*"];
+  //use effect using the get channels
   useEffect(() => {
     const fetch = async () => {
       try {
         const { data: channels } = await axios.get(
-          "http://localhost:3001/channels",
+          `http://localhost:3001/users/channels/${oauth.email}`,
           {
             headers: {
               Authorization: `Bearer ${oauth.access_token}`,
@@ -106,158 +120,117 @@ export default function Channels() {
           }
         );
         setChannels(channels);
-        channels.map((channel, i) => {
-          //Current channel is the one with a matching id to the url id
-          if (channel.id == id["*"]) setValue(i + 1);
-        });
+        //set the current channel to the one in parameters
+        setID(firstId);
+        if (id) setValue(channels.findIndex((channel) => channel.id === id));
       } catch (err) {
         console.error(err);
       }
     };
     fetch();
-  }, [oauth, setChannels]);
-
-  const [value, setValue] = React.useState(0);
-  const handleChange = (e, newValue) => {
-    e.stopPropagation();
-    setValue(newValue);
-  };
-
-  const onClickLogout = (e) => {
-    e.stopPropagation();
-    setOauth(null);
-  };
+    //get the users of the channel
+  }, [oauth, setChannels, openDialog]);
 
   return (
-    <div css={styles.root}>
-      <Box sx={{ flexGrow: 1 }}>
-        <StyledTabs
-          orientation="vertical"
-          value={value}
-          onChange={handleChange}
-          variant="scrollable"
-        >
-          <StyledTab
-            wrapped
-            label="typetrack."
-            value={0}
-            key={0}
-            sx={styles.typetrack}
-            component={RouterLink}
-            to="/channels"
-          />
-          <Divider
-            variant="middle"
-            css={{
-              backgroundColor: theme.palette.primary.contrastText,
-              width: "20%",
-              margin: "auto",
-            }}
-          />
-          {channels.map((channel, i) => {
-            return (
-              <StyledTab
-                wrapped
-                label={channel.name}
-                key={i + 1}
-                value={i + 1}
-                css={styles.channel}
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate(`/channels/${channel.id}`);
-                }}
-              />
-            );
-          })}
-        </StyledTabs>
-        <Divider
-          variant="middle"
-          css={{ backgroundColor: theme.palette.primary.contrastText }}
-        />
-      </Box>
-
+    <Box css={styles.root}>
+      {openDialog && <AddChannel />}
       <AppBar
-        position="absolute"
+        elevation={0}
+        position="relative"
         sx={{
-          backgroundColor: theme.palette.primary.dark,
-          top: "auto",
-          bottom: 0,
+          bottom: "auto",
+          top: 0,
         }}
       >
-        <List>
-          <ListItem disablePadding>
-            <ListItemAvatar>
-              <Avatar
-                sx={{
-                  bgcolor: theme.palette.misc.main,
-                  margin: "auto",
-                  width: "36px",
-                  height: "36px",
-                }}
-              >
-                <Gravatar email={oauth.email} size={36} />
-              </Avatar>
-            </ListItemAvatar>
+        <StyledTab
+          variant="fullWidth"
+          label="typetrack."
+          sx={styles.typetrack}
+          onClick={(e) => {
+            e.preventDefault();
+            setID();
+            setValue(false);
+            //go to start page
+            navigate(`/channels/`);
+          }}
+        />
+        <Divider
+          variant="middle"
+          css={{
+            backgroundColor: theme.palette.primary.contrastText,
+            width: "20%",
+            margin: "auto",
+          }}
+        />
+        <div css={{ height: "10%" }}></div>
+      </AppBar>
+      <Box
+        sx={{
+          display: "flex",
+          flex: "1 1 auto",
+          flexDirection: "column",
+          height: "25%",
+        }}
+      >
+        <List sx={{ maxHeight: "100%", overflow: "auto", textAlign: "center" }}>
+          {channels.length !== 0 && (
+            <StyledTabs
+              orientation="vertical"
+              value={value}
+              onChange={handleChange}
+            >
+              {channels.map((channel, i) => {
+                return (
+                  <StyledTab
+                    wrapped
+                    label={channel.name}
+                    key={i}
+                    value={i}
+                    css={styles.channel}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      //go to this channel
+                      setID(channel.id);
+                      navigate(`/channels/${channel.id}`);
+                    }}
+                  />
+                );
+              })}
+            </StyledTabs>
+          )}
+          <ListItem>
             <ListItemText
-              primary={oauth.email}
+              primary="Add a channel"
               primaryTypographyProps={{
-                fontSize: 16,
+                fontSize: 20,
                 fontWeight: "400",
-                letterSpacing: 0,
                 color: theme.palette.secondary.main,
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-              }}
-              secondary="jeune âme en perdition"
-              secondaryTypographyProps={{
-                fontSize: 14,
-                color: theme.palette.primary.contrastText,
+                textAlign: "left",
               }}
             />
-            <Tooltip title="Settings">
-              <IconButton
-                onClick={onClickLogout}
-                color="misc"
-                size="large"
+            <Tooltip title="Create or join a channel" placement="right">
+              <Fab
                 sx={{
-                  color: theme.palette.misc.main,
-                  "& svg": {
-                    color: theme.palette.misc.main,
-                    transition: "0.2s",
-                    transform: "translateX(0) rotate(0)",
-                  },
-                  "&:hover, &:focus": {
-                    bgcolor: "unset",
+                  backgroundColor: theme.palette.misc.main,
+                  ":hover": {
+                    backgroundColor: theme.palette.misc.main,
                     opacity: "0.85",
-                    "& svg:first-of-type": {
-                      transform: "translateX(-4px) rotate(-20deg)",
-                    },
-                    "& svg:last-of-type": {
-                      right: 0,
-                      opacity: 1,
-                    },
-                  },
-                  "&:after": {
-                    content: '""',
-                    position: "absolute",
-                    height: "80%",
-                    display: "block",
-                    left: 0,
-                    width: "1px",
-                    bgcolor: "divider",
                   },
                 }}
+                size="small"
+                aria-label="add"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpenDialog(true);
+                }}
               >
-                <SettingsIcon />
-                <ArrowRight
-                  sx={{ position: "absolute", right: 4, opacity: 0 }}
-                />
-              </IconButton>
+                <AddIcon />
+              </Fab>
             </Tooltip>
           </ListItem>
         </List>
-      </AppBar>
-    </div>
+      </Box>
+      <ChannelUsers />
+    </Box>
   );
 }

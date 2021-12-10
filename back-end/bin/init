@@ -8,10 +8,33 @@ const config = {
 };
 
 (async function() {
+
   await db.admin.clear();
   await app.listen(config.port);
   await Promise.all([{
-    name: 'Channel 1',
+    username: "kellianoy",
+    email: "kellian.cottart@edu.ece.fr"
+  },
+  {
+    username: "yann",
+    email: "yann.messalati@edu.ece.fr"
+  },
+  {
+    username: "sergei",
+    email: "sergei@adaltas.com"
+  },
+  {
+    username: "david",
+    email: "david@adaltas.com"
+  },].map( async (user) => { 
+    await axios.post(`http://localhost:${config.port}/users`, {
+      username: user.username,
+      email: user.email
+  })}))
+
+  await Promise.all([{
+    name: 'Lab definition',
+    owner: "yann.messalati@edu.ece.fr",
     messages: [{
       author: 'sergei',
       creation: 1602831101929,
@@ -89,7 +112,8 @@ const config = {
       `.replace(/^ {6}/gm,'').replace(/^ {6}/gm,''),
     }]
   },{
-    name: 'Channel 2',
+    name: 'Pinging is fun',
+    owner: "yann.messalati@edu.ece.fr",
     messages: [{
       author: 'sergei',
       creation: 1602223579200,
@@ -104,7 +128,8 @@ const config = {
       `.replace(/^ {6}/gm,'')
     }]
   },{
-    name: 'Channel 3',
+    name: '42 Channel',
+    owner: "yann.messalati@edu.ece.fr",
     messages: [{
       author: 'sergei',
       creation: 1602223579200,
@@ -118,9 +143,43 @@ const config = {
       42
       `.replace(/^ {6}/gm,'')
     }]
+  },{
+    name: 'Aloooaaa',
+    owner: "kellian.cottart@edu.ece.fr",
+    messages: [{
+      author: 'sergei',
+      creation: 1602553556200,
+      content: `
+      Hihihi
+      `.replace(/^ {6}/gm,'')
+    },{
+      author: 'david',
+      creation: 160248579600,
+      content: `
+      Hahaha
+      `.replace(/^ {6}/gm,'')
+    }]
+  },
+  {
+    name: 'Pinging is fun',
+    owner: "kellian.cottart@edu.ece.fr",
+    messages: [{
+      author: 'sergei',
+      creation: 1602223579200,
+      content: `
+      Ping
+      `.replace(/^ {6}/gm,'')
+    },{
+      author: 'david',
+      creation: 1602523579200,
+      content: `
+      Pong
+      `.replace(/^ {6}/gm,'')
+    }]
   }].map( async (channel) => {
     const {data: {id}} = await axios.post(`http://localhost:${config.port}/channels`, {
-      name: channel.name
+      name: channel.name,
+      owner: channel.owner
     })
     return Promise.all( channel.messages.map( async (message) => {
       await axios.post(`http://localhost:${config.port}/channels/${id}/messages`, message)

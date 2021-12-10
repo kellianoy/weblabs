@@ -40,7 +40,7 @@ export default function App() {
       <Routes>
         <Route exact path="/" element={oauth ? gochannels : <Login />} />
         <Route path="/channels/*" element={oauth ? <Main /> : gohome} />
-        <Route path="/BadGateway" element={<BadGateway />} />
+        <Route path="/404" element={oauth ? <BadGateway /> : <Login />} />
       </Routes>
     </div>
   );

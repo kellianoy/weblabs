@@ -12,6 +12,10 @@ export const Provider = ({ children }) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [channels, setChannels] = useState([]);
   const [currentChannel, setCurrentChannel] = useState(null);
+  //For adding a channel
+  const [openDialog, setOpenDialog] = useState(false);
+  //let's get what channel is being used
+  const [id, setID] = useState(0);
   return (
     <Context.Provider
       value={{
@@ -41,6 +45,10 @@ export const Provider = ({ children }) => {
           const channel = channels.find((channel) => channel.id === channelId);
           setCurrentChannel(channel);
         },
+        openDialog: openDialog,
+        setOpenDialog: setOpenDialog,
+        id: id,
+        setID: setID,
       }}
     >
       {children}

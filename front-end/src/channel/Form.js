@@ -6,7 +6,6 @@ import { Button } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import InputBase from "@mui/material/InputBase";
 import PropTypes from "prop-types";
-
 const useStyles = (theme) => ({
   form: {
     padding: "1rem",
@@ -25,6 +24,7 @@ const useStyles = (theme) => ({
   send: { marginLeft: "10%" },
 });
 
+//this component is a form
 export default function Form({ addMessage, channel, user }) {
   const [content, setContent] = useState("");
   const styles = useStyles(useTheme());

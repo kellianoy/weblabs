@@ -36,6 +36,7 @@ const useStyles = (theme) => ({
   },
 });
 
+//This component shows the content of a channel
 export default function Channel() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -65,7 +66,7 @@ export default function Channel() {
           listRef.current.scroll();
         }
       } catch (err) {
-        navigate("/BadGateway");
+        navigate("/404");
       }
     };
     fetch();
