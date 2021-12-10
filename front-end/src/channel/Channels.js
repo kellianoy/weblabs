@@ -89,6 +89,7 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
   })
 );
 
+//This components shows the left part of the screen with the channels list and users part
 export default function Channels() {
   const theme = useTheme();
   const styles = useStyles(theme);

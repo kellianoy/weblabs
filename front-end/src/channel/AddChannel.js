@@ -41,59 +41,83 @@ export function Error({
     </Snackbar>
   );
 }
+
 Error.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
   message: PropTypes.string.isRequired,
 };
 
+//This componnent adds dialog text box to create or join channels
 export default function AddChannels() {
   const theme = useTheme();
   const { oauth, openDialog, setOpenDialog } = useContext(Context);
+  //To open the create dialog box
   const [openCreate, setOpenCreate] = useState(false);
+  //To open the join dialog box
   const [openJoin, setOpenJoin] = useState(false);
+  //Content of the create tab input
   const [createContent, setCreateContent] = useState("");
+  //Content of the join tab input
   const [joinContent, setJoinContent] = useState("");
+  //Open or close the error tab
   const [open, setOpen] = useState(false);
   const createChannel = async () => {
     try {
       if (createContent === "") {
         setOpen(true);
       } else {
-        await axios.post(`http://localhost:3001/channels/`, {
-          name: createContent,
-          owner: oauth.email,
-        });
-
+        await axios.post(
+          `http://localhost:3001/channels/`,
+          {
+            name: createContent,
+            owner: oauth.email,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${oauth.access_token}`,
+            },
+          }
+        );
+        //We close the open dialogs
         setOpenCreate(false);
         setOpenDialog(false);
       }
     } catch (err) {
       console.error(err);
       setOpen(true);
+      //We notify the error
     }
   };
   const joinChannel = async () => {
     try {
-      console.log(joinContent);
       const found = joinContent.match(
         /localhost:3000\/channels\/join\/\w+-\w+-\w+-\w+-\w+/
       );
       if (found.length !== 0) {
         const joinID = found[0].match(/\w+-\w+-\w+-\w+-\w+/)[0];
-        console.log(joinID);
-        await axios.put(`http://localhost:3001/channels/join/${joinID}`, {
-          //TO DO : AUTHENTICATE
-          email: oauth.email,
-        });
+        await axios.put(
+          `http://localhost:3001/channels/join/${joinID}`,
+          {
+            email: oauth.email,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${oauth.access_token}`,
+            },
+          }
+        );
       } else {
+        //We notify the error
         setOpen(true);
       }
+      //We close the open dialogs
       setOpenJoin(false);
       setOpenDialog(false);
     } catch (err) {
       console.error(err);
       setOpen(true);
+      //We notify the error
     }
   };
   return (
@@ -369,7 +393,7 @@ export default function AddChannels() {
         <Error
           open={open}
           setOpen={setOpen}
-          message="The link of the channel is incorrect"
+          message="The link of the channel is incorrect or you already joined the channel !"
         />
       </Dialog>
     </>

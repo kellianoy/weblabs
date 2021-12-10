@@ -36,6 +36,7 @@ const useStyles = (theme) => ({
   },
 });
 
+//This component shows the content of a channel
 export default function Channel() {
   const navigate = useNavigate();
   const { id } = useParams();

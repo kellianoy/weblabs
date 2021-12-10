@@ -79,6 +79,7 @@ const useStyles = (theme) => ({
   },
 });
 
+//This component lists messages
 const List = forwardRef(function List({ messages, onScrollDown }, ref) {
   const styles = useStyles(useTheme());
   // Expose the `scroll` action

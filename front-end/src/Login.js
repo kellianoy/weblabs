@@ -99,27 +99,34 @@ const LoadToken = ({
           })
         );
 
-        //To get the users in the db
-        const { data: users } = await axios.get(`http://localhost:3001/users`, {
-          headers: {
-            Authorization: `Bearer ${data.access_token}`,
-          },
-        });
         //We remove the codeverifier from the cookies
         removeCookie("code_verifier");
         //We set our data as our oauth factor -> we can get the email and all
         setOauth(data);
-        console.log(users);
+
         //If there is not already a user with that email, let's create one, if not do nothing
+        //To get the users in the db
+        const { data: users } = await axios.get(`http://localhost:3001/users`, {
+          headers: {
+            Authorization: `Bearer ${oauth.access_token}`,
+          },
+        });
         //using an email, create a new user entry in the db
         if (!users.find((user) => user.email === oauth.email)) {
           //Function to create a user in the db
-          await axios.post(`http://localhost:3001/users`, {
-            username: data.email,
-            email: data.email,
-          });
+          await axios.post(
+            `http://localhost:3001/users`,
+            {
+              username: oauth.email,
+              email: oauth.email,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${oauth.access_token}`,
+              },
+            }
+          );
         }
-
         navigate("/");
       } catch (err) {
         console.error(err);

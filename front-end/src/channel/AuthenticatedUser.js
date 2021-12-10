@@ -17,6 +17,7 @@ import ArrowRight from "@mui/icons-material/ArrowRight";
 //Local
 import Context from "../context/Context";
 
+//This component shows the currently authenticated user in the navbar
 export default function AuthenticatedUser() {
   const theme = useTheme();
   const { oauth, setOauth } = useContext(Context);

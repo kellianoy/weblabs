@@ -23,7 +23,7 @@ const useStyles = (theme) => ({
     flex: "1 1 auto",
     display: "flex",
     flexDirection: "row",
-    position: "relative",
+    alignContent: "center",
   },
   drawer: {
     display: "block",
@@ -73,9 +73,15 @@ export default function Main() {
         open={displayDrawer}
       >
         {!alwaysOpen && (
-          <IconButton color="misc" onClick={close}>
-            <ChevronLeftIcon />
-          </IconButton>
+          <div css={{ textAlign: "center" }}>
+            <IconButton
+              color="misc"
+              sx={{ position: "relative" }}
+              onClick={close}
+            >
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
         )}
         <Channels />
         <AuthenticatedUser />

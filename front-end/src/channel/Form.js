@@ -24,6 +24,7 @@ const useStyles = (theme) => ({
   send: { marginLeft: "10%" },
 });
 
+//this component is a form
 export default function Form({ addMessage, channel, user }) {
   const [content, setContent] = useState("");
   const styles = useStyles(useTheme());
