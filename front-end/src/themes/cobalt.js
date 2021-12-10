@@ -20,6 +20,7 @@ const theme = createTheme({
     },
     misc: {
       main: "#BB86FC",
+      owner: "#ff2454",
       contrastText: "#000000",
     },
   },

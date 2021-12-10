@@ -26,25 +26,42 @@ export default function AuthenticatedUser() {
     e.stopPropagation();
     setOauth(null);
   };
+  //Use effect to create a new user in db in case be
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        const { data: user } = await axios.get(
-          `http://localhost:3001/users/e/${oauth.email}`,
-          {
-            headers: {
-              Authorization: `Bearer ${oauth.access_token}`,
+    setTimeout(() => {
+      const fetch = async () => {
+        try {
+          //Function to create a user in the db
+          await axios.post(
+            `http://localhost:3001/users`,
+            {
+              username: oauth.email,
+              email: oauth.email,
             },
-          }
-        );
-        setUser(user);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetch();
+            {
+              headers: {
+                Authorization: `Bearer ${oauth.access_token}`,
+              },
+            }
+          );
+
+          const { data: user } = await axios.get(
+            `http://localhost:3001/users/email/${oauth.email}`,
+            {
+              headers: {
+                Authorization: `Bearer ${oauth.access_token}`,
+              },
+            }
+          );
+          setUser(user);
+        } catch (err) {
+          console.error(err);
+        }
+      };
+      fetch();
+    }, 500);
     //get the users of the channel
-  }, [oauth, setUser]);
+  }, [oauth]);
   return (
     <AppBar
       position="relative"
@@ -65,7 +82,7 @@ export default function AuthenticatedUser() {
                 height: "36px",
               }}
             >
-              <Gravatar email={user.email} size={36} />
+              <Gravatar email={user.email} size={36} default="retro" />
             </Avatar>
           </ListItemAvatar>
           <ListItemText

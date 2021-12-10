@@ -24,22 +24,25 @@ export default function Useritem({ user, owner }) {
               height: "36px",
             }}
           >
-            <Gravatar email={user.email} size={36} />
+            <Gravatar email={user.email} size={36} default="retro" />
           </Avatar>
         </ListItemAvatar>
         <ListItemText
           primary={user.username}
           primaryTypographyProps={{
-            fontSize: 16,
-            fontWeight: "400",
+            fontSize: 18,
+            fontWeight: owner ? "500" : "400",
             letterSpacing: 0,
-            color: theme.palette.secondary.main,
+            color: owner
+              ? theme.palette.misc.owner
+              : theme.palette.secondary.main,
             overflow: "hidden",
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
           }}
-          secondary={owner}
+          secondary={owner ? "Channel Owner" : "Member"}
           secondaryTypographyProps={{
+            fontWeight: "400",
             fontSize: 14,
             color: theme.palette.primary.contrastText,
           }}
@@ -51,5 +54,5 @@ export default function Useritem({ user, owner }) {
 
 Useritem.propTypes = {
   user: PropTypes.object.isRequired,
-  owner: PropTypes.string.isRequired,
+  owner: PropTypes.bool.isRequired,
 };

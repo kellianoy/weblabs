@@ -4,14 +4,13 @@ import { useCookies } from "react-cookie";
 import crypto from "crypto";
 import qs from "qs";
 import axios from "axios";
+import PropTypes from "prop-types";
 // Layout
 import { useTheme } from "@mui/styles";
-import { Link } from "@mui/material";
 // Local
 import Context from "./context/Context";
 import { useNavigate } from "react-router-dom";
 import Start from "./misc/Start";
-import PropTypes from "prop-types";
 
 const base64URLEncode = (str) => {
   return str
@@ -56,33 +55,14 @@ const Redirect = ({ config, codeVerifier }) => {
 };
 
 const Tokens = ({ oauth }) => {
-  const { setOauth } = useContext(Context);
   const styles = useStyles(useTheme());
   const { id_token } = oauth;
   const id_payload = id_token.split(".")[1];
   const { email } = JSON.parse(atob(id_payload));
-  const logout = (e) => {
-    e.stopPropagation();
-    setOauth(null);
-  };
-  return (
-    <div css={styles.root}>
-      Welcome {email}{" "}
-      <Link onClick={logout} color="secondary">
-        logout
-      </Link>
-    </div>
-  );
+  return <div css={styles.root}>Welcome {email} </div>;
 };
 
-const LoadToken = ({
-  code,
-  codeVerifier,
-  config,
-  removeCookie,
-  setOauth,
-  oauth,
-}) => {
+const LoadToken = ({ code, codeVerifier, config, removeCookie, setOauth }) => {
   const styles = useStyles(useTheme());
   const navigate = useNavigate();
   useEffect(() => {
@@ -98,35 +78,11 @@ const LoadToken = ({
             code: `${code}`,
           })
         );
-
         //We remove the codeverifier from the cookies
         removeCookie("code_verifier");
         //We set our data as our oauth factor -> we can get the email and all
         setOauth(data);
 
-        //If there is not already a user with that email, let's create one, if not do nothing
-        //To get the users in the db
-        const { data: users } = await axios.get(`http://localhost:3001/users`, {
-          headers: {
-            Authorization: `Bearer ${oauth.access_token}`,
-          },
-        });
-        //using an email, create a new user entry in the db
-        if (!users.find((user) => user.email === oauth.email)) {
-          //Function to create a user in the db
-          await axios.post(
-            `http://localhost:3001/users`,
-            {
-              username: oauth.email,
-              email: oauth.email,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${oauth.access_token}`,
-              },
-            }
-          );
-        }
         navigate("/");
       } catch (err) {
         console.error(err);
@@ -151,6 +107,7 @@ export default function Login() {
   };
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
+
   // is there a code query parameters in the url
   if (!code) {
     // no: we are not being redirected from an oauth server
@@ -188,7 +145,6 @@ LoadToken.propTypes = {
   config: PropTypes.object.isRequired,
   removeCookie: PropTypes.func.isRequired,
   setOauth: PropTypes.func.isRequired,
-  oauth: PropTypes.object.isRequired,
 };
 
 Tokens.propTypes = {

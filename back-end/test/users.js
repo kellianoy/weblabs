@@ -47,6 +47,25 @@ describe('users', () => {
     users.length.should.eql(1)
   })
   
+  it('add same element', async () => {
+    // Create a user
+    await supertest(app)
+    .post('/users')
+    .send({username: 'user_1', email: 'user_1'})
+    .expect(201)
+
+    // Create a user
+    await supertest(app)
+    .post('/users')
+    .send({username: 'user_1', email: 'user_1'})
+    .expect(403)
+
+    // Check if no two same elements are in 
+    const {body: users} = await supertest(app)
+    .get('/users')
+    users.length.should.eql(1)
+  })
+
   it('get user', async () => {
     // Create a user
     const {body: user1} = await supertest(app)

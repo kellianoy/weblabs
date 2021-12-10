@@ -182,6 +182,8 @@ const self = module.exports = {
     create: async (user) => {
       if(!user.username) throw Error('No username given')
       if(!user.email) throw Error('No email given')
+      const list = await self.users.list()
+      if(list.find((u)=> u.email===user.email)) throw Error('Existing user')
       const id = uuid()
       const merged=merge(user, {id: id})
       //Entry in the lookup table
@@ -197,10 +199,9 @@ const self = module.exports = {
     },
     getEmail: async (email) => {
       if(!email) throw Error('Invalid email')
-      const data = await db.get(`users_email:${email}`)
-      const userE = JSON.parse(data)
-      const data2 = await db.get(`users:${userE.id}`)
-      const user = JSON.parse(data2)
+      const userE = JSON.parse(await db.get(`users_email:${email}`))
+      if(!userE) throw Error('Not found')
+      const user = JSON.parse(await db.get(`users:${userE.id}`))
       return merge(user)
     },
     list: async () => {

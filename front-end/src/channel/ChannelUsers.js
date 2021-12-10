@@ -10,32 +10,43 @@ import Divider from "@mui/material/Divider";
 import Transition from "@mui/material/Zoom";
 //Local
 import Context from "../context/Context";
+
 export default function ChannelUsers() {
   const theme = useTheme();
   //Setting a hook for a list of channel users
   const [channelUsers, setChannelUsers] = useState([]);
+  const [channel, setChannel] = useState({});
   //let's get what channel is being used
   const { oauth, id, setID } = useContext(Context);
   //UseEffect() for the users : getting the users and refreshing the list each time
   useEffect(() => {
-    const getUsers = async (channel) => {
+    const getUsers = async () => {
       try {
         if (id) {
           const { data: users } = await axios.get(
-            `http://localhost:3001/channels/users/${channel}`,
+            `http://localhost:3001/channels/users/${id}`,
             {
               headers: {
                 Authorization: `Bearer ${oauth.access_token}`,
               },
             }
           );
-          setChannelUsers(users);
+          const { data: channel } = await axios.get(
+            `http://localhost:3001/channels/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${oauth.access_token}`,
+              },
+            }
+          );
+          setChannel(channel);
+          setChannelUsers(users.reverse());
         } else setChannelUsers([]);
       } catch (err) {
         console.error(err);
       }
     };
-    getUsers(id);
+    getUsers();
   }, [id, setID]);
   return (
     <Box
@@ -59,7 +70,7 @@ export default function ChannelUsers() {
                 <Useritem
                   user={user}
                   key={i}
-                  owner={i === 0 ? "Channel owner" : "User"}
+                  owner={channel.owner === user.id ? true : false}
                 />
               );
             })}

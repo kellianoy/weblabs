@@ -15,7 +15,7 @@ export const Provider = ({ children }) => {
   //For adding a channel
   const [openDialog, setOpenDialog] = useState(false);
   //let's get what channel is being used
-  const [id, setID] = useState(0);
+  const [id, setID] = useState("");
   return (
     <Context.Provider
       value={{

@@ -122,14 +122,20 @@ export default function Channels() {
         setChannels(channels);
         //set the current channel to the one in parameters
         setID(firstId);
-        if (id) setValue(channels.findIndex((channel) => channel.id === id));
       } catch (err) {
         console.error(err);
       }
     };
     fetch();
     //get the users of the channel
-  }, [oauth, setChannels, openDialog]);
+  }, [oauth, setChannels, openDialog, id]);
+  //useEffect for ID
+  useEffect(() => {
+    const update = () => {
+      if (id) setValue(channels.findIndex((channel) => channel.id === id));
+    };
+    update();
+  }, [id]);
 
   return (
     <Box css={styles.root}>
@@ -148,7 +154,7 @@ export default function Channels() {
           sx={styles.typetrack}
           onClick={(e) => {
             e.preventDefault();
-            setID();
+            setID("");
             setValue(false);
             //go to start page
             navigate(`/channels/`);

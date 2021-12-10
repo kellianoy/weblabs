@@ -203,6 +203,48 @@ describe('channels', () => {
     
   })
   
+  it("leave a channel and don't delete anything else", async () => {
+    // Create a user
+    const {body: user1} = await supertest(app)
+    .post('/users')
+    .send({username: 'user_1', email: 'user_1'})
+    .expect(201)
+    // Create a second user
+    const {body: user2} = await supertest(app)
+    .post('/users')
+    .send({username: 'user_2', email: 'user_2'})
+    .expect(201)
+    //Create channel
+    const {body: channel1} = await supertest(app)
+    .post('/channels')
+    .send({name: 'channel 1', owner: user1.email})
+    .expect(201)
+    //Create a second channel for user 2
+    const {body: channel2} = await supertest(app)
+    .post('/channels')
+    .send({name: 'channel 2', owner: user2.email})
+    .expect(201)
+    //Join channel with user 2
+    await supertest(app)
+    .put(`/channels/join/${channel1.id}`)
+    .send({email: user2.email})
+    .expect(200)
+    //Leave channel with user 2
+
+    const {body: newChannel} = await supertest(app)
+    .put(`/channels/leave/${channel1.id}`)
+    .send({email: user2.email})
+    .expect(200)
+    //there should be two users in this array
+    newChannel.users.length.should.eql(1)
+    
+    const {body: checkUser} = await supertest(app)
+    .get(`/users/${user2.id}`)
+    .expect(200)
+    
+    checkUser.channels.length.should.eql(1)
+  })
+
   describe( 'delete', () => {
 
     it('delete channel', async () => {

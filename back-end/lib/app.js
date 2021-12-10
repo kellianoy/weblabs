@@ -109,18 +109,36 @@ app.get('/users', authenticate, async (req, res) => {
 })
 
 app.post('/users', authenticate, async (req, res) => {
-  const user = await db.users.create(req.body)
-  res.status(201).json(user)
+  try {
+
+    const user = await db.users.create(req.body)
+    res.status(201).json(user)
+  }
+  catch(err) {
+    res.status(403).send(err)
+  }
 })
 
 app.get('/users/:id', authenticate, async (req, res) => {
-  const user = await db.users.getID(req.params.id)
-  res.json(user)
+  try {
+    const user = await db.users.getID(req.params.id)
+    res.status(200).json(user)
+  }
+  catch(err)
+  {
+    res.status(404).send("User not found")
+  }
 })
 
-app.get('/users/e/:email', authenticate, async (req, res) => {
-  const user = await db.users.getEmail(req.params.email)
-  res.json(user)
+app.get('/users/email/:email', authenticate, async (req, res) => {
+  try {
+    const user = await db.users.getEmail(req.params.email)
+    res.json(user)
+  }
+  catch(err)
+  {
+    res.status(404).send("User not found")
+  }
 })
 
 app.put('/users/:email', authenticate, async (req, res) => {
