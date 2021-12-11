@@ -71,7 +71,7 @@ export default function Main() {
             }
           );
         } catch (err) {
-          console.error(err);
+          //We know it returns 403 if the user already exists, no need to notice it
         }
       }
       if (oauth.email) {
