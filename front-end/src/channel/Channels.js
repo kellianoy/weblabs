@@ -104,6 +104,7 @@ export default function Channels() {
     setChannels,
     updateChannels,
     setUpdateChannels,
+    user,
   } = useContext(Context);
   const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
@@ -118,33 +119,32 @@ export default function Channels() {
   //use effect using the get channels
   useEffect(() => {
     const fetch = async () => {
-      try {
-        const { data: channels } = await axios.get(
-          `http://localhost:3001/users/channels/${oauth.email}`,
-          {
-            headers: {
-              Authorization: `Bearer ${oauth.access_token}`,
-            },
+      if (user.email) {
+        try {
+          const { data: channels } = await axios.get(
+            `http://localhost:3001/users/channels/${oauth.email}`,
+            {
+              headers: {
+                Authorization: `Bearer ${oauth.access_token}`,
+              },
+            }
+          );
+          setChannels(channels);
+          //set the current channel to the one in parameters
+          setID(firstId);
+          if (updateChannels === true) setUpdateChannels(false);
+          if (id !== "") {
+            const index = channels.findIndex((channel) => channel.id === id);
+            if (index >= 0) setValue(index);
+            else setValue(false);
           }
-        );
-        setChannels(channels);
-        //set the current channel to the one in parameters
-        setID(firstId);
-        if (updateChannels === true) setUpdateChannels(false);
-      } catch (err) {
-        console.error(err);
+        } catch (err) {
+          console.error(err);
+        }
       }
     };
     fetch();
-  }, [oauth, updateChannels]);
-
-  //useEffect for ID
-  useEffect(() => {
-    const update = () => {
-      if (id) setValue(channels.findIndex((channel) => channel.id === id));
-    };
-    update();
-  }, [id, channels, setChannels]);
+  }, [oauth, updateChannels, user, id]);
 
   return (
     <Box css={styles.root}>

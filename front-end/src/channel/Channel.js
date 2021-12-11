@@ -10,7 +10,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Form from "./Form";
 import List from "./List";
 import Context from "../context/Context";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ChannelHeader from "./ChannelHeader";
 
 const useStyles = (theme) => ({
@@ -39,8 +39,7 @@ const useStyles = (theme) => ({
 //This component shows the content of a channel
 export default function Channel() {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const { channels, oauth } = useContext(Context);
+  const { channels, oauth, id } = useContext(Context);
   const channel = channels.find((channel) => channel.id === id);
   const theme = useTheme();
   const styles = useStyles(theme);
@@ -52,25 +51,27 @@ export default function Channel() {
   };
   useEffect(() => {
     const fetch = async () => {
-      try {
-        const { data: messages } = await axios.get(
-          `http://localhost:3001/channels/${id}/messages`,
-          {
-            headers: {
-              // TODO: secure the request
-            },
+      if (id !== "") {
+        try {
+          const { data: messages } = await axios.get(
+            `http://localhost:3001/channels/${id}/messages`,
+            {
+              headers: {
+                // TODO: secure the request
+              },
+            }
+          );
+          setMessages(messages);
+          if (listRef.current) {
+            listRef.current.scroll();
           }
-        );
-        setMessages(messages);
-        if (listRef.current) {
-          listRef.current.scroll();
+        } catch (err) {
+          navigate("/404");
         }
-      } catch (err) {
-        navigate("/404");
       }
     };
     fetch();
-  }, [id, oauth, navigate]);
+  }, [oauth, navigate]);
   const onScrollDown = (scrollDown) => {
     setScrollDown(scrollDown);
   };

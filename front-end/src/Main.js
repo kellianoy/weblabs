@@ -55,7 +55,7 @@ export default function Main() {
   const displayDrawer = alwaysOpen || drawerVisible;
   useEffect(() => {
     const fetch = async () => {
-      if (!user) {
+      if (!user.email) {
         try {
           //Function to create a user in the db
           await axios.post(
@@ -74,18 +74,20 @@ export default function Main() {
           console.error(err);
         }
       }
-      try {
-        const { data: get } = await axios.get(
-          `http://localhost:3001/users/email/${oauth.email}`,
-          {
-            headers: {
-              Authorization: `Bearer ${oauth.access_token}`,
-            },
-          }
-        );
-        setUser(get);
-      } catch (err) {
-        console.error(err);
+      if (oauth.email) {
+        try {
+          const { data: get } = await axios.get(
+            `http://localhost:3001/users/email/${oauth.email}`,
+            {
+              headers: {
+                Authorization: `Bearer ${oauth.access_token}`,
+              },
+            }
+          );
+          setUser(get);
+        } catch (err) {
+          console.error(err);
+        }
       }
     };
     fetch();
