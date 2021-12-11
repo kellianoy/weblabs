@@ -20,7 +20,7 @@ export default function DeleteChannel({ open, setOpen }) {
   //is the drawer visible ?
 
   const navigate = useNavigate();
-  const { id, oauth, setUpdateChannels } = useContext(Context);
+  const { setID, id, oauth, setUpdateChannels } = useContext(Context);
   const theme = useTheme();
 
   const deleteChannel = async () => {
@@ -31,6 +31,7 @@ export default function DeleteChannel({ open, setOpen }) {
         },
       });
       setOpen(false);
+      setID("");
       setUpdateChannels(true);
       navigate("/channels");
     } catch (err) {

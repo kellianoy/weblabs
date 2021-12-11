@@ -20,7 +20,7 @@ export default function LeaveChannel({ open, setOpen }) {
   //is the drawer visible ?
 
   const navigate = useNavigate();
-  const { id, oauth, setUpdateChannels } = useContext(Context);
+  const { setID, id, oauth, setUpdateChannels } = useContext(Context);
   const theme = useTheme();
 
   const leaveChannel = async () => {
@@ -36,6 +36,7 @@ export default function LeaveChannel({ open, setOpen }) {
           },
         }
       );
+      setID("");
       setOpen(false);
       setUpdateChannels(true);
       navigate("/channels");

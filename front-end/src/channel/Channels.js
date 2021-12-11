@@ -116,6 +116,17 @@ export default function Channels() {
     setValue(newValue);
   };
   const firstId = useParams()["*"];
+  //useEffect to update the id, and set tab value to false in case be
+  useEffect(() => {
+    const update = async () => {
+      if (id !== "") {
+        const index = channels.findIndex((channel) => channel.id === id);
+        if (index >= 0) setValue(index);
+        else setValue(false);
+      } else setValue(false);
+    };
+    update();
+  }, [id]);
   //use effect using the get channels
   useEffect(() => {
     const fetch = async () => {
@@ -133,18 +144,13 @@ export default function Channels() {
           //set the current channel to the one in parameters
           setID(firstId);
           if (updateChannels === true) setUpdateChannels(false);
-          if (id !== "") {
-            const index = channels.findIndex((channel) => channel.id === id);
-            if (index >= 0) setValue(index);
-            else setValue(false);
-          }
         } catch (err) {
           console.error(err);
         }
       }
     };
     fetch();
-  }, [oauth, updateChannels, user, id]);
+  }, [updateChannels]);
 
   return (
     <Box css={styles.root}>

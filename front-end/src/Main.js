@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { useContext, useEffect } from "react";
-import axios from "axios";
+import { useContext } from "react";
+
 // Layout
 import { useTheme } from "@mui/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -44,8 +44,7 @@ const useStyles = (theme) => ({
 export default function Main() {
   const theme = useTheme();
   const styles = useStyles(theme);
-  const { drawerVisible, setDrawerVisible, oauth, setUser, user, setChannels } =
-    useContext(Context);
+  const { drawerVisible, setDrawerVisible } = useContext(Context);
 
   const close = (e) => {
     e.stopPropagation();
@@ -53,45 +52,7 @@ export default function Main() {
   };
   const alwaysOpen = useMediaQuery(theme.breakpoints.up("sm"));
   const displayDrawer = alwaysOpen || drawerVisible;
-  useEffect(() => {
-    const fetch = async () => {
-      if (!user.email) {
-        try {
-          //Function to create a user in the db
-          await axios.post(
-            `http://localhost:3001/users`,
-            {
-              username: oauth.email,
-              email: oauth.email,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${oauth.access_token}`,
-              },
-            }
-          );
-        } catch (err) {
-          //We know it returns 403 if the user already exists, no need to notice it
-        }
-      }
-      if (oauth.email) {
-        try {
-          const { data: get } = await axios.get(
-            `http://localhost:3001/users/email/${oauth.email}`,
-            {
-              headers: {
-                Authorization: `Bearer ${oauth.access_token}`,
-              },
-            }
-          );
-          setUser(get);
-        } catch (err) {
-          console.error(err);
-        }
-      }
-    };
-    fetch();
-  }, [oauth, setChannels]);
+
   return (
     <main css={styles.root}>
       <Drawer

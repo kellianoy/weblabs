@@ -87,6 +87,7 @@ Project management
   The project is stuctured using folders by group of components.
   
   - Channels components are stored in `channel` folder
+  - Settings components are stored in `settings` folder
   - Themes are stored in `themes`
   - Special effects such as special hovers are stored in `effects`
   - Icons are stored in `icons`
@@ -122,9 +123,10 @@ Project management
   
   - Linter has been implemented to check the parameters of functions & components
   - We're using GitKraken to manage our git, branching whenever we want to implement a new fonctionnality
-  - We're rebasing main onto each working functionnality instead of using merge, because sometimes fonctionnalities are lost
+  - We're rebasing main when we implement breaking functionnalities, and merging it when we are adding new ones that don't break anything.
+  - We have implemented CI by using GitHub actions on our tests (we have about 30)
   
-  Points : 2/4 (wip)
+  Points : 3/4 
   
 Application development
 
