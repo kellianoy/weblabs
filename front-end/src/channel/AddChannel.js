@@ -49,9 +49,9 @@ Error.propTypes = {
 };
 
 //This componnent adds dialog text box to create or join channels
-export default function AddChannels() {
+export default function AddChannels({ openDialog, setOpenDialog }) {
   const theme = useTheme();
-  const { oauth, openDialog, setOpenDialog } = useContext(Context);
+  const { oauth, setUpdateChannels } = useContext(Context);
   //To open the create dialog box
   const [openCreate, setOpenCreate] = useState(false);
   //To open the join dialog box
@@ -82,6 +82,7 @@ export default function AddChannels() {
         //We close the open dialogs
         setOpenCreate(false);
         setOpenDialog(false);
+        setUpdateChannels(true);
       }
     } catch (err) {
       console.error(err);
@@ -114,6 +115,7 @@ export default function AddChannels() {
       //We close the open dialogs
       setOpenJoin(false);
       setOpenDialog(false);
+      setUpdateChannels(true);
     } catch (err) {
       console.error(err);
       setOpen(true);
@@ -399,3 +401,8 @@ export default function AddChannels() {
     </>
   );
 }
+
+AddChannels.propTypes = {
+  openDialog: PropTypes.bool.isRequired,
+  setOpenDialog: PropTypes.func.isRequired,
+};

@@ -44,7 +44,7 @@ const useStyles = (theme) => ({
 export default function Main() {
   const theme = useTheme();
   const styles = useStyles(theme);
-  const { drawerVisible, setDrawerVisible, oauth, setUser, user, setChannel } =
+  const { drawerVisible, setDrawerVisible, oauth, setUser, user, setChannels } =
     useContext(Context);
 
   const close = (e) => {
@@ -89,7 +89,7 @@ export default function Main() {
       }
     };
     fetch();
-  }, [oauth, setChannel]);
+  }, [oauth, setChannels]);
   return (
     <main css={styles.root}>
       <Drawer

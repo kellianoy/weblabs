@@ -96,8 +96,16 @@ export default function Channels() {
 
   //let's get what channel is being used
   //getting the oauth channels and setChannels from the context
-  const { id, setID, oauth, channels, setChannels, openDialog, setOpenDialog } =
-    useContext(Context);
+  const {
+    id,
+    setID,
+    oauth,
+    channels,
+    setChannels,
+    updateChannels,
+    setUpdateChannels,
+  } = useContext(Context);
+  const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
   //Setting the id as the params of the page
   //Setting the value for tabs
@@ -122,12 +130,13 @@ export default function Channels() {
         setChannels(channels);
         //set the current channel to the one in parameters
         setID(firstId);
+        if (updateChannels === true) setUpdateChannels(false);
       } catch (err) {
         console.error(err);
       }
     };
     fetch();
-  }, [oauth, setID, openDialog]);
+  }, [oauth, updateChannels]);
 
   //useEffect for ID
   useEffect(() => {
@@ -139,7 +148,9 @@ export default function Channels() {
 
   return (
     <Box css={styles.root}>
-      {openDialog && <AddChannel />}
+      {openDialog && (
+        <AddChannel openDialog={openDialog} setOpenDialog={setOpenDialog} />
+      )}
       <AppBar
         elevation={0}
         position="relative"
