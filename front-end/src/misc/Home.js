@@ -17,7 +17,7 @@ const useStyles = (theme) => ({
   },
   text: {
     fontFamily: theme.palette.primary.textFont,
-    fontColor: theme.palette.primary.contrastText,
+    color: theme.palette.primary.contrastText,
     fontSize: "18px",
     marginTop: "1%",
     marginLeft: "2%",

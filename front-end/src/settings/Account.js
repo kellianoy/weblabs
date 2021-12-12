@@ -46,6 +46,7 @@ const useStyles = (theme) => ({
     color: theme.palette.secondary.dark,
   },
   item: {
+    fontFamily: theme.palette.primary.textFont,
     fontSize: 18,
     fontWeight: "600",
     letterSpacing: 0,
@@ -54,6 +55,7 @@ const useStyles = (theme) => ({
     textOverflow: "ellipsis",
   },
   field: {
+    fontFamily: theme.palette.primary.textFont,
     fontSize: 18,
     fontWeight: "400",
     color: theme.palette.primary.contrastText,

@@ -10,6 +10,11 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import PropTypes from "prop-types";
 
 const useStyles = (theme) => ({
+  root: {
+    width: "100%",
+    height: "100%",
+    overflow: "auto",
+  },
   cards: {
     display: "flex",
     flex: "1 1 auto",
@@ -83,82 +88,90 @@ export default function Start({ redirect }) {
   const isSmall = !useMediaQuery(theme.breakpoints.up("md"));
 
   return (
-    <Grid
-      container
-      rowSpacing={{ xs: 26, sm: 26, md: 26 }}
-      columnSpacing={{ xs: 2, sm: 8, md: 8 }}
-    >
-      <Grid item xs={12}>
-        <h2 css={styles.topleftsub}> Refined chatting for tasteful people </h2>
-        <h1 css={styles.typetrack}> typetrack. </h1>
-      </Grid>
-      <Grid item xs={12}>
-        <div css={styles.middle}>
-          <h1 css={styles.midleftsub}>Please, log in the application</h1>
-          <ScaleUp scale={1.15}>
-            <Button
-              size="medium"
-              variant="contained"
-              color="misc"
-              onClick={redirect}
+    <div css={styles.root}>
+      <Grid
+        container
+        rowSpacing={{ xs: 26, sm: 26, md: 26 }}
+        columnSpacing={{ xs: 2, sm: 8, md: 8 }}
+      >
+        <Grid item xs={12}>
+          <h2 css={styles.topleftsub}>
+            {" "}
+            Refined chatting for tasteful people{" "}
+          </h2>
+          <h1 css={styles.typetrack}> typetrack. </h1>
+        </Grid>
+        <Grid item xs={12}>
+          <div css={styles.middle}>
+            <h1 css={styles.midleftsub}>Please, log in the application</h1>
+            <ScaleUp scale={1.15}>
+              <Button
+                size="medium"
+                variant="contained"
+                color="misc"
+                sx={{ color: theme.palette.secondary.contrastText }}
+                onClick={redirect}
+              >
+                Log In
+              </Button>
+            </ScaleUp>
+          </div>
+        </Grid>
+        <Grid item xs={4}>
+          <div css={styles.cards}>
+            <ScaleUp>
+              <MenuIcon css={styles.icons} />
+            </ScaleUp>
+            <h1 css={[styles.titles, isSmall && { fontSize: "20px" }]}>
+              Channels
+            </h1>
+            <h2
+              css={[
+                styles.subtitles,
+                isSmall && { fontSize: "14px", marginBottom: "0" },
+              ]}
             >
-              Log In
-            </Button>
-          </ScaleUp>
-        </div>
+              {" "}
+              Navigating through channels never felt that good{" "}
+            </h2>
+          </div>
+        </Grid>
+        <Grid item xs={4}>
+          <div css={styles.cards}>
+            <ScaleUp>
+              <StarIcon css={styles.icons} />
+            </ScaleUp>
+            <h1 css={[styles.titles, isSmall && { fontSize: "20px" }]}>
+              Unique
+            </h1>
+            <h2 css={[styles.subtitles, isSmall && { fontSize: "14px" }]}>
+              {" "}
+              Premium chatting experience
+            </h2>
+          </div>
+        </Grid>
+        <Grid item xs={4}>
+          <div css={styles.cards}>
+            <ScaleUp>
+              <FullscreenIcon css={styles.icons} />
+            </ScaleUp>
+            <h1 css={[styles.titles, isSmall && { fontSize: "20px" }]}>
+              Focused
+            </h1>
+            <h2
+              css={[
+                styles.subtitles,
+                { marginBottom: "0" },
+                isSmall && { fontSize: "14px", marginBottom: "0" },
+              ]}
+            >
+              {" "}
+              Made by users for users, using your feedback to improve{" "}
+            </h2>
+          </div>
+        </Grid>
       </Grid>
-      <Grid item xs={4}>
-        <div css={styles.cards}>
-          <ScaleUp>
-            <MenuIcon css={styles.icons} />
-          </ScaleUp>
-          <h1 css={[styles.titles, isSmall && { fontSize: "20px" }]}>
-            Channels
-          </h1>
-          <h2
-            css={[
-              styles.subtitles,
-              isSmall && { fontSize: "14px", marginBottom: "0" },
-            ]}
-          >
-            {" "}
-            Navigating through channels never felt that good{" "}
-          </h2>
-        </div>
-      </Grid>
-      <Grid item xs={4}>
-        <div css={styles.cards}>
-          <ScaleUp>
-            <StarIcon css={styles.icons} />
-          </ScaleUp>
-          <h1 css={[styles.titles, isSmall && { fontSize: "20px" }]}>Unique</h1>
-          <h2 css={[styles.subtitles, isSmall && { fontSize: "14px" }]}>
-            {" "}
-            Premium chatting experience
-          </h2>
-        </div>
-      </Grid>
-      <Grid item xs={4}>
-        <div css={styles.cards}>
-          <ScaleUp>
-            <FullscreenIcon css={styles.icons} />
-          </ScaleUp>
-          <h1 css={[styles.titles, isSmall && { fontSize: "20px" }]}>
-            Focused
-          </h1>
-          <h2
-            css={[
-              styles.subtitles,
-              { marginBottom: "0" },
-              isSmall && { fontSize: "14px", marginBottom: "0" },
-            ]}
-          >
-            {" "}
-            Made by users for users, using your feedback to improve{" "}
-          </h2>
-        </div>
-      </Grid>
-    </Grid>
+    </div>
   );
 }
 

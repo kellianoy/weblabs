@@ -1,20 +1,24 @@
 /** @jsxImportSource @emotion/react */
-import { useContext } from "react";
+import { useContext, useState } from "react";
 // Layout
 import { useTheme } from "@mui/styles";
 import {
   Box,
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Card,
+  CardMedia,
+  CardActionArea,
+  Stack,
   Paper,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  AppBar,
 } from "@mui/material";
-import Gravatar from "react-gravatar";
 // Local
-import Context from "../context/Context";
+import { CustomThemeContext } from "../themes/CustomThemeProvider";
+import cobaltPreview from "../themes/cobalt-preview.jpg";
+import lightPreview from "../themes/light-preview.jpg";
+import marinePreview from "../themes/marine-preview.jpg";
 
 const useStyles = (theme) => ({
   root: {
@@ -26,24 +30,27 @@ const useStyles = (theme) => ({
   },
   userinfo: {
     background: theme.palette.primary.light,
-    marginTop: "2%",
+    borderRadius: "0px",
   },
   title: {
     fontFamily: theme.palette.primary.textFont,
+    color: theme.palette.secondary.dark,
     fontWeight: "600",
     fontSize: "22px",
-    color: theme.palette.secondary.dark,
+  },
+  button: {
+    marginLeft: "5%",
   },
   item: {
-    fontSize: 18,
-    fontWeight: "600",
-    letterSpacing: 0,
-    color: theme.palette.secondary.main,
-  },
-  field: {
-    fontWeight: "400",
-    fontSize: 18,
+    fontFamily: theme.palette.primary.textFont,
     color: theme.palette.primary.contrastText,
+    fontWeight: "600",
+  },
+  radio: {
+    color: theme.palette.secondary.main,
+    "&.Mui-checked": {
+      color: theme.palette.misc.owner,
+    },
   },
 });
 
@@ -51,52 +58,76 @@ const useStyles = (theme) => ({
 export default function Themes() {
   const theme = useTheme();
   const styles = useStyles(theme);
-  const { user } = useContext(Context);
+  //Importing theme
+  const { currentTheme, setTheme } = useContext(CustomThemeContext);
+  const [value, setValue] = useState(currentTheme);
+  const themes = [
+    { title: "Light Theme", value: "light", image: lightPreview },
+    { title: "Marine Theme", value: "marine", image: marinePreview },
+    { title: "Cobalt Theme", value: "cobalt", image: cobaltPreview },
+  ];
+
   return (
     <Box sx={styles.root}>
       <span css={styles.title}>Themes</span>
-      <Paper sx={styles.userinfo} elevation={0}>
-        <List>
-          <AppBar
-            sx={{ position: "relative", bgcolor: theme.palette.primary.dark }}
+
+      <FormControl component="fieldset">
+        <RadioGroup
+          row
+          aria-label="theme"
+          name="radio-buttons-group"
+          value={value}
+          onChange={(e, newValue) => {
+            e.stopPropagation();
+            setTheme(newValue);
+            setValue(newValue);
+          }}
+        >
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={{ xs: 1, sm: 2, md: 3 }}
+            sx={{ marginTop: "2%" }}
           >
-            <ListItem>
-              <ListItemAvatar sx={{ marginRight: "14px" }}>
-                <Avatar
+            {themes.map((t, i) => {
+              return (
+                <Card
+                  key={i}
+                  elevation={2}
                   sx={{
                     bgcolor: theme.palette.primary.main,
-                    margin: "auto",
-                    width: "64px",
-                    height: "64px",
+                    borderColor: "transparent",
                   }}
                 >
-                  <Gravatar email={user.email} size={64} default="retro" />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={user.username}
-                primaryTypographyProps={styles.item}
-              />
-            </ListItem>
-          </AppBar>
-          <ListItem>
-            <ListItemText
-              primary="Username"
-              primaryTypographyProps={styles.item}
-              secondary={user.username}
-              secondaryTypographyProps={styles.field}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary="Email"
-              primaryTypographyProps={styles.item}
-              secondary={user.email}
-              secondaryTypographyProps={styles.field}
-            />
-          </ListItem>
-        </List>
-      </Paper>
+                  <CardActionArea
+                    onClick={() => {
+                      setValue(t.value);
+                      setTheme(t.value);
+                    }}
+                  >
+                    <Paper sx={styles.userinfo}>
+                      <CardMedia
+                        component="img"
+                        sx={{
+                          maxWidth: 300,
+                          maxHeight: 300,
+                        }}
+                        image={t.image}
+                        alt="cobalt"
+                      />
+                      <FormControlLabel
+                        sx={styles.button}
+                        value={t.value}
+                        control={<Radio sx={styles.radio} />}
+                        label={<span css={styles.item}>{t.title}</span>}
+                      />
+                    </Paper>
+                  </CardActionArea>
+                </Card>
+              );
+            })}
+          </Stack>
+        </RadioGroup>
+      </FormControl>
     </Box>
   );
 }

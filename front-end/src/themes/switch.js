@@ -1,9 +1,10 @@
 import light from "./light";
 import cobalt from "./cobalt";
-
+import marine from "./marine";
 const themes = {
-  light,
   cobalt,
+  light,
+  marine,
 };
 
 export default function getTheme(theme) {

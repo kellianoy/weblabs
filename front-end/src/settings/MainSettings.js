@@ -25,6 +25,7 @@ const useStyles = (theme) => ({
     background: theme.palette.primary.main,
     width: "100%",
     height: "100%",
+    overflow: "auto",
   },
   title: {
     fontFamily: theme.palette.primary.textFont,
@@ -80,16 +81,17 @@ export default function MainSettings() {
   const [value, setValue] = useState(0);
   const theme = useTheme();
   const styles = useStyles(theme);
-  const { setOauth } = useContext(Context);
+  const { setOauth, setUser } = useContext(Context);
   const elements = ["Account", "Avatars", "Themes"];
   const paths = ["account", "avatars", "themes"];
   const navigate = useNavigate();
   const onClickLogout = (e) => {
     e.stopPropagation();
+    setUser({});
     setOauth(null);
   };
   return (
-    <Box sx={styles.root}>
+    <div css={styles.root}>
       <AppBar
         sx={{
           position: "relative",
@@ -174,6 +176,6 @@ export default function MainSettings() {
           <Route path={paths[2]} element={<Themes />} />
         </Routes>
       </Box>
-    </Box>
+    </div>
   );
 }
