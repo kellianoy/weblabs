@@ -4,6 +4,7 @@ import { useTheme } from "@mui/styles";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import img404 from "./404.gif";
 const useStyles = (theme) => ({
   root: {
     bgcolor: theme.palette.primary.dark,
@@ -21,7 +22,7 @@ const useStyles = (theme) => ({
     fontFamily: theme.palette.primary.textFont,
     fontSize: "28px",
     fontWeight: "600",
-    marginBottom: "5%",
+    marginBottom: "1%",
     color: theme.palette.secondary.dark,
     opacity: "1",
     "&:hover": {
@@ -45,7 +46,11 @@ export default function BadGateway() {
       >
         typetrack.
       </Button>
-      An unexpected error occured, it is probably not your fault. Sorry.
+      <img src={img404} />
+      <span css={{ marginTop: "1%" }}>
+        {" "}
+        An unexpected error occured, it is probably not your fault. Sorry.{" "}
+      </span>
     </Paper>
   );
 }

@@ -246,7 +246,11 @@ export default function Channels() {
                   setOpenDialog(true);
                 }}
               >
-                <AddIcon />
+                <AddIcon
+                  sx={{
+                    fill: theme.palette.secondary.contrastText,
+                  }}
+                />
               </Fab>
             </Tooltip>
           </ListItem>

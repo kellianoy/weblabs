@@ -8,9 +8,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import IosShareIcon from "@mui/icons-material/IosShare";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import EditIcon from "@mui/icons-material/Edit";
 //Local
 import Context from "../context/Context";

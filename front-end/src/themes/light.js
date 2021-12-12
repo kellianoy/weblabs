@@ -13,13 +13,13 @@ const theme = createTheme({
     },
     secondary: {
       main: "#cb2235",
-      light: "#d92d43",
+      light: "#131313",
       dark: "#8d1725",
       contrastText: "#ffffff",
       textFont: "Open Sans",
     },
     misc: {
-      main: "#5d2d2d",
+      main: "#17252d",
       owner: "#ff2454",
       contrastText: "#000000",
     },

@@ -59,7 +59,6 @@ export default function Channel() {
               },
             }
           );
-          console.log(messages);
           setMessages(messages);
           if (updateMessages) setUpdateMessages(false);
           if (listRef.current) {
@@ -71,7 +70,7 @@ export default function Channel() {
       }
     };
     fetch();
-  }, [oauth, navigate, updateMessages]);
+  }, [oauth, id, updateMessages]);
   const onScrollDown = (scrollDown) => {
     setScrollDown(scrollDown);
   };

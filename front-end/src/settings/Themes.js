@@ -95,7 +95,7 @@ export default function Themes() {
                   elevation={2}
                   sx={{
                     bgcolor: theme.palette.primary.main,
-                    borderColor: "transparent",
+                    "&:hover": {},
                   }}
                 >
                   <CardActionArea

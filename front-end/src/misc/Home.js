@@ -100,16 +100,6 @@ export default function Home() {
           marginLeft: "2%",
         }}
       />
-      <span css={styles.title}> Changelog </span>
-      <Divider
-        variant="left"
-        css={{
-          backgroundColor: theme.palette.primary.contrastText,
-          marginTop: "1%",
-          marginLeft: "2%",
-          width: "30%",
-        }}
-      />
     </div>
   );
 }

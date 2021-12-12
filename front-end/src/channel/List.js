@@ -4,9 +4,15 @@ import {
   useImperativeHandle,
   useLayoutEffect,
   useRef,
+  useContext,
+  useState,
 } from "react";
 // Layout
 import { useTheme } from "@mui/styles";
+import { Toolbar, Box, Tooltip, IconButton, Avatar } from "@mui/material";
+import Gravatar from "react-gravatar";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import EditIcon from "@mui/icons-material/Edit";
 // Markdown
 import { unified } from "unified";
 import markdown from "remark-parse";
@@ -24,6 +30,9 @@ dayjs.updateLocale("en", {
   },
 });
 import PropTypes from "prop-types";
+import Context from "../context/Context";
+import DeleteMessage from "./DeleteMessage";
+import ModifyMessage from "./ModifyMessage";
 
 const useStyles = (theme) => ({
   root: {
@@ -31,15 +40,13 @@ const useStyles = (theme) => ({
     flex: "1 1 auto",
     overflow: "auto",
     "& ul": {
-      margin: 0,
-      marginLeft: "1%",
+      margin: "1%",
       padding: 0,
       textIndent: 0,
       listStyleType: 0,
     },
   },
   author: {
-    padding: "2px",
     marginRight: "1%",
     color: theme.palette.secondary.dark,
     fontFamily: theme.palette.secondary.textFont,
@@ -51,7 +58,6 @@ const useStyles = (theme) => ({
     },
   },
   date: {
-    padding: "2px",
     color: theme.palette.secondary.dark,
     fontFamily: theme.palette.secondary.textFont,
     fontWeight: "600",
@@ -59,12 +65,17 @@ const useStyles = (theme) => ({
     opacity: "0.75",
   },
   message: {
-    padding: "0px",
-    margin: "0px",
+    padding: "0.01%",
+    paddingLeft: "0.5%",
+    paddingRight: "0.5%",
     color: theme.palette.secondary.light,
-    fontFamily: theme.palette.secondary.textFont,
+    fontFamily: theme.palette.primary.textFont,
     fontWeight: "600",
-    fontSize: "14px",
+    fontSize: "15px",
+
+    "&:hover": {
+      bgcolor: theme.palette.primary.dark,
+    },
   },
   fabWrapper: {
     position: "absolute",
@@ -77,11 +88,24 @@ const useStyles = (theme) => ({
     top: 0,
     width: "50px",
   },
+  icons: {
+    fill: theme.palette.secondary.dark,
+  },
+  iconButtons: {
+    marginLeft: "1%",
+    ":hover": { bgcolor: theme.palette.primary.main },
+  },
 });
 
 //This component lists messages
 const List = forwardRef(function List({ messages, onScrollDown }, ref) {
-  const styles = useStyles(useTheme());
+  const theme = useTheme();
+  const styles = useStyles(theme);
+  const { oauth } = useContext(Context);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openModify, setOpenModify] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState({});
+
   // Expose the `scroll` action
   useImperativeHandle(ref, () => ({
     scroll: scroll,
@@ -110,6 +134,20 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
   });
   return (
     <div css={styles.root} ref={rootEl}>
+      {openDelete && (
+        <DeleteMessage
+          open={openDelete}
+          setOpen={setOpenDelete}
+          message={currentMessage}
+        />
+      )}
+      {openModify && (
+        <ModifyMessage
+          open={openModify}
+          setOpen={setOpenModify}
+          message={currentMessage}
+        />
+      )}
       <ul>
         {messages.map((message, i) => {
           const { value } = unified()
@@ -119,16 +157,58 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
             .processSync(message.content);
           return (
             <li key={i} css={styles.message}>
-              <p>
+              <Toolbar disableGutters>
+                <Avatar
+                  sx={{
+                    bgcolor: theme.palette.primary.dark,
+                    marginRight: "1%",
+                    width: "36px",
+                    height: "36px",
+                  }}
+                >
+                  <Gravatar email={message.author} size={36} default="retro" />
+                </Avatar>
                 <span css={styles.author}>{message.username}</span>
                 <span css={styles.date}>
                   {dayjs().calendar(message.creation)}
                 </span>
-              </p>
-              <div
-                css={styles.message}
+                <Box sx={{ flexGrow: 1 }} />
+                {message.author === oauth.email && (
+                  <>
+                    <Tooltip arrow title="Edit message" placement="bottom">
+                      <IconButton
+                        sx={styles.iconButtons}
+                        onClick={() => {
+                          setOpenModify(true);
+                          setCurrentMessage(message);
+                        }}
+                      >
+                        <EditIcon css={styles.icons} />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip arrow title="Delete message" placement="bottom">
+                      <IconButton
+                        sx={styles.iconButtons}
+                        onClick={() => {
+                          setOpenDelete(true);
+                          setCurrentMessage(message);
+                        }}
+                      >
+                        <DeleteOutlineOutlinedIcon
+                          css={[
+                            styles.icons,
+                            { fill: theme.palette.misc.owner },
+                          ]}
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  </>
+                )}
+              </Toolbar>
+              <Box
+                sx={styles.message}
                 dangerouslySetInnerHTML={{ __html: value }}
-              ></div>
+              />
             </li>
           );
         })}
