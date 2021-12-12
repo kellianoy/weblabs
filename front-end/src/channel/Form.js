@@ -1,11 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 // Layout
 import { Button } from "@mui/material";
 import { useTheme } from "@mui/styles";
 import InputBase from "@mui/material/InputBase";
+
 import PropTypes from "prop-types";
+//Local
+import Context from "../context/Context";
 const useStyles = (theme) => ({
   form: {
     padding: "1rem",
@@ -25,18 +28,24 @@ const useStyles = (theme) => ({
 });
 
 //this component is a form
-export default function Form({ addMessage, channel, user }) {
+export default function Form({ channel, user }) {
+  const { oauth, setUpdateMessages } = useContext(Context);
   const [content, setContent] = useState("");
   const styles = useStyles(useTheme());
   const onSubmit = async () => {
-    const { data: message } = await axios.post(
+    await axios.post(
       `http://localhost:3001/channels/${channel.id}/messages`,
       {
         content: content,
         author: user.email,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${oauth.access_token}`,
+        },
       }
     );
-    addMessage(message);
+    setUpdateMessages(true);
     setContent("");
   };
   const handleChange = (e) => {
@@ -67,7 +76,6 @@ export default function Form({ addMessage, channel, user }) {
 }
 
 Form.propTypes = {
-  addMessage: PropTypes.func.isRequired,
   channel: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
 };

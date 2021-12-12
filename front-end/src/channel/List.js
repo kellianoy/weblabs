@@ -120,7 +120,7 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
           return (
             <li key={i} css={styles.message}>
               <p>
-                <span css={styles.author}>{message.author}</span>
+                <span css={styles.author}>{message.username}</span>
                 <span css={styles.date}>
                   {dayjs().calendar(message.creation)}
                 </span>

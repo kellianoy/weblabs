@@ -39,16 +39,14 @@ const useStyles = (theme) => ({
 //This component shows the content of a channel
 export default function Channel() {
   const navigate = useNavigate();
-  const { channels, oauth, id } = useContext(Context);
+  const { channels, oauth, id, updateMessages, setUpdateMessages } =
+    useContext(Context);
   const channel = channels.find((channel) => channel.id === id);
   const theme = useTheme();
   const styles = useStyles(theme);
   const listRef = useRef();
   const [messages, setMessages] = useState([]);
   const [scrollDown, setScrollDown] = useState(false);
-  const addMessage = (message) => {
-    setMessages([...messages, message]);
-  };
   useEffect(() => {
     const fetch = async () => {
       if (id !== "") {
@@ -57,11 +55,13 @@ export default function Channel() {
             `http://localhost:3001/channels/${id}/messages`,
             {
               headers: {
-                // TODO: secure the request
+                Authorization: `Bearer ${oauth.access_token}`,
               },
             }
           );
+          console.log(messages);
           setMessages(messages);
+          if (updateMessages) setUpdateMessages(false);
           if (listRef.current) {
             listRef.current.scroll();
           }
@@ -71,7 +71,7 @@ export default function Channel() {
       }
     };
     fetch();
-  }, [oauth, navigate]);
+  }, [oauth, navigate, updateMessages]);
   const onScrollDown = (scrollDown) => {
     setScrollDown(scrollDown);
   };
@@ -92,7 +92,7 @@ export default function Channel() {
         onScrollDown={onScrollDown}
         ref={listRef}
       />
-      <Form addMessage={addMessage} channel={channel} user={oauth} />
+      <Form channel={channel} user={oauth} />
       <Fab
         color="primary"
         aria-label="Latest messages"

@@ -79,54 +79,55 @@ describe('users', () => {
     user.email.should.eql('user_1')
   })
   
-  it('update user', async () => {
-    // Create a user
-    const {body: user1} = await supertest(app)
-    .post('/users')
-    .send({username: 'user_1', email: 'user_1'})
-    .expect(201)
+  describe( 'update', () => {
+    it('update user', async () => {
+      // Create a user
+      const {body: user1} = await supertest(app)
+      .post('/users')
+      .send({username: 'user_1', email: 'user_1'})
+      .expect(201)
 
-    const {body: newUser} = await supertest(app)
-    .put(`/users/${user1.email}`)
-    .send({username: 'Dodge', email: 'user_1'})
-    .expect(200)
-    newUser.username.should.match("Dodge")
-    newUser.email.should.match("user_1")
+      const {body: newUser} = await supertest(app)
+      .put(`/users/${user1.email}`)
+      .send({username: 'Dodge', email: 'user_1'})
+      .expect(200)
+      newUser.username.should.match("Dodge")
+      newUser.email.should.match("user_1")
+    })
+
+    it('update user and see if its channel is still there', async () => {
+      // Create a user
+      const {body: user1} = await supertest(app)
+      .post('/users')
+      .send({username: 'user_1', email: 'user_1'})
+      .expect(201)
+      //Create channel
+      const {body: channel} = await supertest(app)
+      .post('/channels')
+      .send({name: 'channel 1', owner: user1.email})
+      .expect(201)
+
+      const {body: newUser} = await supertest(app)
+      .put(`/users/${user1.email}`)
+      .send({username: 'Dodge', email: 'user_1'})
+      .expect(200)
+      newUser.channels.length.should.match(1)
+    })
+    
+    it('update user channels', async () => {
+      // Create a user
+      const {body: user1} = await supertest(app)
+      .post('/users')
+      .send({username: 'user_1', email: 'user_1'})
+      .expect(201)
+
+      const {body: newUser} = await supertest(app)
+      .put(`/users/${user1.email}`)
+      .send({channels: [5000, 2200]})
+      .expect(200)
+      newUser.channels.should.match([5000,2200])
+    })
   })
-
-  it('update user and see if its channel is still there', async () => {
-    // Create a user
-    const {body: user1} = await supertest(app)
-    .post('/users')
-    .send({username: 'user_1', email: 'user_1'})
-    .expect(201)
-    //Create channel
-    const {body: channel} = await supertest(app)
-    .post('/channels')
-    .send({name: 'channel 1', owner: user1.email})
-    .expect(201)
-
-    const {body: newUser} = await supertest(app)
-    .put(`/users/${user1.email}`)
-    .send({username: 'Dodge', email: 'user_1'})
-    .expect(200)
-    newUser.channels.length.should.match(1)
-  })
-  
-  it('update user channels', async () => {
-    // Create a user
-    const {body: user1} = await supertest(app)
-    .post('/users')
-    .send({username: 'user_1', email: 'user_1'})
-    .expect(201)
-
-    const {body: newUser} = await supertest(app)
-    .put(`/users/${user1.email}`)
-    .send({channels: [5000, 2200]})
-    .expect(200)
-    newUser.channels.should.match([5000,2200])
-  })
-
   describe( 'delete', () => {
     it('delete user', async () => {
       // Create a user

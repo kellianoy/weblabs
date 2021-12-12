@@ -86,7 +86,8 @@ app.delete('/channels/:id', authenticate, async (req, res) => {
 
 // Messages
 
-app.get('/channels/:id/messages', async (req, res) => {
+//Get list of messages
+app.get('/channels/:id/messages', authenticate, async (req, res) => {
   try{
     const channel = await db.channels.get(req.params.id)
   }catch(err){
@@ -96,9 +97,48 @@ app.get('/channels/:id/messages', async (req, res) => {
   res.json(messages)
 })
 
-app.post('/channels/:id/messages', async (req, res) => {
+//Get one message
+app.get('/channels/:id/messages/:creation', authenticate, async (req, res) => {
+  const message = await db.messages.get(req.params.id, req.params.creation)
+  res.status(200).json(message)
+})
+
+//Update one message
+app.put('/channels/:id/messages/:creation', authenticate, async (req, res) => {
+  const message = await db.messages.update(req.params.id, req.params.creation, req.body)
+  res.status(200).json(message)
+})
+
+//Create one message
+app.post('/channels/:id/messages', authenticate, async (req, res) => {
+  try{
   const message = await db.messages.create(req.params.id, req.body)
   res.status(201).json(message)
+  }catch(err){
+    return res.status(400).send(err)
+  }
+})
+
+//Delete one message
+app.delete('/channels/:id/messages/:creation', authenticate, async (req, res) => {
+  try {
+    await db.messages.delete(req.params.id, req.params.creation)
+    res.status(200).send("Done")
+  }
+  catch(err) {
+    res.status(400).send(err)
+  }
+})
+
+//Delete all messages of a channel
+app.delete('/channels/:id/messages/', authenticate, async (req, res) => {
+  try {
+    await db.messages.deleteAll(req.params.id)
+    res.status(200).send("Done")
+  }
+  catch(err) {
+    res.status(400).send(err)
+  }
 })
 
 // Users
@@ -137,7 +177,7 @@ app.get('/users/email/:email', authenticate, async (req, res) => {
   }
   catch(err)
   {
-    res.status(404).send("User not found")
+    res.status(404).send(err)
   }
 })
 
