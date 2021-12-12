@@ -202,7 +202,7 @@ const self = module.exports = {
       const userE = JSON.parse(await db.get(`users_email:${email}`))
       if(!userE) throw Error('Not found')
       const user = JSON.parse(await db.get(`users:${userE.id}`))
-      return merge(user)
+      return merge(user, {id: userE.id})
     },
     list: async () => {
       return new Promise( (resolve, reject) => {
