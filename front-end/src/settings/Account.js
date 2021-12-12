@@ -68,7 +68,7 @@ export default function Account() {
   const { user, oauth, setUpdateUser } = useContext(Context);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
-  const [content, setContent] = useState(user.email);
+  const [content, setContent] = useState("");
   const modifyUsername = async () => {
     try {
       if (content === "") {
@@ -136,7 +136,7 @@ export default function Account() {
               />
               <IconButton
                 onClick={() => setOpen(true)}
-                sx={{ ":hover": { bgcolor: theme.palette.primary.light } }}
+                sx={{ ":hover": { bgcolor: theme.palette.primary.dark } }}
               >
                 <EditIcon sx={{ fill: theme.palette.secondary.dark }} />
               </IconButton>
@@ -197,6 +197,7 @@ export default function Account() {
               }}
               fullwidth="true"
               autoFocus
+              defaultValue=""
               placeholder={user.email}
             />
           </Paper>

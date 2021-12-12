@@ -92,6 +92,7 @@ export default function JoinLink({ open, setOpen }) {
             onClose={() => setClicked(false)}
           >
             <IconButton
+              sx={{ ":hover": { bgcolor: theme.palette.primary.main } }}
               onClick={() => {
                 setClicked(true);
                 navigator.clipboard.writeText(

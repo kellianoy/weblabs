@@ -105,7 +105,7 @@ export default function MainSettings() {
               navigate("/channels");
             }}
             aria-label="close"
-            sx={{ ":hover": { bgcolor: theme.palette.primary.light } }}
+            sx={{ ":hover": { bgcolor: theme.palette.primary.main } }}
           >
             <CloseIcon sx={{ fill: theme.palette.secondary.dark }} />
           </IconButton>
