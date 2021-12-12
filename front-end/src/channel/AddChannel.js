@@ -17,36 +17,10 @@ import ArrowForward from "@mui/icons-material/ArrowForwardIos";
 import Button from "@mui/material/Button";
 import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
 //Local
 import Context from "../context/Context";
+import Error from "../misc/Error";
 import PropTypes from "prop-types";
-
-//This component handle errors by showing a message
-export function Error({
-  open,
-  setOpen,
-  message = "Unspecified error happened",
-}) {
-  return (
-    <Snackbar
-      open={open}
-      onClose={() => setOpen(false)}
-      autoHideDuration={6000}
-      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      sx={{ opacity: "1" }}
-    >
-      <Alert severity="error"> {message} </Alert>
-    </Snackbar>
-  );
-}
-
-Error.propTypes = {
-  open: PropTypes.bool.isRequired,
-  setOpen: PropTypes.func.isRequired,
-  message: PropTypes.string.isRequired,
-};
 
 //This componnent adds dialog text box to create or join channels
 export default function AddChannels({ openDialog, setOpenDialog }) {

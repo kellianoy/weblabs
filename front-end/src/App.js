@@ -1,6 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { useContext, useEffect } from "react";
 import axios from "axios";
+//Layout
+import { useTheme } from "@mui/styles";
 // Local
 import BadGateway from "./misc/BadGateway";
 import Main from "./Main";
@@ -9,17 +11,23 @@ import Context from "./context/Context";
 // Routes
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 
-const styles = {
+import Settings from "./settings/MainSettings";
+
+const useStyles = (theme) => ({
   root: {
     boxSizing: "border-box",
     display: "flex",
     flexDirection: "column",
+    bgcolor: theme.palette.primary.main,
   },
-};
+});
 
 export default function App() {
+  const theme = useTheme();
+  const styles = useStyles(theme);
   const location = useLocation();
-  const { oauth, setUser, user, setUpdateChannels } = useContext(Context);
+  const { oauth, setUser, user, setUpdateChannels, setUpdateUser, updateUser } =
+    useContext(Context);
   useEffect(() => {
     const fetch = async () => {
       if (!user.email) {
@@ -51,6 +59,7 @@ export default function App() {
               },
             }
           );
+          if (updateUser) setUpdateUser(false);
           setUser(get);
           setUpdateChannels(true);
         } catch (err) {
@@ -59,7 +68,7 @@ export default function App() {
       }
     };
     fetch();
-  }, [oauth]);
+  }, [oauth, updateUser]);
   const gochannels = (
     <Navigate
       to={{
@@ -79,8 +88,10 @@ export default function App() {
   return (
     <div className="App" css={styles.root}>
       <Routes>
-        <Route exact path="/" element={oauth ? gochannels : <Login />} />
+        <Route path="/" element={oauth ? gochannels : <Login />} />
         <Route path="/channels/*" element={oauth ? <Main /> : gohome} />
+        <Route path="/settings/" element={gohome} />
+        <Route path="/settings/*" element={oauth ? <Settings /> : gohome} />
         <Route path="/404" element={oauth ? <BadGateway /> : <Login />} />
         <Route path="/*" element={oauth ? gochannels : <Login />} />
       </Routes>

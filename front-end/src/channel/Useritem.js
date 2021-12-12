@@ -18,7 +18,7 @@ export default function Useritem({ user, owner }) {
         <ListItemAvatar>
           <Avatar
             sx={{
-              bgcolor: theme.palette.misc.main,
+              bgcolor: theme.palette.primary.main,
               margin: "auto",
               width: "36px",
               height: "36px",

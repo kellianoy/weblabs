@@ -222,10 +222,11 @@ const self = module.exports = {
       })
     },
     update: async (email, newUser) => {
-      //Get the original channel
-      const original = JSON.parse(await db.get(`users_email:${email}`))
-      if(!original) throw Error('Unregistered channel id')
-      await db.put(`users:${original.id}`, JSON.stringify(merge(original, newUser)))
+      //Get the original user
+      const userID = JSON.parse(await db.get(`users_email:${email}`))
+      if(!userID) throw Error('Unregistered user')
+      const original = JSON.parse(await db.get(`users:${userID.id}`))
+      await db.put(`users:${userID.id}`, JSON.stringify(merge(original, newUser)))
       //return the new one
       return merge(original, newUser)
     },

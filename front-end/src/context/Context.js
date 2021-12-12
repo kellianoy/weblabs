@@ -17,6 +17,7 @@ export const Provider = ({ children }) => {
   const [id, setID] = useState("");
   const [user, setUser] = useState({});
   const [updateChannels, setUpdateChannels] = useState(false);
+  const [updateUser, setUpdateUser] = useState(false);
   return (
     <Context.Provider
       value={{
@@ -52,6 +53,8 @@ export const Provider = ({ children }) => {
         setUser: setUser,
         updateChannels: updateChannels,
         setUpdateChannels: setUpdateChannels,
+        updateUser: updateUser,
+        setUpdateUser: setUpdateUser,
       }}
     >
       {children}

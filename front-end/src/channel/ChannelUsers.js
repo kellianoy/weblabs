@@ -48,6 +48,7 @@ export default function ChannelUsers() {
     };
     getUsers();
   }, [id, setID]);
+  const checked = id !== "";
   return (
     <Box
       sx={{
@@ -56,7 +57,7 @@ export default function ChannelUsers() {
         flexDirection: "column",
       }}
     >
-      <Transition in={id !== ""}>
+      <Transition in={checked}>
         <Box>
           {channelUsers.length !== 0 && (
             <Divider

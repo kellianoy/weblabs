@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
 // Layout
 import { useTheme } from "@mui/styles";
-import React, { useContext, useState } from "react";
-import PropTypes from "prop-types";
+import { useContext, useState } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Tab,
@@ -11,18 +10,21 @@ import {
   AppBar,
   IconButton,
   Toolbar,
-  Paper,
-  Slide,
-  Dialog,
   Divider,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { Link, useNavigate, Route, Routes } from "react-router-dom";
 // Local
 import Context from "../context/Context";
+import Account from "./Account";
+import Avatars from "./Avatars";
+import Themes from "./Themes";
 
 const useStyles = (theme) => ({
   root: {
     background: theme.palette.primary.main,
+    width: "100%",
+    height: "100%",
   },
   title: {
     fontFamily: theme.palette.primary.textFont,
@@ -73,129 +75,105 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
   })
 );
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
 //This component exports the typetrack. button screen : it is also the welcome screen of the application when you log in
-export default function MainSettings({ open, setOpen }) {
+export default function MainSettings() {
   const [value, setValue] = useState(0);
   const theme = useTheme();
   const styles = useStyles(theme);
   const { setOauth } = useContext(Context);
-  const elements = ["Account", "Avatar", "Themes"];
+  const elements = ["Account", "Avatars", "Themes"];
+  const paths = ["account", "avatars", "themes"];
+  const navigate = useNavigate();
   const onClickLogout = (e) => {
     e.stopPropagation();
     setOauth(null);
   };
   return (
-    <Paper sx={styles.root}>
-      <Dialog
-        fullScreen
-        open={open}
-        onClose={() => {
-          setOpen(false);
+    <Box sx={styles.root}>
+      <AppBar
+        sx={{
+          position: "relative",
+          bgcolor: theme.palette.primary.dark,
         }}
-        PaperProps={{
-          style: {
-            backgroundColor: theme.palette.primary.main,
-          },
-        }}
-        TransitionComponent={Transition}
       >
-        <AppBar
-          sx={{
-            position: "relative",
-            bgcolor: theme.palette.primary.dark,
-          }}
-        >
-          <Toolbar>
-            <span css={styles.title}>Settings</span>
-            <Box sx={{ flexGrow: "1" }} />
-            <IconButton
-              edge="start"
-              onClick={() => setOpen(false)}
-              aria-label="close"
-              sx={{ ":hover": { bgcolor: theme.palette.primary.light } }}
-            >
-              <CloseIcon sx={{ fill: theme.palette.secondary.dark }} />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
+        <Toolbar>
+          <span css={styles.title}>Settings</span>
+          <Box sx={{ flexGrow: "1" }} />
+          <IconButton
+            edge="start"
+            onClick={() => {
+              navigate("/channels");
+            }}
+            aria-label="close"
+            sx={{ ":hover": { bgcolor: theme.palette.primary.light } }}
+          >
+            <CloseIcon sx={{ fill: theme.palette.secondary.dark }} />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Box
+        sx={{
+          display: "flex",
+          flex: "1 1 auto",
+          overflow: "auto",
+        }}
+      >
         <Box
           sx={{
             display: "flex",
             flex: "1 1 auto",
-            overflow: "auto",
+            flexDirection: "column",
+            marginLeft: "1%",
+            marginTop: "0.5%",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              flex: "1 1 auto",
-              flexDirection: "column",
-              marginLeft: "1%",
-              marginTop: "0.5%",
+          <StyledTabs
+            orientation="vertical"
+            value={value}
+            onChange={(e, newValue) => {
+              e.stopPropagation();
+              setValue(newValue);
             }}
           >
-            <StyledTabs
-              orientation="vertical"
-              value={value}
-              onChange={(e, newValue) => {
-                e.stopPropagation();
-                setValue(newValue);
-              }}
-            >
-              {elements.map((element, i) => {
-                return (
-                  <StyledTab
-                    wrapped
-                    label={element}
-                    key={i}
-                    value={i}
-                    sx={styles.tab}
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  />
-                );
-              })}
-              <StyledTab
-                wrapped
-                label="Log out"
-                key={elements.lenght + 1}
-                value={elements.lenght + 1}
-                sx={[styles.tab, { color: theme.palette.misc.owner }]}
-                onClick={onClickLogout}
-              />
-            </StyledTabs>
-          </Box>
-          <Divider
-            orientation="vertical"
-            sx={{
-              bgcolor: theme.palette.primary.contrastText,
-              height: "90%",
-              margin: "auto",
-              marginLeft: "1%",
-            }}
-            flexItem
-          />
-          <Box
-            sx={{
-              display: "flex",
-              flex: "1 1 auto",
-              flexDirection: "column",
-              width: "70%",
-              margin: "1%",
-            }}
-          ></Box>
+            {elements.map((element, i) => {
+              return (
+                <StyledTab
+                  wrapped
+                  label={element}
+                  key={i}
+                  value={i}
+                  sx={styles.tab}
+                  component={Link}
+                  to={paths[i]}
+                />
+              );
+            })}
+            <StyledTab
+              wrapped
+              label="Log out"
+              key={elements.lenght + 1}
+              value={elements.lenght + 1}
+              sx={[styles.tab, { color: theme.palette.misc.owner }]}
+              onClick={onClickLogout}
+            />
+          </StyledTabs>
         </Box>
-      </Dialog>
-    </Paper>
+        <Divider
+          orientation="vertical"
+          sx={{
+            bgcolor: theme.palette.primary.contrastText,
+            height: "90%",
+            margin: "auto",
+            marginLeft: "1%",
+          }}
+          flexItem
+        />
+        <Routes>
+          <Route path={paths[0]} element={<Account />} />
+          <Route path={paths[1]} element={<Avatars />} />
+          <Route path={paths[2]} element={<Themes />} />
+        </Routes>
+      </Box>
+    </Box>
   );
 }
-
-MainSettings.propTypes = {
-  open: PropTypes.bool.isRequired,
-  setOpen: PropTypes.func.isRequired,
-};
