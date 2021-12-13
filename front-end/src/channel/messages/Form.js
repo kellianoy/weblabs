@@ -8,7 +8,7 @@ import InputBase from "@mui/material/InputBase";
 
 import PropTypes from "prop-types";
 //Local
-import Context from "../context/Context";
+import Context from "../../context/Context";
 const useStyles = (theme) => ({
   form: {
     padding: "1rem",

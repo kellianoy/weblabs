@@ -14,7 +14,7 @@ import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import Paper from "@mui/material/Paper";
 import Tooltip from "@mui/material/Tooltip";
 //Local
-import Context from "../context/Context";
+import Context from "../../context/Context";
 
 const useStyles = (theme) => ({
   icons: {

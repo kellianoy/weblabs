@@ -14,9 +14,9 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import EditIcon from "@mui/icons-material/Edit";
 //Local
 import Context from "../context/Context";
-import JoinLink from "./JoinLink";
-import DeleteLink from "./DeleteLink";
-import ChangeName from "./ChangeName";
+import JoinLink from "./fonctionnalities/JoinLink";
+import DeleteLink from "./fonctionnalities/DeleteLink";
+import ChangeName from "./fonctionnalities/ChangeName";
 
 const useStyles = (theme) => ({
   nameblock: {

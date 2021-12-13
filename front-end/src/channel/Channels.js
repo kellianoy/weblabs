@@ -18,8 +18,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 // Local
 import Context from "../context/Context";
-import ChannelUsers from "./ChannelUsers";
-import AddChannel from "./AddChannel";
+import ChannelUsers from "./users/ChannelUsers";
+import AddChannel from "./fonctionnalities/AddChannel";
 
 const useStyles = (theme) => ({
   root: {

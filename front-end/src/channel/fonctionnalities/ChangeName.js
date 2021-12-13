@@ -15,8 +15,8 @@ import {
   Grow,
 } from "@mui/material";
 // Local
-import Context from "../context/Context";
-import Error from "../misc/Error";
+import Context from "../../context/Context";
+import Error from "../../misc/Error";
 
 const useStyles = (theme) => ({
   title: {

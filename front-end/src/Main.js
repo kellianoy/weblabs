@@ -13,7 +13,7 @@ import Channels from "./channel/Channels";
 import Channel from "./channel/Channel";
 import Home from "./misc/Home";
 import { Route, Routes } from "react-router-dom";
-import AuthenticatedUser from "./channel/AuthenticatedUser";
+import AuthenticatedUser from "./channel/users/AuthenticatedUser";
 const drawerWidth = 300;
 
 const useStyles = (theme) => ({

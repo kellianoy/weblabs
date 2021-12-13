@@ -13,8 +13,8 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 //Local
-import Context from "../context/Context";
-import Error from "../misc/Error";
+import Context from "../../../context/Context";
+import Error from "../../../misc/Error";
 
 //This component is the header of each channel with the channel name and drawer when resized
 export default function ModifyMessage({ open, setOpen, message }) {

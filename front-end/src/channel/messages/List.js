@@ -29,9 +29,9 @@ import html from "rehype-stringify";
 import dayjs from "dayjs";
 
 import PropTypes from "prop-types";
-import Context from "../context/Context";
-import DeleteMessage from "./DeleteMessage";
-import ModifyMessage from "./ModifyMessage";
+import Context from "../../context/Context";
+import DeleteMessage from "./fonctionnalities/DeleteMessage";
+import ModifyMessage from "./fonctionnalities/ModifyMessage";
 
 const useStyles = (theme) => ({
   root: {

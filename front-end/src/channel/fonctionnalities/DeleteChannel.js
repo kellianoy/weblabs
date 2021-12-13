@@ -2,35 +2,38 @@
 import { useContext } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 // Layout
 import { useTheme } from "@mui/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
+import DialogContentText from "@mui/material/DialogContentText";
 import Transition from "@mui/material/Grow";
 import Button from "@mui/material/Button";
 //Local
-import Context from "../context/Context";
+import Context from "../../context/Context";
 
 //This component is the header of each channel with the channel name and drawer when resized
-export default function DeleteMessage({ open, setOpen, message }) {
+export default function DeleteChannel({ open, setOpen }) {
   //is the drawer visible ?
 
-  const { id, oauth, setUpdateMessages } = useContext(Context);
+  const navigate = useNavigate();
+  const { setID, id, oauth, setUpdateChannels } = useContext(Context);
   const theme = useTheme();
 
-  const deleteMessage = async () => {
+  const deleteChannel = async () => {
     try {
-      await axios.delete(
-        `http://localhost:3001/channels/${id}/messages/${message.creation}`,
-        {
-          headers: {
-            Authorization: `Bearer ${oauth.access_token}`,
-          },
-        }
-      );
+      await axios.delete(`http://localhost:3001/channels/${id}`, {
+        headers: {
+          Authorization: `Bearer ${oauth.access_token}`,
+        },
+      });
       setOpen(false);
-      setUpdateMessages(true);
+      setID("");
+      setUpdateChannels(true);
+      navigate("/channels");
     } catch (err) {
       console.error(err);
     }
@@ -58,8 +61,20 @@ export default function DeleteMessage({ open, setOpen, message }) {
           textAlign: "center",
         }}
       >
-        Delete the message ?
+        Delete the channel
       </DialogTitle>
+      <DialogContent>
+        <DialogContentText
+          sx={{
+            color: theme.palette.primary.contrastText,
+            fontFamily: theme.palette.primary.textFont,
+            textAlign: "center",
+            marginBottom: "5%",
+          }}
+        >
+          This operation cannot be undone. The channel will be deleted.
+        </DialogContentText>
+      </DialogContent>
       <DialogActions>
         <Button
           variant="contained"
@@ -87,7 +102,7 @@ export default function DeleteMessage({ open, setOpen, message }) {
               opacity: "0.8",
             },
           }}
-          onClick={deleteMessage}
+          onClick={deleteChannel}
         >
           Confirm
         </Button>
@@ -96,8 +111,7 @@ export default function DeleteMessage({ open, setOpen, message }) {
   );
 }
 
-DeleteMessage.propTypes = {
+DeleteChannel.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
-  message: PropTypes.object.isRequired,
 };

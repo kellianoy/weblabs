@@ -18,8 +18,8 @@ import Button from "@mui/material/Button";
 import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
 //Local
-import Context from "../context/Context";
-import Error from "../misc/Error";
+import Context from "../../context/Context";
+import Error from "../../misc/Error";
 import PropTypes from "prop-types";
 
 //This componnent adds dialog text box to create or join channels

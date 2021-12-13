@@ -13,7 +13,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import Transition from "@mui/material/Grow";
 import Button from "@mui/material/Button";
 //Local
-import Context from "../context/Context";
+import Context from "../../context/Context";
 
 //This component is the header of each channel with the channel name and drawer when resized
 export default function LeaveChannel({ open, setOpen }) {

@@ -9,7 +9,7 @@ import Useritem from "./Useritem";
 import Divider from "@mui/material/Divider";
 import Transition from "@mui/material/Zoom";
 //Local
-import Context from "../context/Context";
+import Context from "../../context/Context";
 
 export default function ChannelUsers() {
   const theme = useTheme();

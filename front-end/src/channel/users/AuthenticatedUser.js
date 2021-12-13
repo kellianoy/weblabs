@@ -15,7 +15,7 @@ import Tooltip from "@mui/material/Tooltip";
 import ArrowRight from "@mui/icons-material/ArrowRight";
 
 //Local
-import Context from "../context/Context";
+import Context from "../../context/Context";
 import { useNavigate } from "react-router-dom";
 //This component shows the currently authenticated user in the navbar
 export default function AuthenticatedUser() {
