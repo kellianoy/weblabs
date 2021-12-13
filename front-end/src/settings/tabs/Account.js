@@ -24,8 +24,8 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import Gravatar from "react-gravatar";
 // Local
-import Context from "../context/Context";
-import Error from "../misc/Error";
+import Context from "../../context/Context";
+import Error from "../../misc/Error";
 
 const useStyles = (theme) => ({
   root: {

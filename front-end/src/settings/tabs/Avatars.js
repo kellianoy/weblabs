@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Gravatar from "react-gravatar";
 // Local
-import Context from "../context/Context";
+import Context from "../../context/Context";
 
 const useStyles = (theme) => ({
   root: {

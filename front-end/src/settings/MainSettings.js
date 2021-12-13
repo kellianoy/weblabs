@@ -16,9 +16,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Link, useNavigate, Route, Routes } from "react-router-dom";
 // Local
 import Context from "../context/Context";
-import Account from "./Account";
-import Avatars from "./Avatars";
-import Themes from "./Themes";
+import Account from "./tabs/Account";
+import Avatars from "./tabs/Avatars";
+import Themes from "./tabs/Themes";
 
 const useStyles = (theme) => ({
   root: {

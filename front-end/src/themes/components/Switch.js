@@ -1,6 +1,6 @@
-import light from "./light";
-import cobalt from "./cobalt";
-import marine from "./marine";
+import light from "../source/light";
+import cobalt from "../source/cobalt";
+import marine from "../source/marine";
 const themes = {
   cobalt,
   light,

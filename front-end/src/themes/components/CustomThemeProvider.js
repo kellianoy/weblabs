@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
-import getTheme from "./switch";
+import getTheme from "./Switch";
 import PropTypes from "prop-types";
 
 //Inspired by https://www.58bits.com/blog/2020/05/27/material-ui-theme-switcher-react

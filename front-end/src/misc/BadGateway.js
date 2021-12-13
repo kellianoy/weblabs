@@ -4,7 +4,7 @@ import { useTheme } from "@mui/styles";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import img404 from "./404.gif";
+import img404 from "./images/404.gif";
 const useStyles = (theme) => ({
   root: {
     bgcolor: theme.palette.primary.dark,

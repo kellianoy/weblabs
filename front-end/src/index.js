@@ -7,7 +7,7 @@ import { Provider as ContextProvider } from "./context/Context";
 import * as serviceWorker from "./serviceWorker";
 import "typeface-roboto";
 // Layout
-import CustomThemeProvider from "./themes/CustomThemeProvider";
+import CustomThemeProvider from "./themes/components/CustomThemeProvider";
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(

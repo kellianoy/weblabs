@@ -15,10 +15,10 @@ import {
   Paper,
 } from "@mui/material";
 // Local
-import { CustomThemeContext } from "../themes/CustomThemeProvider";
-import cobaltPreview from "../themes/cobalt-preview.jpg";
-import lightPreview from "../themes/light-preview.jpg";
-import marinePreview from "../themes/marine-preview.jpg";
+import { CustomThemeContext } from "../../themes/components/CustomThemeProvider";
+import cobaltPreview from "../../themes/previews/cobalt-preview.jpg";
+import lightPreview from "../../themes/previews/light-preview.jpg";
+import marinePreview from "../../themes/previews/marine-preview.jpg";
 
 const useStyles = (theme) => ({
   root: {
