@@ -27,15 +27,7 @@ import remark2rehype from "remark-rehype";
 import html from "rehype-stringify";
 // Time
 import dayjs from "dayjs";
-import calendar from "dayjs/plugin/calendar";
-import updateLocale from "dayjs/plugin/updateLocale";
-dayjs.extend(calendar);
-dayjs.extend(updateLocale);
-dayjs.updateLocale("en", {
-  calendar: {
-    sameElse: "DD/MM/YYYY hh:mm A",
-  },
-});
+
 import PropTypes from "prop-types";
 import Context from "../context/Context";
 import DeleteMessage from "./DeleteMessage";
@@ -173,6 +165,23 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
       )}
       <ul>
         {messages.map((message, i) => {
+          //Current date
+          const mDate = dayjs(new Date(messages[i].creation / 1000));
+          //Is the same person posting ?
+          const samePerson =
+            i >= 1 && messages[i].author === messages[i - 1].author;
+          var lDate;
+          var closeDate = false;
+          //Is it a close date ?
+          if (samePerson && i >= 1) {
+            lDate = dayjs(new Date(messages[i - 1].creation / 1000));
+            closeDate =
+              mDate.$D === lDate.$D &&
+              mDate.$M === lDate.$M &&
+              mDate.$y === lDate.$y &&
+              mDate.$H === lDate.$H &&
+              mDate.$m - lDate.$m <= 10;
+          }
           const { value } = unified()
             .use(markdown)
             .use(remark2rehype)
@@ -182,7 +191,7 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
             <li key={i} css={styles.message}>
               {
                 //We want to show off, so let's prevent showing the user header if he already sent a message
-                !(i >= 1 && messages[i].author === messages[i - 1].author) && (
+                !closeDate && (
                   <Toolbar disableGutters>
                     <Avatar
                       sx={{
@@ -200,7 +209,10 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
                     </Avatar>
                     <span css={styles.author}>{message.username}</span>
                     <span css={styles.date}>
-                      {dayjs().calendar(message.creation)}
+                      {
+                        //Fixing date that was wrong before
+                        mDate.format("ddd, MMM D, YYYY h:mm A")
+                      }
                     </span>
                     <Box sx={{ flexGrow: 1 }} />
                     {message.author === oauth.email && (

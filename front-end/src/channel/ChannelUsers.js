@@ -40,7 +40,7 @@ export default function ChannelUsers() {
             }
           );
           setChannel(channel);
-          setChannelUsers(users.reverse());
+          setChannelUsers(users);
         } else setChannelUsers([]);
       } catch (err) {
         console.error(err);
