@@ -69,7 +69,7 @@ const useStyles = (theme) => ({
   subtitles: {
     textAlign: "center",
     fontFamily: theme.palette.primary.textFont,
-    fontSize: "22px",
+    fontSize: "18px",
     fontWeight: "600",
     color: theme.palette.primary.contrastText,
     margin: "5px",

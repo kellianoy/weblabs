@@ -9,7 +9,14 @@ import {
 } from "react";
 // Layout
 import { useTheme } from "@mui/styles";
-import { Toolbar, Box, Tooltip, IconButton, Avatar } from "@mui/material";
+import {
+  Toolbar,
+  Box,
+  IconButton,
+  Avatar,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import Gravatar from "react-gravatar";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditIcon from "@mui/icons-material/Edit";
@@ -72,10 +79,6 @@ const useStyles = (theme) => ({
     fontFamily: theme.palette.primary.textFont,
     fontWeight: "600",
     fontSize: "15px",
-
-    "&:hover": {
-      bgcolor: theme.palette.primary.dark,
-    },
   },
   fabWrapper: {
     position: "absolute",
@@ -91,10 +94,6 @@ const useStyles = (theme) => ({
   icons: {
     fill: theme.palette.secondary.dark,
   },
-  iconButtons: {
-    marginLeft: "1%",
-    ":hover": { bgcolor: theme.palette.primary.main },
-  },
 });
 
 //This component lists messages
@@ -105,6 +104,30 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
   const [openDelete, setOpenDelete] = useState(false);
   const [openModify, setOpenModify] = useState(false);
   const [currentMessage, setCurrentMessage] = useState({});
+
+  //To handle the menu
+  const [contextMenu, setContextMenu] = useState(null);
+
+  const handleContextMenu = (event, activate) => {
+    if (activate) {
+      event.preventDefault();
+      setContextMenu(
+        contextMenu === null
+          ? {
+              mouseX: event.clientX - 2,
+              mouseY: event.clientY - 4,
+            }
+          : // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
+            // Other native context menus might behave different.
+            // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
+            null
+      );
+    }
+  };
+
+  const handleClose = () => {
+    setContextMenu(null);
+  };
 
   // Expose the `scroll` action
   useImperativeHandle(ref, () => ({
@@ -157,56 +180,105 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
             .processSync(message.content);
           return (
             <li key={i} css={styles.message}>
-              <Toolbar disableGutters>
-                <Avatar
-                  sx={{
-                    bgcolor: theme.palette.primary.dark,
-                    marginRight: "1%",
-                    width: "36px",
-                    height: "36px",
-                  }}
-                >
-                  <Gravatar email={message.author} size={36} default="retro" />
-                </Avatar>
-                <span css={styles.author}>{message.username}</span>
-                <span css={styles.date}>
-                  {dayjs().calendar(message.creation)}
-                </span>
-                <Box sx={{ flexGrow: 1 }} />
-                {message.author === oauth.email && (
-                  <>
-                    <Tooltip arrow title="Edit message" placement="bottom">
-                      <IconButton
-                        sx={styles.iconButtons}
-                        onClick={() => {
-                          setOpenModify(true);
-                          setCurrentMessage(message);
+              {
+                //We want to show off, so let's prevent showing the user header if he already sent a message
+                !(i >= 1 && messages[i].author === messages[i - 1].author) && (
+                  <Toolbar disableGutters>
+                    <Avatar
+                      sx={{
+                        bgcolor: theme.palette.primary.dark,
+                        marginRight: "1%",
+                        width: "36px",
+                        height: "36px",
+                      }}
+                    >
+                      <Gravatar
+                        email={message.author}
+                        size={36}
+                        default="retro"
+                      />
+                    </Avatar>
+                    <span css={styles.author}>{message.username}</span>
+                    <span css={styles.date}>
+                      {dayjs().calendar(message.creation)}
+                    </span>
+                    <Box sx={{ flexGrow: 1 }} />
+                    {message.author === oauth.email && (
+                      <Menu
+                        PaperProps={{
+                          style: {
+                            backgroundColor: theme.palette.primary.main,
+                          },
                         }}
+                        open={contextMenu !== null}
+                        onClose={handleClose}
+                        anchorReference="anchorPosition"
+                        anchorPosition={
+                          contextMenu !== null
+                            ? {
+                                top: contextMenu.mouseY,
+                                left: contextMenu.mouseX,
+                              }
+                            : undefined
+                        }
                       >
-                        <EditIcon css={styles.icons} />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip arrow title="Delete message" placement="bottom">
-                      <IconButton
-                        sx={styles.iconButtons}
-                        onClick={() => {
-                          setOpenDelete(true);
-                          setCurrentMessage(message);
-                        }}
-                      >
-                        <DeleteOutlineOutlinedIcon
-                          css={[
-                            styles.icons,
-                            { fill: theme.palette.misc.owner },
-                          ]}
-                        />
-                      </IconButton>
-                    </Tooltip>
-                  </>
-                )}
-              </Toolbar>
+                        <MenuItem
+                          onClick={() => {
+                            handleClose();
+                            setOpenModify(true);
+                            setCurrentMessage(message);
+                          }}
+                        >
+                          <span css={{ color: theme.palette.secondary.dark }}>
+                            Edit message
+                          </span>
+                          <IconButton sx={styles.iconButtons}>
+                            <EditIcon css={styles.icons} />
+                          </IconButton>
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            handleClose();
+                            setOpenModify(true);
+                            setCurrentMessage(message);
+                          }}
+                        >
+                          <span css={{ color: theme.palette.misc.owner }}>
+                            Delete message
+                          </span>
+                          <IconButton
+                            sx={styles.iconButtons}
+                            onClick={() => {
+                              setOpenDelete(true);
+                              setCurrentMessage(message);
+                            }}
+                          >
+                            <DeleteOutlineOutlinedIcon
+                              css={[
+                                styles.icons,
+                                { fill: theme.palette.misc.owner },
+                              ]}
+                            />
+                          </IconButton>
+                        </MenuItem>
+                      </Menu>
+                    )}
+                  </Toolbar>
+                )
+              }
+
               <Box
-                sx={styles.message}
+                onContextMenu={(e) => {
+                  handleContextMenu(e, message.author === oauth.email);
+                }}
+                sx={[
+                  styles.message,
+                  message.author === oauth.email && {
+                    "&:hover": {
+                      bgcolor: theme.palette.primary.dark,
+                    },
+                  },
+                ]}
                 dangerouslySetInnerHTML={{ __html: value }}
               />
             </li>
