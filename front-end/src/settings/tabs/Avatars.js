@@ -154,7 +154,6 @@ export default function Avatars() {
               sx={{
                 display: "flex",
                 justifyContent: "center",
-                margin: "auto",
                 flexWrap: "wrap",
               }}
             >
