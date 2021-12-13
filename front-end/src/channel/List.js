@@ -179,8 +179,7 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
               mDate.$D === lDate.$D &&
               mDate.$M === lDate.$M &&
               mDate.$y === lDate.$y &&
-              mDate.$H === lDate.$H &&
-              mDate.$m - lDate.$m <= 10;
+              (mDate.$H - lDate.$H) * 60 + (mDate.$m - lDate.$m) <= 10;
           }
           const { value } = unified()
             .use(markdown)
