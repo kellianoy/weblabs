@@ -77,11 +77,6 @@ export default function Themes() {
           aria-label="theme"
           name="radio-buttons-group"
           value={value}
-          onChange={(e, newValue) => {
-            e.stopPropagation();
-            setTheme(newValue);
-            setValue(newValue);
-          }}
         >
           <Stack
             direction={{ xs: "column", sm: "row" }}
@@ -95,7 +90,6 @@ export default function Themes() {
                   elevation={2}
                   sx={{
                     bgcolor: theme.palette.primary.main,
-                    "&:hover": {},
                   }}
                 >
                   <CardActionArea
@@ -112,7 +106,7 @@ export default function Themes() {
                           maxHeight: 300,
                         }}
                         image={t.image}
-                        alt="cobalt"
+                        alt={t.value}
                       />
                       <FormControlLabel
                         sx={styles.button}

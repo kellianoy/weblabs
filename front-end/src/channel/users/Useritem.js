@@ -2,13 +2,13 @@
 import PropTypes from "prop-types";
 // Layout
 import { useTheme } from "@mui/styles";
-import Gravatar from "react-gravatar";
 import Avatar from "@mui/material/Avatar";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 //Local
+import MyGravatar from "../../settings/tabs/MyGravatar";
 
 export default function Useritem({ user, owner }) {
   const theme = useTheme();
@@ -24,7 +24,7 @@ export default function Useritem({ user, owner }) {
               height: "36px",
             }}
           >
-            <Gravatar email={user.email} size={36} default="retro" />
+            <MyGravatar email={user.email} md5={user.avatar || ""} size={36} />
           </Avatar>
         </ListItemAvatar>
         <ListItemText

@@ -22,11 +22,10 @@ import {
   Grow,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import Gravatar from "react-gravatar";
 // Local
 import Context from "../../context/Context";
 import Error from "../../misc/Error";
-
+import MyGravatar from "./MyGravatar";
 const useStyles = (theme) => ({
   root: {
     display: "flex",
@@ -120,7 +119,11 @@ export default function Account() {
                       height: "64px",
                     }}
                   >
-                    <Gravatar email={user.email} size={64} default="retro" />
+                    <MyGravatar
+                      email={oauth.email}
+                      md5={user.avatar || ""}
+                      size={64}
+                    />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText

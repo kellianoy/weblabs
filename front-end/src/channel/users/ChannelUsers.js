@@ -13,11 +13,12 @@ import Context from "../../context/Context";
 
 export default function ChannelUsers() {
   const theme = useTheme();
-  //Setting a hook for a list of channel users
-  const [channelUsers, setChannelUsers] = useState([]);
+
   const [channel, setChannel] = useState({});
   //let's get what channel is being used
-  const { oauth, id, setID } = useContext(Context);
+  //Setting a hook for a list of channel users
+  const { channelUsers, setChannelUsers, oauth, id, setID } =
+    useContext(Context);
   //UseEffect() for the users : getting the users and refreshing the list each time
   useEffect(() => {
     const getUsers = async () => {

@@ -193,17 +193,7 @@ const self = (module.exports = {
             reject(err);
           })
           .on("end", async () => {
-            const newMessages = await Promise.all(
-              messages.map(async (message, i) => {
-                const userID = JSON.parse(
-                  await db.get(`users_email:${message.author}`)
-                );
-                const user = JSON.parse(await db.get(`users:${userID.id}`));
-                message = merge(message, { username: user.username });
-                return message;
-              })
-            );
-            resolve(newMessages);
+            resolve(messages);
           });
       });
     },
@@ -256,7 +246,7 @@ const self = (module.exports = {
       await db.put(`users_email:${user.email}`, JSON.stringify({ id: id }));
       await db.put(
         `users:${id}`,
-        JSON.stringify(merge(user, { channels: [] }))
+        JSON.stringify(merge(user, { channels: [], avatar: "" }))
       );
       return merged;
     },

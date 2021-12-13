@@ -3,7 +3,6 @@ import { useContext } from "react";
 // Layout
 import { IconButton } from "@mui/material";
 import { useTheme } from "@mui/styles";
-import Gravatar from "react-gravatar";
 import Avatar from "@mui/material/Avatar";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -17,10 +16,11 @@ import ArrowRight from "@mui/icons-material/ArrowRight";
 //Local
 import Context from "../../context/Context";
 import { useNavigate } from "react-router-dom";
+import MyGravatar from "../../settings/tabs/MyGravatar";
 //This component shows the currently authenticated user in the navbar
 export default function AuthenticatedUser() {
   const theme = useTheme();
-  const { user } = useContext(Context);
+  const { user, oauth } = useContext(Context);
   const navigate = useNavigate();
   return (
     <AppBar
@@ -42,7 +42,11 @@ export default function AuthenticatedUser() {
                 height: "36px",
               }}
             >
-              <Gravatar email={user.email} size={36} default="retro" />
+              <MyGravatar
+                email={oauth.email}
+                md5={user.avatar || ""}
+                size={36}
+              />
             </Avatar>
           </ListItemAvatar>
           <ListItemText

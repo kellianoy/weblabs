@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 // Layout
 import { useTheme } from "@mui/styles";
 import {
@@ -11,10 +12,17 @@ import {
   ListItemAvatar,
   Avatar,
   AppBar,
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Card,
+  CardMedia,
+  CardActionArea,
 } from "@mui/material";
-import Gravatar from "react-gravatar";
 // Local
 import Context from "../../context/Context";
+import MyGravatar from "./MyGravatar";
 
 const useStyles = (theme) => ({
   root: {
@@ -26,38 +34,86 @@ const useStyles = (theme) => ({
   },
   userinfo: {
     background: theme.palette.primary.light,
+    borderRadius: "0px",
     marginTop: "2%",
+    marginBottom: "1%",
   },
   title: {
     fontFamily: theme.palette.primary.textFont,
+    color: theme.palette.secondary.dark,
     fontWeight: "600",
     fontSize: "22px",
-    color: theme.palette.secondary.dark,
+  },
+  button: {
+    marginLeft: "1%",
   },
   item: {
-    fontSize: 18,
+    fontFamily: theme.palette.primary.textFont,
+    color: theme.palette.primary.contrastText,
     fontWeight: "600",
-    letterSpacing: 0,
-    color: theme.palette.secondary.main,
   },
   field: {
-    fontWeight: "400",
+    fontFamily: theme.palette.primary.textFont,
     fontSize: 18,
+    fontWeight: "400",
     color: theme.palette.primary.contrastText,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
+  radio: {
+    color: theme.palette.secondary.main,
+    "&.Mui-checked": {
+      color: theme.palette.misc.owner,
+    },
   },
 });
-//This component exports the avatar part of settings
+//This component exports the account part of settings
 export default function Avatars() {
+  const [value, setValue] = useState("");
+  const [go, setGo] = useState(false);
   const theme = useTheme();
   const styles = useStyles(theme);
-  const { user } = useContext(Context);
+  const { user, oauth, setUser } = useContext(Context);
+  const avatars = [];
+  avatars.push({ title: `Default`, value: `` });
+  for (let i = 1; i < 18; i++) {
+    avatars.push({ title: `Preset ${i}`, value: `avatar${i}` });
+  }
+  useEffect(() => {
+    const updateAvatar = async () => {
+      if (go) {
+        try {
+          const { data: user } = await axios.put(
+            `http://localhost:3001/users/${oauth.email}`,
+            {
+              avatar: value,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${oauth.access_token}`,
+              },
+            }
+          );
+          setUser(user);
+          setGo(false);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+    updateAvatar();
+  }, [go]);
+
   return (
     <Box sx={styles.root}>
       <span css={styles.title}>Avatars</span>
       <Paper sx={styles.userinfo} elevation={0}>
         <List>
           <AppBar
-            sx={{ position: "relative", bgcolor: theme.palette.primary.dark }}
+            sx={{
+              position: "relative",
+              bgcolor: theme.palette.primary.dark,
+            }}
           >
             <ListItem>
               <ListItemAvatar sx={{ marginRight: "14px" }}>
@@ -65,37 +121,89 @@ export default function Avatars() {
                   sx={{
                     bgcolor: theme.palette.primary.main,
                     margin: "auto",
-                    width: "64px",
-                    height: "64px",
+                    width: "128px",
+                    height: "128px",
                   }}
                 >
-                  <Gravatar email={user.email} size={64} default="retro" />
+                  <MyGravatar
+                    email={oauth.email}
+                    md5={user.avatar || ""}
+                    size={128}
+                  />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText
                 primary={user.username}
-                primaryTypographyProps={styles.item}
+                primaryTypographyProps={styles.title}
               />
             </ListItem>
           </AppBar>
-          <ListItem>
-            <ListItemText
-              primary="Username"
-              primaryTypographyProps={styles.item}
-              secondary={user.username}
-              secondaryTypographyProps={styles.field}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary="Email"
-              primaryTypographyProps={styles.item}
-              secondary={user.email}
-              secondaryTypographyProps={styles.field}
-            />
-          </ListItem>
         </List>
       </Paper>
+      <span css={styles.title}>Preset avatars</span>
+      <FormControl component="fieldset">
+        <RadioGroup
+          row
+          aria-label="theme"
+          name="radio-buttons-group"
+          value={value}
+        >
+          <Box sx={{ display: "flex", marginTop: "2%", flexWrap: "wrap" }}>
+            {avatars.map((t, i) => {
+              const md5 = t.value;
+              return (
+                <Card
+                  key={i}
+                  elevation={2}
+                  sx={{
+                    marginRight: "2%",
+                    marginBottom: "2%",
+                    bgcolor: theme.palette.primary.main,
+                  }}
+                >
+                  <CardActionArea
+                    onClick={() => {
+                      setValue(t.value);
+                      setGo(true);
+                    }}
+                  >
+                    <Paper sx={styles.userinfo}>
+                      <CardMedia
+                        sx={{
+                          maxWidth: 200,
+                          maxHeight: 200,
+                        }}
+                        alt={t.value}
+                      >
+                        <Avatar
+                          sx={{
+                            bgcolor: theme.palette.primary.main,
+                            margin: "auto",
+                            width: "200px",
+                            height: "200px",
+                          }}
+                        >
+                          <MyGravatar
+                            email={oauth.email}
+                            md5={md5}
+                            size={200}
+                          />
+                        </Avatar>
+                      </CardMedia>
+                      <FormControlLabel
+                        sx={styles.button}
+                        value={t.value}
+                        control={<Radio sx={styles.radio} />}
+                        label={<span css={styles.item}>{t.title}</span>}
+                      />
+                    </Paper>
+                  </CardActionArea>
+                </Card>
+              );
+            })}
+          </Box>
+        </RadioGroup>
+      </FormControl>
     </Box>
   );
 }

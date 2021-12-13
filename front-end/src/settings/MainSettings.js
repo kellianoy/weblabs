@@ -13,7 +13,13 @@ import {
   Divider,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { Link, useNavigate, Route, Routes } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 // Local
 import Context from "../context/Context";
 import Account from "./tabs/Account";
@@ -78,13 +84,16 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
 
 //This component exports the typetrack. button screen : it is also the welcome screen of the application when you log in
 export default function MainSettings() {
-  const [value, setValue] = useState(0);
   const theme = useTheme();
   const styles = useStyles(theme);
   const { setOauth, setUser } = useContext(Context);
   const elements = ["Account", "Avatars", "Themes"];
   const paths = ["account", "avatars", "themes"];
+  const location = useLocation();
   const navigate = useNavigate();
+  const [value, setValue] = useState(
+    paths.findIndex((path) => path === location.pathname.split("/")[2])
+  );
   const onClickLogout = (e) => {
     e.stopPropagation();
     setUser({});

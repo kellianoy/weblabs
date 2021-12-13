@@ -16,6 +16,7 @@ export const Provider = ({ children }) => {
   //let's get what channel is being used
   const [id, setID] = useState("");
   const [user, setUser] = useState({});
+  const [channelUsers, setChannelUsers] = useState([]);
   const [updateChannels, setUpdateChannels] = useState(false);
   const [updateUser, setUpdateUser] = useState(false);
   const [updateMessages, setUpdateMessages] = useState(false);
@@ -58,6 +59,8 @@ export const Provider = ({ children }) => {
         setUpdateUser: setUpdateUser,
         updateMessages: updateMessages,
         setUpdateMessages: setUpdateMessages,
+        channelUsers: channelUsers,
+        setChannelUsers: setChannelUsers,
       }}
     >
       {children}

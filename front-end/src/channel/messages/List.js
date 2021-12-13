@@ -17,7 +17,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import Gravatar from "react-gravatar";
+
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 // Markdown
@@ -32,7 +32,7 @@ import PropTypes from "prop-types";
 import Context from "../../context/Context";
 import DeleteMessage from "./fonctionnalities/DeleteMessage";
 import ModifyMessage from "./fonctionnalities/ModifyMessage";
-
+import MyGravatar from "../../settings/tabs/MyGravatar";
 const useStyles = (theme) => ({
   root: {
     position: "relative",
@@ -92,7 +92,7 @@ const useStyles = (theme) => ({
 const List = forwardRef(function List({ messages, onScrollDown }, ref) {
   const theme = useTheme();
   const styles = useStyles(theme);
-  const { oauth } = useContext(Context);
+  const { oauth, channelUsers } = useContext(Context);
   const [openDelete, setOpenDelete] = useState(false);
   const [openModify, setOpenModify] = useState(false);
   const [currentMessage, setCurrentMessage] = useState({});
@@ -186,6 +186,9 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
             .use(remark2rehype)
             .use(html)
             .processSync(message.content);
+          const currentUser = channelUsers.find(
+            (user) => user.email === message.author
+          );
           return (
             <li key={i} css={styles.message}>
               {
@@ -200,13 +203,15 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
                         height: "36px",
                       }}
                     >
-                      <Gravatar
+                      <MyGravatar
                         email={message.author}
+                        md5={currentUser ? currentUser.avatar : ""}
                         size={36}
-                        default="retro"
                       />
                     </Avatar>
-                    <span css={styles.author}>{message.username}</span>
+                    <span css={styles.author}>
+                      {currentUser ? currentUser.username : ""}
+                    </span>
                     <span css={styles.date}>
                       {
                         //Fixing date that was wrong before
