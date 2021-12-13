@@ -37,6 +37,7 @@ const useStyles = (theme) => ({
   userinfo: {
     background: theme.palette.primary.light,
     marginTop: "2%",
+    padding: "2%",
   },
   title: {
     fontFamily: theme.palette.primary.textFont,

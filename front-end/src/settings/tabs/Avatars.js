@@ -37,6 +37,7 @@ const useStyles = (theme) => ({
     borderRadius: "0px",
     marginTop: "2%",
     marginBottom: "1%",
+    padding: "2%",
   },
   title: {
     fontFamily: theme.palette.primary.textFont,
@@ -141,69 +142,80 @@ export default function Avatars() {
         </List>
       </Paper>
       <span css={styles.title}>Preset avatars</span>
-      <FormControl component="fieldset">
-        <RadioGroup
-          row
-          aria-label="theme"
-          name="radio-buttons-group"
-          value={value}
-        >
-          <Box sx={{ display: "flex", marginTop: "2%", flexWrap: "wrap" }}>
-            {avatars.map((t, i) => {
-              const md5 = t.value;
-              return (
-                <Card
-                  key={i}
-                  elevation={2}
-                  sx={{
-                    marginRight: "2%",
-                    marginBottom: "2%",
-                    bgcolor: theme.palette.primary.main,
-                  }}
-                >
-                  <CardActionArea
-                    onClick={() => {
-                      setValue(t.value);
-                      setGo(true);
+      <Paper sx={styles.userinfo} elevation={0}>
+        <FormControl component="fieldset">
+          <RadioGroup
+            row
+            aria-label="theme"
+            name="radio-buttons-group"
+            value={value}
+          >
+            <Box sx={{ display: "flex", marginTop: "2%", flexWrap: "wrap" }}>
+              {avatars.map((t, i) => {
+                const md5 = t.value;
+                return (
+                  <Card
+                    key={i}
+                    elevation={2}
+                    sx={{
+                      marginRight: "2%",
+                      marginBottom: "2%",
+                      padding: "1%",
+                      bgcolor: theme.palette.primary.dark,
                     }}
                   >
-                    <Paper sx={styles.userinfo}>
-                      <CardMedia
-                        sx={{
-                          maxWidth: 200,
-                          maxHeight: 200,
-                        }}
-                        alt={t.value}
+                    <CardActionArea
+                      onClick={() => {
+                        setValue(t.value);
+                        setGo(true);
+                      }}
+                    >
+                      <Paper
+                        sx={[
+                          styles.userinfo,
+                          {
+                            background: theme.palette.primary.dark,
+                            padding: "0%",
+                          },
+                        ]}
                       >
-                        <Avatar
+                        <CardMedia
                           sx={{
-                            bgcolor: theme.palette.primary.main,
-                            margin: "auto",
-                            width: "200px",
-                            height: "200px",
+                            maxWidth: 200,
+                            maxHeight: 200,
                           }}
+                          alt={t.value}
                         >
-                          <MyGravatar
-                            email={oauth.email}
-                            md5={md5}
-                            size={200}
-                          />
-                        </Avatar>
-                      </CardMedia>
-                      <FormControlLabel
-                        sx={styles.button}
-                        value={t.value}
-                        control={<Radio sx={styles.radio} />}
-                        label={<span css={styles.item}>{t.title}</span>}
-                      />
-                    </Paper>
-                  </CardActionArea>
-                </Card>
-              );
-            })}
-          </Box>
-        </RadioGroup>
-      </FormControl>
+                          <Avatar
+                            sx={{
+                              bgcolor: theme.palette.primary.main,
+                              margin: "auto",
+                              width: "200px",
+                              height: "200px",
+                            }}
+                          >
+                            <MyGravatar
+                              email={oauth.email}
+                              md5={md5}
+                              size={200}
+                            />
+                          </Avatar>
+                        </CardMedia>
+                        <FormControlLabel
+                          sx={styles.button}
+                          value={t.value}
+                          control={<Radio sx={styles.radio} />}
+                          label={<span css={styles.item}>{t.title}</span>}
+                        />
+                      </Paper>
+                    </CardActionArea>
+                  </Card>
+                );
+              })}
+            </Box>
+          </RadioGroup>
+        </FormControl>
+      </Paper>
     </Box>
   );
 }

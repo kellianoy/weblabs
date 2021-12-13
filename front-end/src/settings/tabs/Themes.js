@@ -31,6 +31,9 @@ const useStyles = (theme) => ({
   userinfo: {
     background: theme.palette.primary.light,
     borderRadius: "0px",
+    marginTop: "2%",
+    marginBottom: "1%",
+    padding: "2%",
   },
   title: {
     fontFamily: theme.palette.primary.textFont,
@@ -70,58 +73,69 @@ export default function Themes() {
   return (
     <Box sx={styles.root}>
       <span css={styles.title}>Themes</span>
-
-      <FormControl component="fieldset">
-        <RadioGroup
-          row
-          aria-label="theme"
-          name="radio-buttons-group"
-          value={value}
-        >
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            spacing={{ xs: 1, sm: 2, md: 3 }}
-            sx={{ marginTop: "2%" }}
+      <Paper sx={styles.userinfo} elevation={0}>
+        <FormControl component="fieldset">
+          <RadioGroup
+            row
+            aria-label="theme"
+            name="radio-buttons-group"
+            value={value}
           >
-            {themes.map((t, i) => {
-              return (
-                <Card
-                  key={i}
-                  elevation={2}
-                  sx={{
-                    bgcolor: theme.palette.primary.main,
-                  }}
-                >
-                  <CardActionArea
-                    onClick={() => {
-                      setValue(t.value);
-                      setTheme(t.value);
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={{ xs: 1, sm: 2, md: 3 }}
+              sx={{ marginTop: "2%" }}
+            >
+              {themes.map((t, i) => {
+                return (
+                  <Card
+                    key={i}
+                    elevation={2}
+                    sx={{
+                      bgcolor: theme.palette.primary.dark,
+                      padding: "2%",
                     }}
                   >
-                    <Paper sx={styles.userinfo}>
-                      <CardMedia
-                        component="img"
-                        sx={{
-                          maxWidth: 300,
-                          maxHeight: 300,
-                        }}
-                        image={t.image}
-                        alt={t.value}
-                      />
-                      <FormControlLabel
-                        sx={styles.button}
-                        value={t.value}
-                        control={<Radio sx={styles.radio} />}
-                        label={<span css={styles.item}>{t.title}</span>}
-                      />
-                    </Paper>
-                  </CardActionArea>
-                </Card>
-              );
-            })}
-          </Stack>
-        </RadioGroup>
-      </FormControl>
+                    <CardActionArea
+                      onClick={() => {
+                        setValue(t.value);
+                        setTheme(t.value);
+                      }}
+                    >
+                      <Paper
+                        sx={[
+                          styles.userinfo,
+                          {
+                            background: theme.palette.primary.dark,
+                            padding: "0%",
+                          },
+                        ]}
+                        elevation={0}
+                      >
+                        <CardMedia
+                          component="img"
+                          sx={{
+                            maxWidth: 300,
+                            maxHeight: 300,
+                          }}
+                          image={t.image}
+                          alt={t.value}
+                        />
+                        <FormControlLabel
+                          sx={styles.button}
+                          value={t.value}
+                          control={<Radio sx={styles.radio} />}
+                          label={<span css={styles.item}>{t.title}</span>}
+                        />
+                      </Paper>
+                    </CardActionArea>
+                  </Card>
+                );
+              })}
+            </Stack>
+          </RadioGroup>
+        </FormControl>
+      </Paper>
     </Box>
   );
 }
