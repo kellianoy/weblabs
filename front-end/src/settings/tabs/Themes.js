@@ -84,7 +84,7 @@ export default function Themes() {
             <Stack
               direction={{ xs: "column", sm: "row" }}
               spacing={{ xs: 1, sm: 2, md: 3 }}
-              sx={{ marginTop: "2%" }}
+              sx={{ margin: "auto" }}
             >
               {themes.map((t, i) => {
                 return (

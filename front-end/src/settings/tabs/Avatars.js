@@ -70,11 +70,11 @@ const useStyles = (theme) => ({
 });
 //This component exports the account part of settings
 export default function Avatars() {
-  const [value, setValue] = useState("");
+  const { user, oauth, setUser } = useContext(Context);
   const [go, setGo] = useState(false);
   const theme = useTheme();
   const styles = useStyles(theme);
-  const { user, oauth, setUser } = useContext(Context);
+  const [value, setValue] = useState(false);
   const avatars = [];
   avatars.push({ title: `Default`, value: `` });
   for (let i = 1; i < 18; i++) {
@@ -150,7 +150,14 @@ export default function Avatars() {
             name="radio-buttons-group"
             value={value}
           >
-            <Box sx={{ display: "flex", marginTop: "2%", flexWrap: "wrap" }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                margin: "auto",
+                flexWrap: "wrap",
+              }}
+            >
               {avatars.map((t, i) => {
                 const md5 = t.value;
                 return (
