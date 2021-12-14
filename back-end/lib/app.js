@@ -91,7 +91,7 @@ app.get('/channels/:id/messages', authenticate, async (req, res) => {
   try{
     const channel = await db.channels.get(req.params.id)
   }catch(err){
-    return res.status(404).send('Channel does not exist.')
+    res.status(404).send('Channel does not exist.')
   }
   const messages = await db.messages.list(req.params.id)
   res.json(messages)
@@ -115,7 +115,7 @@ app.post('/channels/:id/messages', authenticate, async (req, res) => {
   const message = await db.messages.create(req.params.id, req.body)
   res.status(201).json(message)
   }catch(err){
-    return res.status(400).send(err)
+    res.status(400).send(err)
   }
 })
 
