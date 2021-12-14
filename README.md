@@ -128,11 +128,11 @@ Project management
   
   Example of Adobe XD Design: 
   
-  ![Plan de travail – 2](C:\Users\Keke\Desktop\Plan de travail – 2.png)
+  ![img](https://lh5.googleusercontent.com/eOp7enStXeaimWVTAPx7YZh5AZsT5uV3r9weNBdKsO17mC1N1l8AbmnFaS34glBHUEPOKNsY0EYH72QHTnN-te6p6yhbMFeePip1UduCpH2zO7uyrNw-6bcejFRCmu2s6L7wi_o7)
   
   The final render: 
   
-  ![image-20211213231452499](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211213231452499.png)
+  ![img](https://lh6.googleusercontent.com/etErJx3vXj_2BSTZ3v6-xf7bep-0TWq_6pybTlQi5U8kyWtCBP-U5NQ_fzY6HvEyH-pT4OgcUkcdjZbaEH_bx0kLe2LGCRmlMKwbu041Y35Oy09pJ192D912Y5QxuNgek8uxIWgx)
   
   It looks similar, bu it has been redesign considering the possibilities, and what we thought was best.
   
@@ -147,11 +147,11 @@ Project management
   
   Example of GitHub Actions:
   
-  ![image-20211213234125701](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211213234125701.png)
+  ![img](https://lh5.googleusercontent.com/SGrn5-Mpc-Pk4g_vVgUF-arHLPt4D6LH4xshFS4MMkw6MA9DuJ-HbeogJWAL7cFuIgdxw5d4cpIHU-irWbcSPtm9xl7soW4tFy2wBLPO4p00o5kuf2KmwVt_tq3GStoKf7-e3Njk)
   
   For each feature, we created a new branch named `feat-feature` to know what we were doing.
   
-  ![image-20211213231859859](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211213231859859.png)
+  ![img](https://lh6.googleusercontent.com/8qWbzfs6y3n9GocF7YhnvkiqL7EGo3YaNzFQS6lXtTnMzF-27c99tmVjc79iL8a3uYc-HRwwp6od-e29uHKqqRZcSI88T867-og0AVc1bIYAZznMK3ExWzDUNUuTn8wXcoKkTFKf)
   
   Points : 4/4 
   
@@ -169,11 +169,11 @@ Application development
   
   Start screen (before login):
   
-  ![image-20211213232212255](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211213232212255.png)
+  ![img](https://lh3.googleusercontent.com/9wJa5uEdUvNCJb5XSir-2bzsZ9p3tggT-U3mmNm2s2HQPXOTjwKFvILTF7he-hVUBd7GRvkhKgu1EVC1QifKORumDOzHuztLbhNDKbd_6yDZqWLMzLSp41pnVmjDWXk-ACP_qE2f)
   
   Home page (after login):
   
-  ![image-20211213233611967](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211213233611967.png)
+  ![img](https://lh4.googleusercontent.com/dG0GzEhluux5kcY6CDESGih4Do-0lv1fm1XtrDgmfSsrt3ytzmFZoSHrxySuzChE1SdhQDYIwfjL3INxnD4wcjWgeIEWc_npOp9njtGBjtXh6G3JtTlQHiHHQd7JX_eykQ4n6eMD)
   
   Points : 4/4
   
@@ -183,13 +183,13 @@ Application development
   
   Create a new channel:
   
-  ![image-20211213233855489](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211213233855489.png)
+  ![img](https://lh6.googleusercontent.com/RzFE9ZVLmoGAEw4a9mIMM0FSmYK7F__CbzFE6vCsYwrucrDnj8bNry5CEX_t93exHMpX5-K8tTznmDk5HDcIXDopyGHUDWnVnjizfNbv4f-bQClIrQj6H_h39VdCX-9I7IWCk-Pw)
   
   If you decide that you are no longer satisfied with your channel name, there is a pen icon to rename it if you own the channel.
   
   Edit button:
   
-  ![image-20211214004726343](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214004726343.png)
+  ![img](https://lh5.googleusercontent.com/e7tNx4RFv7TbJE2CoukyMWdqKE-5nYCevcXXrm8P5r464EFIOiRdXrhWQmDUTA4CGN4co6YVXXX2-aMEr8r4cWSrT0YU-FxzaXHYSWZ2H2EUKkkGSgq8Crqy6SjVcL62GvnVkUA6)
   
   Points : 6/6
   
@@ -199,17 +199,17 @@ Application development
 
   Example of header:
 
-  ![image-20211213234354485](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211213234354485.png)
+  ![img](https://lh3.googleusercontent.com/ZKZKoWbcNraLEsN3sdw6E1yX6ObT9EyJTKieTNMYdwtPHr2RlSzzM5mWXwltV1OIE8ZhslQngGBfvpU4POjS7KVkae-fLNvJBL1Q5Tl5owCCge90cZCBl6tcJqShOJ2eQ2ujXycQ)
 
   Example of the authenticate function implementation in `app.js`: 
 
-  ![image-20211213234513666](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211213234513666.png)
+  ![img](https://lh6.googleusercontent.com/4Kh1GTfF6SpaapA2irVn2nyJ7M7BdY0BCCY-KX2F1yZ6h_v4eJQE64ZcRb3L2db5DgxocE6hSGp-VXIAc_qJidfwLJgs170HGNdRvswJ-e_p7-pukuHtA7lx7rEYL3CmVEJ4-kco)
 
   The user is also naturally inserted into the database if he doesn't exist after oauth. If he does exist, we simply say notice in the console that the user is already in the database with a 403 forbidden answer, as the user is already in the database.
 
   Points : 4/4
 
-* Ressource access control   
+* Resource access control   
 
   Obviously, the application returns only the channels which the user created or joined. For this, we use a channel array inside every user to know which channels to display. This array is updated whenever we create or join a new channel, or that we delete one. 
 
@@ -217,7 +217,11 @@ Application development
 
   We did the same in the last part, using 403 Forbidden when we tried to create an already existing user, but we also do it when we don't have authentication, by showing a 401 status, and showing a 404 status when a request doesn't exist. 
 
-  This ressource access control is illustrated by the fact that we often call an error alert component, showing the user what bad things he tried to do, such as trying to create a nameless channel, which throws an error, caught and display as an alert.
+  Example of API status usage:  
+
+  ![img](https://lh6.googleusercontent.com/NRsthgHua9_X5XphJhLBUATApCmDanzYw5_jX4Ed5IASEEm72nYeMb84buNpnRJwP0HIU7r6_DeC7-A7PPuPhuDnCmwWf-F2jN9_wUzTmpnPpkvmUru81pVu_oZaRhjlFLMLzFNa)
+
+  This resource access control is illustrated by the fact that we often call an error alert component, showing the user what bad things he tried to do, such as trying to create a nameless channel, which throws an error, caught and display as an alert.
 
   Points : 4/4
 
@@ -225,27 +229,25 @@ Application development
 
   Each channel possesses a share icon:
 
-  ![image-20211213235718348](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211213235718348.png)
+  ![img](https://lh4.googleusercontent.com/HPeyabXljv69vj1A9BE2CIisRZUZ-y5XFUuqIiyfh1Wxwb-I8eFis8Uunw1xpCi9yqFEWPUkUrXw3N4LKqUNk6hfZdYZ22nlMfd6-AYSXH3ON0MkVCV2YPcFTrLMBnwkjL5tqigh)
 
   On click, it display the link to join another channel. You can copy the link by clicking the copy-to-clipboard icon.
 
   Share link:
 
-  ![image-20211213235801801](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211213235801801.png)
+  ![img](https://lh4.googleusercontent.com/nMk9rd54fxhpWbb-pf1RB5WpoOEMscWY3RbXyX9Y4HyxxNou_Sofde9KR4pBaTEKmHmPkGA9Copw0RenP9aepbVpjVi5QD2ySqy2FLjUCnEs4e63FE39OSEWKzZsm_wkxTwaWdRp)
 
   By entering this link into the add channel section, you can join an existing channel:
 
-  ![image-20211213235840291](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211213235840291.png)
+  ![img](https://lh5.googleusercontent.com/JkDPtvhjHtuH2Qf1k_yT0ndG8VPBb8A12G2ZMtW6me2_lajGVNQqssmfsjgPrbtD4F3fwa2Kkpj42pmIovivJbFGAIB6RmEVPEsavIltHahX3k8CIjGRoQJupH6Qbkyv3TDqrX_q)
 
   Join page:
 
-  ![image-20211213235912226](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211213235912226.png)
+  ![img](https://lh4.googleusercontent.com/GcrIe3wtMmzqPcCoyTNhRNj4__pgfxDtbts84E2X5pRQ7BG0Hb9h0p0jOjVILKXFxforEV_krgOSDCRHc4XkQGZXNdw5SS0-K1nZEO33V0CGy_WaFRKAi9IJIw9JpuxadiyPeQS2)
 
   Of course, if you created the channel, or if you already have joined the channel, a little error will display.
 
-  Error display:
-
-![image-20211213235954647](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211213235954647.png)
+  ![img](https://lh5.googleusercontent.com/ZXeCaj6k9gqtjcXJqwDikraXTKtvIKqNC9sn6JsRzUEgOUKNaq7ohCHi4F9PO9d_foVDICqWzFVpZ-ZyqxSKGeQbOleUH-qwF0mklHTUZhQd_TckU4lJK03JtUeTNnNhm186Xp7M)
 
 ​		Points: 6/6
 
@@ -255,7 +257,7 @@ Application development
 
   Once you are on one of your messages, right click on it and a menu will display:
 
-  ![image-20211214000250733](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214000250733.png)
+  ![img](https://lh3.googleusercontent.com/NUD5u3bbWYWpdJk0aCDR2bbmN1Aki5cDzkwfjkqElvbZdxPXBCpgH4iJDCg_OJgEulFg-mkcFY1rAa1W_R-Sc1E0F9QRV3rr3NGX6mN5q9FBHA5nAiuWCJKyN9U_LHJV0DRKLG22)
 
   You can both edit or remove a message with this tool. When clicking on either option, a dialog will appear, allowing for changing a message, or confirming whether to delete it or not.
 
@@ -265,7 +267,7 @@ Application development
 
   Same as previously, except that it is the second function.
 
-  ![image-20211214000250733](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214000250733.png)
+  ![img](https://lh3.googleusercontent.com/NUD5u3bbWYWpdJk0aCDR2bbmN1Aki5cDzkwfjkqElvbZdxPXBCpgH4iJDCg_OJgEulFg-mkcFY1rAa1W_R-Sc1E0F9QRV3rr3NGX6mN5q9FBHA5nAiuWCJKyN9U_LHJV0DRKLG22)
 
   You can both edit or remove a message with this tool. When clicking on either option, a dialog will appear, allowing for changing a message, or confirming whether to delete it or not.
 
@@ -275,7 +277,7 @@ Application development
 
   The settings are accessible on the bottom left of the application, using the cog icon:
 
-  ![image-20211214001033968](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214001033968.png)
+  ![img](https://lh6.googleusercontent.com/Z6i0Cvh3DHSJQV2oG-Vp3B86u0KjPTSVHGSqUNLkXXw2Ugz5CryTzvUsXW6xRGlNEaNL-R6SQYOv04yoTDUFCV3NzWw6vKeP4DB4GJPygs-gS49_sbQhv69tLOL9zQBC1mO5B0Hp)
 
   On the setting page, we have three different tabs:
 
@@ -289,7 +291,7 @@ Application development
 
   Account tab: 
 
-  ![image-20211214001628167](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214001628167.png)
+  ![img](https://lh3.googleusercontent.com/QqwLuPEHoQLFVvQjP1X7QDQDs7M-hTcJH7KC58NpxA4OvMb3IgTTUN1xPHqBuqzo1nohFa_DK0O6CMAF0EFojsvhUGI_50EE3N8VV6cOxWWRBKrkaDvaRq9XcvR0AejoCrfS2oHj)
 
   We will display the other tabs in the subsequent sections.
 
@@ -311,7 +313,7 @@ Points : 4/4
 
   Avatar selection page:
 
-  ![image-20211214002629363](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214002629363.png)
+  ![img](https://lh6.googleusercontent.com/XG4cSnvhpDGahzhCtCmeQk44a3fKo-REny2s94-0XdJIVdHuT0KWAVVHNMRBxIekDS3T0pGa8MufuiaeNNDqMuCg914DyDwh0xypmf5SiCK6fG4EOiVU6WcHMMFu7XEoAY_xH7Ce)
 
   Points : 4/4
 
@@ -337,7 +339,7 @@ Points : 4/4
 
   Example of dates:
 
-  ![image-20211214003355679](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214003355679.png)
+  ![img](https://lh5.googleusercontent.com/ncC4c-jmPelhIX4VYWr7rwy55jmiG3wXZ2MZ9kd69GBA5rbpDiE9_ViEggzO2PkDZHxch9PhKWzJeih3tyc-in5HWac9hIX-aRmcRD6GWT0eI_SJupg9HQgRTtoNzAB_Xfkh0NLb)
 
   Points : 1/1
 
@@ -349,7 +351,7 @@ Points : 4/4
 
   The two blocks are both two separate messages, not showing the header:
 
-  ![image-20211214004949106](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214004949106.png)
+  ![img](https://lh4.googleusercontent.com/VusZPYbQpelFgVmwpZYBzAtw7N_wnFAP-n5SOUrReCWESJXaBPUeqjAZH-QdYcXnJa-foF_Lt_MolfdEivo0aOqLvbpuyeTFji1KqJg6JJ6_eaekD50grbqTTmjsiPWoTwj9d3Eo)
 
   Points: 1/1
 
@@ -363,21 +365,21 @@ Points : 4/4
 
   Themes page:
 
-  ![image-20211214003523422](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214003523422.png)
+  ![img](https://lh3.googleusercontent.com/FP44GR-J3QWU_XH9xDsi7hYcmdfMf_4-yvEWsGLACQ22NENcxVIF5jmQCychQtyvsiEoOvOcMWV2YmYgBRq6qSGYfqUvyDMQ398xbdjf3CnhmdRuOdxIKh4DFobEsFb-actcac-B)
 
   The three themes are diverse, making a striking proposition from the others and giving a completely new feeling to the application.
 
   1. Cobalt Theme (Typora inspired, and also the theme I'm using on Typora right now
 
-  ![image-20211214003710657](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214003710657.png)
+  ![img](https://lh6.googleusercontent.com/b1dbWaXKoBqVdq5sPd9sLPzJjWGolj_lNuDUsjBTJvu1IDwo5MOX84uOYhPyA_wnMb3DHMGlNxEyM8bbBA1DYJqVcz2q9M6A-Yymnec3uIF4XOxrY-5xJGNUeV0i4bLWN-LZjShM)
 
   2. Marine Theme (for water lovers I guess ?)
 
-  ![image-20211214003739914](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214003739914.png)
+  ![img](https://lh5.googleusercontent.com/TfOjb7z8nAJVL7QeXnAk3WQW5DD1tK8Ym4J4ZNqh5ZzjA3mpawGjRyru8ma29D1snWQi8LOQqLz3j1tFwGwU97hZ5wklAB0jUdOU5yPuTks6dwElAg9OvxSPO0IIl-ROogIfAMSW)
 
   3. Light Theme (for the ones who like having their eyes burnt)
 
-  ![image-20211214003856023](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214003856023.png)
+  ![img](https://lh6.googleusercontent.com/_Mq6P-GDR75Nmrv33w4HV9wlj8K2g7mNPUosRe1ETH9DLKNXcNi1Cq_iIb7ZCqZedVe11QVWycfuvAbyy8Nvlc9qbrDe-0LGOJJtl9GIBHpTGhIOHUjyL7qEXVxJSBCPVMMqIDhU)
 
   Points : 4/4
 
@@ -387,7 +389,7 @@ Points : 4/4
 
   Example:
 
-  ![image-20211214004312927](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214004312927.png)
+  ![img](https://lh6.googleusercontent.com/n-yVblUWC8_wvyaD_Ni-XEFJ3IwtsbFP0rKqpQFPhLfMn2jTf-owZM6AGVleyJoBRYc1szNZV3V17X7WUDMJlR-iwONfwNZ0DNZQMvPMrlynb1taWObL0tT-IatJy3tS7R-nrmv7)
 
   Points : 1/1
 
@@ -403,7 +405,7 @@ Points : 4/4
 
   Top right corner delete icon:
 
-  ![image-20211214004503053](C:\Users\Keke\AppData\Roaming\Typora\typora-user-images\image-20211214004503053.png)
+  ![img](https://lh4.googleusercontent.com/rG8d6oEROTwKBW0Lgw0cFi4sGx335cJWkdZ87EB5pqsDVybrwrsquIiiL5XWUEeBNjEv6_Od178aOxZAHl0s4ICVuQNrFe6GxvDyDwi5YwIpCQPipp3qBnD6TUxX9Cq9FHJ0hAvN)
 
   Pressing this icon shows a delete or leaving dialog, asking for confirmation.
 
