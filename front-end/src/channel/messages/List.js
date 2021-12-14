@@ -85,6 +85,7 @@ const useStyles = (theme) => ({
   },
   icons: {
     fill: theme.palette.secondary.dark,
+    marginLeft: "5%",
   },
 });
 
@@ -193,62 +194,6 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
 
           return (
             <li key={i} css={styles.message}>
-              {author && (
-                <Menu
-                  PaperProps={{
-                    style: {
-                      backgroundColor: theme.palette.primary.main,
-                    },
-                  }}
-                  open={contextMenu !== null}
-                  onClose={handleClose}
-                  anchorReference="anchorPosition"
-                  anchorPosition={
-                    contextMenu !== null
-                      ? {
-                          top: contextMenu.mouseY,
-                          left: contextMenu.mouseX,
-                        }
-                      : undefined
-                  }
-                >
-                  <MenuItem
-                    data-which-message={i}
-                    onClick={(e) => {
-                      var { whichMessage } = e.currentTarget.dataset;
-                      console.log(whichMessage);
-                      setCurrentMessage(messages[whichMessage]);
-                      setOpenModify(true);
-                      handleClose();
-                    }}
-                  >
-                    <span css={{ color: theme.palette.secondary.dark }}>
-                      Edit message
-                    </span>
-                    <IconButton sx={styles.iconButtons}>
-                      <EditIcon css={styles.icons} />
-                    </IconButton>
-                  </MenuItem>
-                  <MenuItem
-                    data-which-message={i}
-                    onClick={(e) => {
-                      var { whichMessage } = e.currentTarget.dataset;
-                      setCurrentMessage(messages[whichMessage]);
-                      setOpenDelete(true);
-                      handleClose();
-                    }}
-                  >
-                    <span css={{ color: theme.palette.misc.owner }}>
-                      Delete message
-                    </span>
-                    <IconButton sx={styles.iconButtons}>
-                      <DeleteOutlineOutlinedIcon
-                        css={[styles.icons, { fill: theme.palette.misc.owner }]}
-                      />
-                    </IconButton>
-                  </MenuItem>
-                </Menu>
-              )}
               {
                 //We want to show off, so let's prevent showing the user header if he already sent a message
                 !closeDate && (
@@ -282,8 +227,13 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
               }
 
               <Box
+                data-which-message={i}
                 onContextMenu={(e) => {
-                  handleContextMenu(e, author);
+                  if (author) {
+                    const { whichMessage } = e.currentTarget.dataset;
+                    setCurrentMessage(messages[whichMessage]);
+                    handleContextMenu(e, author);
+                  }
                 }}
                 sx={[
                   styles.message,
@@ -300,6 +250,61 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
         })}
       </ul>
       <div ref={scrollEl} />
+      <Menu
+        PaperProps={{
+          style: {
+            backgroundColor: theme.palette.primary.main,
+          },
+        }}
+        open={contextMenu !== null}
+        onClose={handleClose}
+        anchorReference="anchorPosition"
+        anchorPosition={
+          contextMenu !== null
+            ? {
+                top: contextMenu.mouseY,
+                left: contextMenu.mouseX,
+              }
+            : undefined
+        }
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <IconButton
+            onClick={() => {
+              setOpenModify(true);
+              handleClose();
+            }}
+          >
+            <MenuItem>
+              <span css={{ color: theme.palette.secondary.dark }}>
+                Edit message
+              </span>
+              <EditIcon css={styles.icons} />
+            </MenuItem>
+          </IconButton>
+
+          <IconButton
+            onClick={() => {
+              setOpenDelete(true);
+              handleClose();
+            }}
+          >
+            <MenuItem>
+              <span css={{ color: theme.palette.misc.owner }}>
+                Delete message
+              </span>
+              <DeleteOutlineOutlinedIcon
+                css={[styles.icons, { fill: theme.palette.misc.owner }]}
+              />
+            </MenuItem>
+          </IconButton>
+        </Box>
+      </Menu>
     </div>
   );
 });
