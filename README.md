@@ -420,10 +420,12 @@ Points : 4/4
   We implemented emojis because it would have seemed incomplete without them. We used `emoji-picker-react` to handle emojis.
   
   emoji-picker:
+  
   ![img](https://lh5.googleusercontent.com/i5bjTe8JOQfwpArdZkqOJKymky6V0Oz7uN1SpygLSKaB8ogkgPPoj6W6uaWziLB1wOcXyWP0piT7K7gkagDMMoPusktpTDnggA_rBr66zfVCcwplRuxrMegT1sEl4CgSmG5mnNcd)
   
   Usage on our app:
-  ![img](https://lh5.googleusercontent.com/i5bjTe8JOQfwpArdZkqOJKymky6V0Oz7uN1SpygLSKaB8ogkgPPoj6W6uaWziLB1wOcXyWP0piT7K7gkagDMMoPusktpTDnggA_rBr66zfVCcwplRuxrMegT1sEl4CgSmG5mnNcd)
+  
+  ![img](https://lh4.googleusercontent.com/9UDlSUHMPip0D9vqEtjglH-dDkYQJcNfTvIeQiA0zA7VyP3FXkopFERLE6pw0_O8gXPD561t72nnGZTSeF7dwSf2VC1DGYgKLLzJ_lqNfjnX1A8wddxQETcVSu_3Nwu5gqqIpOoF)
   
   Points : 2/2
 
