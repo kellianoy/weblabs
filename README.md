@@ -134,7 +134,7 @@ Project management
   
   ![img](https://lh6.googleusercontent.com/etErJx3vXj_2BSTZ3v6-xf7bep-0TWq_6pybTlQi5U8kyWtCBP-U5NQ_fzY6HvEyH-pT4OgcUkcdjZbaEH_bx0kLe2LGCRmlMKwbu041Y35Oy09pJ192D912Y5QxuNgek8uxIWgx)
   
-  It looks similar, bu it has been redesign considering the possibilities, and what we thought was best.
+  It looks similar, but it has been redesigned considering the possibilities, and what we thought was best.
   
   Points : 4/4
   
