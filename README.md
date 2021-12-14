@@ -399,7 +399,7 @@ Points : 4/4
 
 * Channel deletion / Leaving a channel
 
-  Our user can decide, at some point, to leave a channel which he can then join back again later. If you are the owner of the channel, you can delete it, cascading the delete to all the messages, and removing every instance of this channel in every user.
+  Our user can decide, at some point, to leave a channel which he can then join back again later. If you are the owner of the channel, you can delete it, cascading the delete   to all the messages, and removing every instance of this channel in every user.
 
   1. The back-end was fully integrated,
   2. Clean deletion 
@@ -414,14 +414,27 @@ Points : 4/4
   Pressing this icon shows a delete or leaving dialog, asking for confirmation.
 
   Points : 2/2
+  
+* Emojis
+
+  We implemented emojis because it would have seemed incomplete without them. We used `emoji-picker-react` to handle emojis.
+  
+  emoji-picker:
+  ![img](https://lh5.googleusercontent.com/i5bjTe8JOQfwpArdZkqOJKymky6V0Oz7uN1SpygLSKaB8ogkgPPoj6W6uaWziLB1wOcXyWP0piT7K7gkagDMMoPusktpTDnggA_rBr66zfVCcwplRuxrMegT1sEl4CgSmG5mnNcd)
+  
+  Usage on our app:
+  ![img](https://lh5.googleusercontent.com/i5bjTe8JOQfwpArdZkqOJKymky6V0Oz7uN1SpygLSKaB8ogkgPPoj6W6uaWziLB1wOcXyWP0piT7K7gkagDMMoPusktpTDnggA_rBr66zfVCcwplRuxrMegT1sEl4CgSmG5mnNcd)
+  
+  Points : 2/2
+
 
 ## Conclusion
 
 **Part 1 and part 2 points**: 56/62
 
-**Bonus**: 9/9
+**Bonus**: 11/11
 
-**TOTAL**: 65/62
+**TOTAL**: 67/62
 
 We had a very pleasing experimenting time with React, that allowed us to grasp a little this new way of creating web applications and websites. 
 
