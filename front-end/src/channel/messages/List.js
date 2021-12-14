@@ -95,7 +95,7 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
   const { oauth, channelUsers } = useContext(Context);
   const [openDelete, setOpenDelete] = useState(false);
   const [openModify, setOpenModify] = useState(false);
-  const [currentMessage, setCurrentMessage] = useState({});
+  const [currentMessage, setCurrentMessage] = useState(null);
 
   //To handle the menu
   const [contextMenu, setContextMenu] = useState(null);
@@ -167,6 +167,7 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
         {messages.map((message, i) => {
           //Current date
           const mDate = dayjs(new Date(messages[i].creation / 1000));
+          const author = message.author === oauth.email;
           //Is the same person posting ?
           const samePerson =
             i >= 1 && messages[i].author === messages[i - 1].author;
@@ -189,8 +190,65 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
           const currentUser = channelUsers.find(
             (user) => user.email === message.author
           );
+
           return (
             <li key={i} css={styles.message}>
+              {author && (
+                <Menu
+                  PaperProps={{
+                    style: {
+                      backgroundColor: theme.palette.primary.main,
+                    },
+                  }}
+                  open={contextMenu !== null}
+                  onClose={handleClose}
+                  anchorReference="anchorPosition"
+                  anchorPosition={
+                    contextMenu !== null
+                      ? {
+                          top: contextMenu.mouseY,
+                          left: contextMenu.mouseX,
+                        }
+                      : undefined
+                  }
+                >
+                  <MenuItem
+                    data-which-message={i}
+                    onClick={(e) => {
+                      var { whichMessage } = e.currentTarget.dataset;
+                      console.log(whichMessage);
+                      setCurrentMessage(messages[whichMessage]);
+                      setOpenModify(true);
+                      handleClose();
+                    }}
+                  >
+                    <span css={{ color: theme.palette.secondary.dark }}>
+                      Edit message
+                    </span>
+                    <IconButton sx={styles.iconButtons}>
+                      <EditIcon css={styles.icons} />
+                    </IconButton>
+                  </MenuItem>
+                  <MenuItem
+                    data-which-message={i}
+                    onClick={(e) => {
+                      var { whichMessage } = e.currentTarget.dataset;
+                      setCurrentMessage(messages[whichMessage]);
+                      setOpenDelete(true);
+                      handleClose();
+                    }}
+                  >
+                    <span css={{ color: theme.palette.misc.owner }}>
+                      Delete message
+                    </span>
+                    <IconButton sx={styles.iconButtons}>
+                      <DeleteOutlineOutlinedIcon
+                        css={[styles.icons, { fill: theme.palette.misc.owner }]}
+                      />
+                    </IconButton>
+                  </MenuItem>
+                </Menu>
+              )}
               {
                 //We want to show off, so let's prevent showing the user header if he already sent a message
                 !closeDate && (
@@ -219,77 +277,17 @@ const List = forwardRef(function List({ messages, onScrollDown }, ref) {
                       }
                     </span>
                     <Box sx={{ flexGrow: 1 }} />
-                    {message.author === oauth.email && (
-                      <Menu
-                        PaperProps={{
-                          style: {
-                            backgroundColor: theme.palette.primary.main,
-                          },
-                        }}
-                        open={contextMenu !== null}
-                        onClose={handleClose}
-                        anchorReference="anchorPosition"
-                        anchorPosition={
-                          contextMenu !== null
-                            ? {
-                                top: contextMenu.mouseY,
-                                left: contextMenu.mouseX,
-                              }
-                            : undefined
-                        }
-                      >
-                        <MenuItem
-                          onClick={() => {
-                            handleClose();
-                            setOpenModify(true);
-                            setCurrentMessage(message);
-                          }}
-                        >
-                          <span css={{ color: theme.palette.secondary.dark }}>
-                            Edit message
-                          </span>
-                          <IconButton sx={styles.iconButtons}>
-                            <EditIcon css={styles.icons} />
-                          </IconButton>
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => {
-                            handleClose();
-                            setOpenModify(true);
-                            setCurrentMessage(message);
-                          }}
-                        >
-                          <span css={{ color: theme.palette.misc.owner }}>
-                            Delete message
-                          </span>
-                          <IconButton
-                            sx={styles.iconButtons}
-                            onClick={() => {
-                              setOpenDelete(true);
-                              setCurrentMessage(message);
-                            }}
-                          >
-                            <DeleteOutlineOutlinedIcon
-                              css={[
-                                styles.icons,
-                                { fill: theme.palette.misc.owner },
-                              ]}
-                            />
-                          </IconButton>
-                        </MenuItem>
-                      </Menu>
-                    )}
                   </Toolbar>
                 )
               }
 
               <Box
                 onContextMenu={(e) => {
-                  handleContextMenu(e, message.author === oauth.email);
+                  handleContextMenu(e, author);
                 }}
                 sx={[
                   styles.message,
-                  message.author === oauth.email && {
+                  author && {
                     "&:hover": {
                       bgcolor: theme.palette.primary.dark,
                     },
