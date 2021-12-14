@@ -361,7 +361,11 @@ Points : 4/4
 
   Source : https://www.58bits.com/blog/2020/05/27/material-ui-theme-switcher-react
 
-  The themes have a preview image which allows the user to know which colors will be used.
+  The themes have a preview image which allows the user to know which colors will be used. 
+  
+  They are also persisted in the localStorage of the user, meaning that if you close the page, your theme will be saved. It will however not be kept in the database, because   in case we wanted to allow users to create their own theme, it would have been a problem.
+  
+  Source : https://developer.mozilla.org/fr/docs/Web/API/Window/localStorage
 
   Themes page:
 
