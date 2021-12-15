@@ -309,10 +309,12 @@ Points : 4/4
 
 * Avatar selection   
 
-  For the avatar selection, we decided to generate 18 avatars by user from Gravatar using the md5 hash prop. This is called a salt, and allows to generate a new image based on a string.
+  For the avatar selection, we decided to generate 18 avatars by user from Gravatar using the **md5** hash prop. This is called a **salt**, and allows to generate a new image based on a hashed string.
   
   This allows for a selection of a different Gravatar acting as embedded avatar selection. We then persist this selection using the database.
 
+  This means that every user has a different selection of avatars than others, making each user feel unique.
+  
   Avatar selection page:
 
   ![img](https://lh6.googleusercontent.com/XG4cSnvhpDGahzhCtCmeQk44a3fKo-REny2s94-0XdJIVdHuT0KWAVVHNMRBxIekDS3T0pGa8MufuiaeNNDqMuCg914DyDwh0xypmf5SiCK6fG4EOiVU6WcHMMFu7XEoAY_xH7Ce)
