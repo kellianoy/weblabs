@@ -68,9 +68,10 @@ const useStyles = (theme) => ({
     },
   },
 });
-//This component exports the account part of settings
+//This component exports the avatars part of settings
 export default function Avatars() {
   const { user, oauth, setUser } = useContext(Context);
+  //hook to decide when to update the avatar -> after a click
   const [go, setGo] = useState(false);
   const theme = useTheme();
   const styles = useStyles(theme);
